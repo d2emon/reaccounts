@@ -3,3 +3,8 @@ services:
   backend:
     volumes:
       - ./backend:/usr/www
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
