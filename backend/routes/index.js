@@ -20,4 +20,23 @@ router.get('/listusers', function(req, res) {
   })
 })
 
+router.get('/newuser', function(req, res) {
+  res.render('newuser', { title: 'Add New User' });
+})
+
+router.post('/adduser', function(req, res) {
+    var account = new models.Account({
+      "user_id" : req.body.user_id,
+      "email" : req.body.useremail
+    })
+    account.save(function (err, doc) {
+        if (err) {
+            console.log(err)
+            res.send("There was a problem adding the information to the database.");
+        }
+        else {
+            res.redirect("/listusers");
+        }
+    });
+});
 module.exports = router;

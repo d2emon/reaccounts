@@ -13,7 +13,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-mongoose.connect('mongodb://mongo:27017');
+mongoose.connect('mongodb://mongo:27017/reaccounts');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function () {
