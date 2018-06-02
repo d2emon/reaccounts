@@ -1,0 +1,19 @@
+version: "2"
+services:
+  backend:
+    container_name: reaccounts-backend
+    restart: always
+    build: .
+    ports:
+      - "8000:3000"
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"

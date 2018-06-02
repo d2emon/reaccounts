@@ -6,10 +6,20 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongo = require('mongodb');
+var mongoose = require('mongoose');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+mongoose.connect('mongodb://mongo:27017');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'))
+db.once('open', function () {
+  console.log("OPENED");
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
