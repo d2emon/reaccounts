@@ -2,8 +2,8 @@ FROM node
 ENV DEBUG reaccounts
 RUN mkdir -p /usr/www
 WORKDIR /usr/www
-COPY ./backend/package.json /usr/www/
+COPY ./package.json /usr/www/
 RUN npm install
-COPY ./backend /usr/www
+COPY ./ /usr/www
 EXPOSE 3000
 CMD [ "npm", "start" ]

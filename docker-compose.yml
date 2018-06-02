@@ -3,7 +3,7 @@ services:
   backend:
     container_name: reaccounts-backend
     restart: always
-    build: .
+    build: ./backend
     ports:
       - "8000:3000"
     links:
