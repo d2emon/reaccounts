@@ -1,4 +1,5 @@
 FROM node
+ENV DEBUG reaccounts
 RUN mkdir -p /usr/www
 WORKDIR /usr/www
 COPY ./backend/package.json /usr/www/
