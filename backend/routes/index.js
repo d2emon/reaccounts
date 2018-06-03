@@ -10,15 +10,15 @@ router.get('/', function(req, res) {
 
 router.get('/helloworld', function(req, res) {
   res.render('helloworld', { title: 'Hello, World!' });
-})
+});
 
 router.get('/listusers', function(req, res) {
   models.Account.find({}, function (err, accounts) {
     res.render('userlist', {
       userlist: accounts
     });
-  })
-})
+  });
+});
 
 router.get('/newuser', function(req, res) {
   res.render('newuser', { title: 'Add New User' });
