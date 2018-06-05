@@ -126,7 +126,6 @@ function deleteUser(event) {
       type: 'DELETE',
       url: '/users/delete/' + $(this).attr('rel')
     }).done(function( response ) {
-
       // Check for a successful (blank) response
       if (response.msg === '') {
       }
@@ -136,15 +135,10 @@ function deleteUser(event) {
 
       // Update the table
       populateTable();
-
     });
-
   }
   else {
-
     // If they said no to the confirm, do nothing
     return false;
-
   }
-
 };

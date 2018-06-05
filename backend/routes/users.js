@@ -26,10 +26,8 @@ router.post('/add', function(req, res) {
 
 /* DELETE to deleteuser. */
 router.delete('/delete/:id', function(req, res) {
-  var account = models.Account.find({
-    id: req.params.id
-  }).remove(function (err) {
-    res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
+  models.Account.findById(req.params.id).remove(function (err) {
+      res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
   });
 });
 
