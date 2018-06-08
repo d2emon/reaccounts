@@ -1,0 +1,7 @@
+[
+  { "user_id":"user1", "money":100 },
+  { "user_id":"user2", "money":200 },
+  { "user_id":"user3", "money":300 },
+  { "user_id":"user4", "money":400 },
+  { "user_id":"user5", "money":500 }
+]
