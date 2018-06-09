@@ -1,14 +1,24 @@
 version: "2"
 services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
   backend:
     container_name: reaccounts-backend
     restart: always
     build: ./backend
     ports:
-      - "8000:3000"
+      - "3001:3000"
     links:
       - mongo
-  mongo:
-    image: mongo
+  frontend:
+    container_name: reaccounts-frontend
+    restart: always
+    build: ./frontend
     ports:
-      - "27017:27017"
+      - "8000:3000"
+    links:
+      - backend
+    volumes:
+      - ./public:/usr/www/public
