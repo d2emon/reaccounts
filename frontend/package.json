@@ -1,16 +1,33 @@
 {
   "name": "reaccounts-frontend",
   "version": "0.1.0",
+  "description": "Frontend for reaccounts",
   "private": true,
-  "dependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
-    "react-scripts": "1.1.4"
-  },
+  "main": "src/index.js",
   "scripts": {
+    "dev": "NODE_ENV=development webpack --progress && babel-node server.js",
+    "prod": "NODE_ENV=production webpack --progress && babel-node server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/d2emon/reaccounts.git"
+  },
+  "keywords": [
+    "accounts"
+  ],
+  "author": "Dmitry Kutsenko <d2emonium@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/d2emon/reaccounts/issues"
+  },
+  "homepage": "https://github.com/d2emon/reaccounts#readme",
+  "dependencies": {
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-scripts": "1.1.4"
   }
 }
