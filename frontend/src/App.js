@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './svg/logo.svg';
 import './css/App.css';
+
+import Accounts from './Accounts';
 /*
 import Home from './views/home';
 import {
@@ -62,6 +64,7 @@ class Main extends Component {
   render () {
     return (
     <main>
+      <Accounts />
       { /* <Switch> */ }
       { /* <Route path='/' component={Home} /> */ }
       { /* <Route path='/roster' /> */ }
