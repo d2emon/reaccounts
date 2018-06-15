@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UserInfo from './UserInfo';
-import UserList from './UserInfo';
+import UserList from './UserList';
 import AddUser from './AddUser';
 
 class Accounts extends Component {

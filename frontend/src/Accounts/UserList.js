@@ -1,89 +1,148 @@
 import React, { Component } from 'react';
 
-class UserList extends Component {
-  constructor () {
-    super();
-    this.populate();
-    this.state = {
-      accounts: [
-        {
-           _id: 1,
-           email: 'EMAIL',
-           user_id: 'USER_ID'
-        }
-      ]
-    };
-  }
+import axios from 'axios';
 
-  populate () {
+const Axios = axios.create({
+  baseURL: 'http://localhost:3001/',
+  timeout: 1000
+});
+
+class UsersTable extends Component {
+  showUser (payload, event) {
+    // event.preventDefault();
+
+    // Retrieve username from link rel attribute
+    console.log(event);
+    const user = payload.user;
+    console.log(user);
+    alert(user._id);
+
+    // Get Index of object based on id value
     /*
-    // jQuery AJAX call for JSON
-    $.getJSON( '/users/list', function ( data ) {
-      userListData = data;
-    });
+    var arrayPosition = userListData.map(function (arrayItem) {
+      return arrayItem.user_id;
+    }).indexOf(thisUserName);
+
+    // Get our User Object
+    var thisUserObject = userListData[arrayPosition];
+
+    console.log(thisUserName, arrayPosition, userListData, thisUserObject);
+    //Populate Info Box
+    $('#userInfoName').text(thisUserObject.fullname);
+    $('#userInfoAge').text(thisUserObject.user_id);
+    $('#userInfoGender').text(thisUserObject.gender);
+    $('#userInfoLocation').text(thisUserObject.location);
     */
   }
 
-  showUser () {
-    return (event) => {
-      event.preventDefault();
+  delUser (payload, event) {
+    event.preventDefault();
 
-      alert(event);
-      /*
-        // Retrieve username from link rel attribute
-        var thisUserName = $(this).attr('rel');
+    // Pop up a confirmation dialog
+    // var confirmation = confirm('Are you sure you want to delete this user?');
+    alert('Are you sure you want to delete this user?');
+    console.log(event);
+    console.log(event.target, event.target.ref, event.target.user_id);
+    const user = payload.user;
+    console.log(user);
+    alert(user._id);
 
-        // Get Index of object based on id value
-        var arrayPosition = userListData.map(function (arrayItem) {
-          return arrayItem.user_id;
-        }).indexOf(thisUserName);
-
-        // Get our User Object
-        var thisUserObject = userListData[arrayPosition];
-
-        console.log(thisUserName, arrayPosition, userListData, thisUserObject);
-        //Populate Info Box
-        $('#userInfoName').text(thisUserObject.fullname);
-        $('#userInfoAge').text(thisUserObject.user_id);
-        $('#userInfoGender').text(thisUserObject.gender);
-        $('#userInfoLocation').text(thisUserObject.location);
-      */
-    }
-  }
-
-  deleteUser () {
-    return (event) => {
-      event.preventDefault();
-
-      // Pop up a confirmation dialog
-      // var confirmation = confirm('Are you sure you want to delete this user?');
-      alert('Are you sure you want to delete this user?');
-      /*
-
-        // Check and make sure the user confirmed
-        if (confirmation === true) {
-          // If they did, do our delete
-          $.ajax({
-            type: 'DELETE',
-            url: '/users/delete/' + $(this).attr('rel')
-          }).done(function( response ) {
-            // Check for a successful (blank) response
-            if (response.msg === '') {
-            }
-            else {
-              alert('Error: ' + response.msg);
-            }
-
-            // Update the table
-            populateTable();
-          });
+    // Check and make sure the user confirmed
+    /*
+    if (confirmation === true) {
+      // If they did, do our delete
+      $.ajax({
+        type: 'DELETE',
+        url: '/users/delete/' + $(this).attr('rel')
+      }).done(function( response ) {
+        // Check for a successful (blank) response
+        if (response.msg === '') {
         }
         else {
-          // If they said no to the confirm, do nothing
-          return false;
+          alert('Error: ' + response.msg);
         }
-      */
+
+        // Update the table
+        populateTable();
+      });
     }
+    else {
+      // If they said no to the confirm, do nothing
+      return false;
+    }
+    */
+  }
+
+  render () {
+    const users = this.props.users;
+    console.log(users);
+
+    if (users.length <= 0) {
+      return (<h1>No users!</h1>);
+    }
+
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Delete?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, i) => {
+            return (
+              <tr key={i}>
+                <td>
+		  <a
+		    rel={user._id}
+		    onClick={this.showUser.bind(this, {user: user})}
+		  >
+		    {user.user_id}
+		  </a>
+		</td>
+                <td>{user.email}</td>
+                <td>
+		  <button
+		    rel={user._id}
+		    onClick={this.delUser.bind(this, {user: user})}
+		  >
+		    delete
+		  </button>
+		</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    )
+  }
+}
+
+class UserList extends Component {
+  constructor () {
+    super();
+    this.state = {
+      accounts: []
+    };
+  }
+
+  componentDidMount () {
+    this.populate();
+  }
+
+  populate () {
+    // jQuery AJAX call for JSON
+    Axios.get('/users/list')
+    .then((response) => {
+      this.setState({
+	accounts: response.data
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
 
   // Username link click
@@ -97,26 +156,7 @@ class UserList extends Component {
     <div>
       <h2>User List</h2>
       <div id="userList">
-        <table>
-          <thead>
-            <tr>
-              <th>UserName</th>
-              <th>Email</th>
-              <th>Delete?</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.accounts.map((account, i) => {
-              return (
-                <tr key={i}>
-                  <td><a href="#" className="linkshowuser" rel={account._id} onClick={this.showUser()}>{account.user_id}</a></td>
-                  <td>{account.email}</td>
-                  <td><button rel={account._id} onClick={this.deleteUser()}>delete</button></td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+	<UsersTable users={this.state.accounts} />
       </div>
     </div>
     )
