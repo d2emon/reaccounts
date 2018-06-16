@@ -1,8 +1,5 @@
 version: "2"
 services:
-  mongo:
-    volumes:
-      - ./db:/data/db
   frontend:
     volumes:
       - ./frontend:/usr/www
