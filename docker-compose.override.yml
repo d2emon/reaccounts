@@ -1,5 +1,8 @@
 version: "2"
 services:
+  mongo:
+    volumes:
+      - ./db:/data/db
   frontend:
     volumes:
       - ./frontend:/usr/www
@@ -13,5 +16,6 @@ services:
       - "8081:8081"
   data:
     build: ./data
+    restart: on-failure
     links:
       - mongo

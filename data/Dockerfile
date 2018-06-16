@@ -1,5 +1,12 @@
 FROM mongo
 
-COPY accounts.json /accounts.json
+COPY accounts.json /fixtures/accounts.json
+WORKDIR /
+COPY run.sh run.sh
 
-CMD mongoimport --host mongo --db reaccounts --collection accounts --type json --file /accounts.json --jsonArray
+ENV TIMEOUT 15
+ENV MONGO_HOST mongo
+ENV MONGO_PORT 27017
+ENV MONGO_DB reaccounts
+
+CMD ["bash", "./run.sh"]
