@@ -21,11 +21,16 @@ router.get('/helloworld', function(req, res) {
 });
 
 router.get('/listusers', function(req, res) {
-  models.Account.find({}, function (err, accounts) {
-    res.render('userlist', {
-      userlist: accounts
-    });
-  });
+  models.Account.find(
+    {},
+    null,
+    {sort: {user_id: 1}},
+    function (err, accounts) {
+      res.render('userlist', {
+        userlist: accounts
+      });
+    }
+  );
 });
 
 router.get('/newuser', function(req, res) {

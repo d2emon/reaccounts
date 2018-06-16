@@ -5,9 +5,15 @@ var models = require('../models');
 
 /* GET users listing. */
 router.get('/list', function(req, res) {
-  models.Account.find({}, function (err, accounts) {
-    res.json(accounts);
-  });
+  models.Account.find(
+    {},
+    null,
+    {sort: {user_id: 1}},
+    function (err, accounts) {
+      console.log(err, accounts);
+      res.json(accounts);
+    }
+  );
 });
 
 /* POST to adduser. */
