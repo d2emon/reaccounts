@@ -1,6 +1,6 @@
 FROM mongo
 
-COPY accounts.json /fixtures/accounts.json
+COPY fixtures /fixtures
 WORKDIR /
 COPY run.sh run.sh
 
