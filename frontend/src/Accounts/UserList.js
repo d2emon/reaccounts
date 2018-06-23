@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 const Axios = axios.create({
-  baseURL: 'http://localhost:3001/',
+  baseURL: 'http://localhost:3000/',
   timeout: 1000
 });
 
