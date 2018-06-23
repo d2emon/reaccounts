@@ -20,7 +20,7 @@ services:
     restart: always
     build: ./frontend
     ports:
-      - "8000:3000"
+      - "8000:8000"
     links:
       - backend
     volumes:
