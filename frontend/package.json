@@ -5,11 +5,11 @@
   "private": true,
   "main": "src/index.js",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server --inline --hot --progress --mode development",
+    "start": "webpack-dev-server --inline --hot --progress --mode development",
     "start:react": "react-scripts start",
-    "build:dev": "NODE_ENV=development webpack -w --progress --mode development",
-    "build:dev:server": "NODE_ENV=development webpack --progress && babel-node server.js",
-    "build:prod:server": "NODE_ENV=production webpack --progress && babel-node server.js",
+    "build:dev": "webpack -w --progress --mode development",
+    "build:dev:server": "webpack --progress && babel-node server.js",
+    "build:prod:server": "webpack --progress && babel-node server.js",
     "build:react": "react-scripts build",
     "test:react": "react-scripts test --env=jsdom",
     "eject:react": "react-scripts eject"

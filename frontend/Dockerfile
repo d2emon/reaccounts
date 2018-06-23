@@ -1,5 +1,6 @@
 FROM node
 
+ENV NODE_ENV production
 RUN mkdir -p /usr/www
 WORKDIR /usr/www
 
