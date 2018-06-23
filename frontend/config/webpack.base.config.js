@@ -23,6 +23,12 @@ export default new Config().merge({
         test: /.svg$/,
         use: 'svg-loader',
       },
+      /*
+      {
+        test: /.ico$/,
+        use: 'file-loader',
+      },
+      */
       {
         test: /.html?$/,
         use: 'html-loader',
@@ -31,6 +37,7 @@ export default new Config().merge({
   },
   plugins: [
     new HtmlWebpackPlugin({
+      favicon: './public/favicon.ico',
       template: './public/index.html',
       inject: "body"
     })
