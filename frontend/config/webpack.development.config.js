@@ -9,8 +9,10 @@ export default new Config().extend('config/webpack.base.config').merge({
     __dirname + '/../index.js'
   ],
   */
-  devtool: 'inline-source-map',
+  devtool: 'inline-source-map'
+  /*
   plugins: [
-    // new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin()
   ]
+  */
 });
