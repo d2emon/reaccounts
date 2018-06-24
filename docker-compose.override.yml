@@ -4,7 +4,8 @@ services:
     environment:
       - NODE_ENV=development
     volumes:
-      - ./frontend:/usr/www
+      - ./frontend/src:/usr/www/src
+      - ./frontend/config:/usr/www/config
   backend:
     volumes:
       - ./backend:/usr/www
