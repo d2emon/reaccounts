@@ -3,12 +3,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default new Config().merge({
-  /*
-  entry: [
-    __dirname + '/../public/index.html',
-    __dirname + '/../src/index.js'
-  ],
-  */
   module: {
     rules: [
       {
@@ -18,7 +12,6 @@ export default new Config().merge({
       },
       {
         test: /.css$/,
-        // use: 'style-loader!css-loader'
 	use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader',
@@ -26,7 +19,7 @@ export default new Config().merge({
       },
       {
         test: /.svg$/,
-        use: 'svg-loader',
+        use: 'react-svg-inline-loader',
       },
       /*
       {
