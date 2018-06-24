@@ -1,5 +1,6 @@
 import Config from 'webpack-config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default new Config().merge({
   /*
@@ -17,7 +18,11 @@ export default new Config().merge({
       },
       {
         test: /.css$/,
-        use: 'css-loader',
+        // use: 'style-loader!css-loader'
+	use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader',
+	})
       },
       {
         test: /.svg$/,
@@ -40,7 +45,8 @@ export default new Config().merge({
       favicon: './public/favicon.ico',
       template: './public/index.html',
       inject: "body"
-    })
+    }),
+    new ExtractTextPlugin('style.css')
   ],
   devServer: {
     progress: true,
