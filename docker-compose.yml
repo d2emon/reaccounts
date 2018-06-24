@@ -17,6 +17,8 @@ services:
       - "3000:3000"
     links:
       - mongo
+    volumes:
+      - ./public:/usr/www/public
   frontend:
     container_name: reaccounts-frontend
     restart: always
@@ -27,3 +29,4 @@ services:
       - backend
     volumes:
       - ./public:/usr/www/public
+      - ./dist:/usr/www/dist
