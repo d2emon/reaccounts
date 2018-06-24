@@ -19,7 +19,7 @@ class Header extends Component {
   render () {
     return (
     <header className="App-header">
-      <img src="/images/logo.svg" className="App-logo" alt="logo" />
+      <img src="//localhost:3000/images/logo.svg" className="App-logo" alt="logo" />
       <h1 className="App-title">Welcome to React</h1>
       <ul>
 	{ /* <li><Link to='/'>Home</Link></li> */ }
