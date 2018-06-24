@@ -41,5 +41,13 @@ export default new Config().merge({
       template: './public/index.html',
       inject: "body"
     })
-  ]
+  ],
+  devServer: {
+    progress: true,
+    hot: true,
+    inline: true,
+    // color: true,
+    host: "0.0.0.0",
+    port: 8000
+  }
 });

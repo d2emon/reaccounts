@@ -5,7 +5,7 @@
   "private": true,
   "main": "src/index.js",
   "scripts": {
-    "start": "webpack-dev-server --inline --hot --progress --mode development --port 8000 --host 0.0.0.0",
+    "start": "webpack-dev-server --hot --mode development",
     "start:react": "react-scripts start",
     "build:dev": "webpack -w --progress --mode development",
     "build:dev:server": "webpack --progress && babel-node server.js",
