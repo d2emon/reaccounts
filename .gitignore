@@ -62,4 +62,4 @@ typings/
 
 yarn.lock
 
-/build/
+/dist/
