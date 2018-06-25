@@ -1,0 +1,32 @@
+{
+  "name": "reaccounts-frontend-server",
+  "version": "0.1.0",
+  "description": "Frontend for reaccounts",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "start": "babel-node src/index.js",
+    "test": "react-scripts test --env=jsdom"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/d2emon/reaccounts.git"
+  },
+  "keywords": [
+    "accounts"
+  ],
+  "author": "Dmitry Kutsenko <d2emonium@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/d2emon/reaccounts/issues"
+  },
+  "homepage": "https://github.com/d2emon/reaccounts#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "express": "^4.16.3"
+  }
+}
