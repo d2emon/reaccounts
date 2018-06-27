@@ -83,6 +83,7 @@ class Main extends Component {
               {`Hello ${this.state.name}!`}
             </h1>
           </Col>
+        </Row>
         <Row>
           <Col xs={12}>
             <h1 onClick={this.clickHandler()}>
@@ -105,7 +106,7 @@ class Main extends Component {
             </p>
           </Col>
         </Row>
-        <Row className="show-grid">
+	<Row className="show-grid">
           <Col xs={12} md={8}>
             <code>&lt;{'Col xs={12} md={8}'} /&gt;</code>
           </Col>
