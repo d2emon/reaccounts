@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Accounts from './Accounts';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
 class Main extends Component {
   constructor () {
     super();

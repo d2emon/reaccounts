@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import './css/App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import './css/dashboard.css';
 
 import Sidebar from './Sidebar';
 import MainNavbar from './MainNavbar';
@@ -11,20 +13,26 @@ class App extends Component {
   render () {
     return (
       <div className="App">
-        <Container fluid={true}>
+	{/*
+	<Container fluid={true}>
         <Row>
 	<Col md={2}>
+	*/}
         <Sidebar />
+	{/*
         </Col>
         <Col>
+	*/}
         <main>
           <MainNavbar />
 	  <Header />
           <Main />
         </main>
+	{/*
         </Col>
 	</Row>
         </Container>
+	*/}
       </div>
     );
   }
