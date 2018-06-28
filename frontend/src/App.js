@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
+import { Container, Row, Col } from 'reactstrap';
 import './css/App.css';
 
-import Header from './Header';
 import Sidebar from './Sidebar';
+import MainNavbar from './MainNavbar';
+import Header from './Header';
 import Main from './Main';
 
 class App extends Component {
   render () {
     return (
       <div className="App">
+        <Container fluid={true}>
+        <Row>
+	<Col md={2}>
         <Sidebar />
-	<Header />
-        <Main />
+        </Col>
+        <Col>
+        <main>
+          <MainNavbar />
+	  <Header />
+          <Main />
+        </main>
+        </Col>
+	</Row>
+        </Container>
       </div>
     );
   }

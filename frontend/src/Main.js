@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Grid, Row, Col } from 'reactstrap';
-import MainNavbar from './MainNavbar';
+import { Container, Row, Col } from 'reactstrap';
 import Accounts from './Accounts';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -37,17 +36,15 @@ class Main extends Component {
 
   render () {
     return (
-    <main>
-      <MainNavbar />
-      <Container fluid={true}>
-        <Row>
+    <Container fluid={true}>
+      <Row>
           <Col xs={12}>
             <h1 onClick={this.clickHandler()}>
               {`Hello ${this.state.name}!`}
             </h1>
           </Col>
-        </Row>
-        <Row>
+      </Row>
+      <Row>
           <Col lg={3} xs={6}>
             <h1 onClick={this.clickHandler()}>
               {`Hello ${this.state.name}!`}
@@ -68,15 +65,15 @@ class Main extends Component {
               {`Hello ${this.state.name}!`}
             </h1>
           </Col>
-        </Row>
-        <Row>
+      </Row>
+      <Row>
           <Col md={12}>
             <h1 onClick={this.clickHandler()}>
               {`Hello ${this.state.name}!`}
             </h1>
           </Col>
-        </Row>
-        <Row>
+      </Row>
+      <Row>
           <Col md={6}>
             <h1 onClick={this.clickHandler()}>
               {`Hello ${this.state.name}!`}
@@ -87,15 +84,15 @@ class Main extends Component {
               {`Hello ${this.state.name}!`}
             </h1>
           </Col>
-        </Row>
-        <Row>
+      </Row>
+      <Row>
           <Col xs={12}>
             <h1 onClick={this.clickHandler()}>
               {`Hello ${this.state.name}!`}
             </h1>
           </Col>
-        </Row>
-        <Row>
+      </Row>
+      <Row>
           <Col xs={4}>
             <Accounts />
           </Col>
@@ -109,17 +106,17 @@ class Main extends Component {
               To get started, edit <code>src/App.js</code> and save to reload.
             </p>
           </Col>
-        </Row>
-	<Row className="show-grid">
+      </Row>
+      <Row className="show-grid">
           <Col xs={12} md={8}>
             <code>&lt;{'Col xs={12} md={8}'} /&gt;</code>
           </Col>
           <Col xs={6} md={4}>
             <code>&lt;{'Col xs={6} md={4}'} /&gt;</code>
           </Col>
-        </Row>
+      </Row>
 
-        <Row className="show-grid">
+      <Row className="show-grid">
           <Col xs={6} md={4}>
             <code>&lt;{'Col xs={6} md={4}'} /&gt;</code>
           </Col>
@@ -129,24 +126,23 @@ class Main extends Component {
           <Col md={4}>
             <code>&lt;{'Col xsHidden md={4}'} /&gt;</code>
           </Col>
-        </Row>
+      </Row>
 
-        <Row className="show-grid">
+      <Row className="show-grid">
           <Col xs={{ size: 6, offse: 6 }}>
             <code>&lt;{'Col xs={6} xsOffset={6}'} /&gt;</code>
           </Col>
-        </Row>
+      </Row>
 
-        <Row className="show-grid">
+      <Row className="show-grid">
           <Col md={6}>
             <code>&lt;{'Col md={6} mdPush={6}'} /&gt;</code>
           </Col>
           <Col md={6}>
             <code>&lt;{'Col md={6} mdPull={6}'} /&gt;</code>
           </Col>
-        </Row>
-      </Container>
-    </main>
+      </Row>
+    </Container>
     )
   }
 };
