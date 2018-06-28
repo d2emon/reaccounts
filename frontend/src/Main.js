@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Container, Grid, Row, Col } from 'reactstrap';
 import MainNavbar from './MainNavbar';
 import Accounts from './Accounts';
+
+import 'bootstrap/dist/css/bootstrap.css';
 
 class Main extends Component {
   constructor () {
@@ -36,6 +38,7 @@ class Main extends Component {
   render () {
     return (
     <main>
+      <Container fluid={true}>
       <MainNavbar />
       <Grid>
         <Row>
@@ -142,6 +145,7 @@ class Main extends Component {
           </Col>
         </Row>
       </Grid>
+      </Container>
     </main>
     )
   }

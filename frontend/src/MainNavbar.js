@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
 
 class MainNavbar extends Component {
   render () {
@@ -8,33 +19,58 @@ class MainNavbar extends Component {
       notifications.push({
         id: i + 1,
         title: `Notification ${i + 1}`,
-        item: <MenuItem eventKey={i + 1}>Notification {i + 1}</MenuItem>
+        item: <DropdownItem eventKey={i + 1}>Notification {i + 1}</DropdownItem>
       });
     }
 
     return (
-    <Navbar>
+    <Navbar color="light" light expand="md">
       <Navbar.Header>
-        <Navbar.Toggle />
+        <NavbarToggler onClick={this.toggle} />
         <Navbar.Brand>
           <a href="#home">Accounts</a>
         </Navbar.Brand>
+        <NavbarBrand href="/">reactstrap</NavbarBrand>
       </Navbar.Header>
-      <Navbar.Collapse>
-        <Nav pullRight>
+      <Collapse isOpen={this.state.isOpen} navbar>
+        <Nav className="ml-auto" navbar>
           <NavItem eventKey={1} href="#">
             <p>Stats</p>
           </NavItem>
-          <NavDropdown eventKey={2} title="Dropdown" id="basic-nav-dropdown">
+          <DropdownMenu eventKey={2} title="Dropdown" id="basic-nav-dropdown">
 	    {notifications.map((notification, i) => notification.item)}
-            <MenuItem divider />
-            <MenuItem eventKey={2.9}>Separated link</MenuItem>
-          </NavDropdown>
+            <DropdownItem divider />
+            <DropdownItem eventKey={2.9}>Separated link</DropdownItem>
+          </DropdownMenu>
           <NavItem eventKey={3} href="#">
             <p>Settings</p>
           </NavItem>
+
+              <NavItem>
+                <NavLink href="/components/">Components</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+              </NavItem>
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  Options
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    Option 1
+                  </DropdownItem>
+                  <DropdownItem>
+                    Option 2
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    Reset
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
         </Nav>
-      </Navbar.Collapse>
+      </Collapse>
     </Navbar>
     )
   }
