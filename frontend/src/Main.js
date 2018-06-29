@@ -36,13 +36,6 @@ class Main extends Component {
     return (
     <Container fluid={true}>
       <Row>
-          <Col xs={12}>
-            <h1 onClick={this.clickHandler()}>
-              {`Hello ${this.state.name}!`}
-            </h1>
-          </Col>
-      </Row>
-      <Row>
           <Col lg={3} xs={6}>
             <h1 onClick={this.clickHandler()}>
               {`Hello ${this.state.name}!`}
