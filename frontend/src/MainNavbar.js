@@ -11,6 +11,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
+import Logo from './Logo';
 
 class MainNavbar extends Component {
   constructor(props) {
@@ -41,7 +42,15 @@ class MainNavbar extends Component {
     <Navbar color="light" light expand="md">
       {/*<Navbar.Header>*/}
       <NavbarToggler onClick={this.toggle} />
-      <NavbarBrand href="#home">Accounts</NavbarBrand>
+      <NavbarBrand href="#home">
+        <Logo
+          style={{
+            width: "30px",
+	    height: "30px"
+	  }}
+        />
+        Accounts
+      </NavbarBrand>
       {/*</Navbar.Header>*/}
       <Collapse isOpen={this.state.isOpen} navbar>
         <Nav className="ml-auto" navbar>

@@ -5,7 +5,7 @@ class Header extends Component {
   render () {
     return (
     <header className="App-header">
-      <Logo width="300px" height="300px" />
+      <Logo />
       <h1 className="App-title">Welcome to React</h1>
       {/*<ul>*/}
 	{ /* <li><Link to='/'>Home</Link></li> */ }

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Logo from './Logo';
+
+import Header from './Header';
 
 class Sidebar extends Component {
-  render () {
-    return (
-    <aside>
-      <Logo />
-    </aside>
-    )
-  }
+    render () {
+        return (
+            <aside>
+	        <Header />
+            </aside>
+        )
+    }
 };
 
 export default Sidebar;
