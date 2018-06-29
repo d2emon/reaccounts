@@ -1,6 +1,78 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import {
+    Container,
+    Row,
+    Col,
+    Card,
+    CardBody,
+    CardText,
+    CardFooter } from 'reactstrap';
 import Accounts from './Accounts';
+
+class Clicker extends Component {
+  constructor () {
+    super();
+    let names = [
+      "Kitty",
+      "Bunny",
+      "Author",
+      "World"
+    ];
+    this.state = {
+      name: names[0],
+      names: names,
+      nameId: 0
+    };
+    this.ClickHandler = this.clickHandler.bind(this);
+  }
+
+  clickHandler () {
+    return () => {
+      let nameId = this.state.nameId + 1;
+      if (nameId >= this.state.names.length) {
+        nameId = 0
+      }
+      this.setState({
+        nameId: nameId,
+        name: this.state.names[nameId]
+      });
+    }
+  }
+
+  render () {
+      return (
+          <h1 onClick={this.clickHandler()}>
+              {`Hello ${this.state.name}!`}
+          </h1>
+      );
+  }
+}
+
+const Widget = ({icon, title, value, ...props}) => {
+    console.log(props);
+    /* {props.children} */
+    return (
+        <Card>
+	    <CardBody {...props} >
+	        <Row>
+                    <Col xs={5}>
+                        {icon}
+                    </Col>
+                    <Col xs={7}>
+                        <div className="numbers">
+	                    <p>{title}</p>
+                            {value}
+                        </div>
+                    </Col>
+                </Row>
+                {props.children}
+	        <CardFooter>
+                    <Clicker />
+	        </CardFooter>
+	    </CardBody>
+        </Card>
+    );
+}
 
 class Main extends Component {
   constructor () {
@@ -37,24 +109,24 @@ class Main extends Component {
     <Container fluid={true}>
       <Row>
           <Col lg={3} xs={6}>
-            <h1 onClick={this.clickHandler()}>
-              {`Hello ${this.state.name}!`}
-            </h1>
+	    <Widget icon="Icon" title="Capacity" value="105GB">
+	        12345
+	    </Widget>
           </Col>
           <Col lg={3} xs={6}>
-            <h1 onClick={this.clickHandler()}>
-              {`Hello ${this.state.name}!`}
-            </h1>
+	    <Widget icon="Icon" title="Revenue" value="$1,345">
+	      <Clicker />
+	    </Widget>
           </Col>
           <Col lg={3} xs={6}>
-            <h1 onClick={this.clickHandler()}>
-              {`Hello ${this.state.name}!`}
-            </h1>
+	    <Widget icon="Icon" title="Errors" value="23">
+	      <Clicker />
+	    </Widget>
           </Col>
           <Col lg= {3} xs={6}>
-            <h1 onClick={this.clickHandler()}>
-              {`Hello ${this.state.name}!`}
-            </h1>
+	    <Widget icon="Icon" title="Followers" value="+45">
+	      <Clicker />
+	    </Widget>
           </Col>
       </Row>
       <Row>
