@@ -3,105 +3,12 @@ import {
     Container,
     Row,
     Col,
-    Card,
-    CardBody,
-    CardHeader,
-    CardText,
-    CardFooter } from 'reactstrap';
+} from 'reactstrap';
 import Accounts from './Accounts';
-
-class Clicker extends Component {
-  constructor () {
-    super();
-    let names = [
-      "Bunny",
-      "Author",
-      "World"
-    ];
-    this.state = {
-      name: names[0],
-      names: names,
-      nameId: 0
-    };
-    this.ClickHandler = this.clickHandler.bind(this);
-  }
-
-  clickHandler () {
-    return () => {
-      let nameId = this.state.nameId + 1;
-      if (nameId >= this.state.names.length) {
-        nameId = 0
-      }
-      this.setState({
-        nameId: nameId,
-        name: this.state.names[nameId]
-      });
-    }
-  }
-
-  render () {
-      return (
-          <h1 onClick={this.clickHandler()}>
-              {`Hello ${this.state.name}!`}
-          </h1>
-      );
-  }
-}
-
-const GraphWidget =({
-    title,
-    category,
-    legend,
-    stats,
-    ...props
-}) => {
-    return (
-	<Card {...props}>
-	    <CardHeader>
-	        <h4>{title}</h4>
-	        <p className="category">{category}</p>
-	    </CardHeader>
-	    <CardBody>
-                <Clicker />
-                <CardFooter>
-	            <div className="chart-legend">
-                        {legend}
-	            </div>
-	            <hr />
-	            <div className="stats">
-	                {stats}
-                    </div> 
-                </CardFooter>
-	    </CardBody>
-	</Card>
-    );
-};
-
-const Widget = ({icon, title, value, stats, ...props}) => {
-    /* {props.children} */
-    return (
-        <Card {...props}>
-	    <CardBody>
-	        <Row>
-                    <Col xs={5}>
-                        {icon}
-                    </Col>
-                    <Col xs={7}>
-                        <div className="numbers">
-	                    <p>{title}</p>
-                            {value}
-                        </div>
-                    </Col>
-                </Row>
-	        <CardFooter>
-	            <div className="stats">
-                        {stats}
-	            </div> 
-	        </CardFooter>
-	    </CardBody>
-        </Card>
-    );
-}
+import {
+    GraphWidget,
+    SmallWidget
+} from './Widget';
 
 class Main extends Component {
   constructor () {
@@ -138,16 +45,16 @@ class Main extends Component {
     <Container fluid={true}>
       <Row>
           <Col lg={3} xs={6}>
-	      <Widget icon="Icon" title="Capacity" value="105GB" stats="Updated now" />
+	      <SmallWidget icon="Icon" title="Capacity" value="105GB" stats="Updated now" />
           </Col>
           <Col lg={3} xs={6}>
-	      <Widget icon="Icon" title="Revenue" value="$1,345" stats="last day" />
+	      <SmallWidget icon="Icon" title="Revenue" value="$1,345" stats="last day" />
           </Col>
           <Col lg={3} xs={6}>
-	      <Widget icon="Icon" title="Errors" value="23" stats="In the last hour" />
+	      <SmallWidget icon="Icon" title="Errors" value="23" stats="In the last hour" />
           </Col>
           <Col lg= {3} xs={6}>
-	      <Widget icon="Icon" title="Followers" value="+45" stats="Updated now" />
+	      <SmallWidget icon="Icon" title="Followers" value="+45" stats="Updated now" />
           </Col>
       </Row>
       <Row>
