@@ -9,6 +9,9 @@ import {
     GraphWidget,
     SmallWidget
 } from './Widget';
+import UserInfo from './Accounts/UserInfo';
+import UserList from './Accounts/UserList';
+import AddUser from './Accounts/AddUser';
 
 class Main extends Component {
   constructor () {
@@ -43,6 +46,19 @@ class Main extends Component {
   render () {
     return (
     <Container fluid={true}>
+      <Row>
+          <Col xs={12}>
+	      <UserInfo />
+          </Col>
+      </Row>
+      <Row>
+          <Col xs={6}>
+              <UserList />
+          </Col>
+          <Col xs={6}>
+              <AddUser />
+          </Col>
+      </Row>
       <Row>
           <Col lg={3} xs={6}>
 	      <SmallWidget icon="Icon" title="Capacity" value="105GB" stats="Updated now" />
@@ -103,9 +119,6 @@ class Main extends Component {
           </Col>
       </Row>
       <Row>
-          <Col xs={4}>
-              <Accounts />
-          </Col>
           <Col xs={8}>
               { /* <Switch> */ }
               { /* <Route path='/' component={Home} /> */ }

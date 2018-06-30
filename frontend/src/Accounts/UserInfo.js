@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-class UserInfo extends Component {
-  render () {
+const UserInfo = ({user}) => {
+    if (!user) return null;
     return (
     <div id="userInfo">
       <h2>User Info</h2>
@@ -13,7 +13,6 @@ class UserInfo extends Component {
       </p>
     </div>
     )
-  }
 };
 
 export default UserInfo;
