@@ -11,11 +11,12 @@ export default new Config().merge({
         exclude: /node_modules/
       },
       {
-        test: /.css$/,
-	use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader',
-	})
+        test: /.s?css$/,
+        use: [
+            'style-loader',
+            'css-loader',
+            'sass-loader'
+        ]
       },
       {
         test: /.svg$/,
@@ -38,8 +39,7 @@ export default new Config().merge({
       favicon: './public/favicon.ico',
       template: './public/index.html',
       inject: "body"
-    }),
-    new ExtractTextPlugin('style.css')
+    })
   ],
   devServer: {
     progress: true,
