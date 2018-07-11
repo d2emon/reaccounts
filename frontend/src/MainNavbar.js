@@ -11,6 +11,9 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
+import FaSliders from 'react-icons/lib/fa/sliders';
+import FaBell from 'react-icons/lib/fa/bell';
+import FaCog from 'react-icons/lib/fa/cog';
 import Logo from './Logo';
 
 class MainNavbar extends Component {
@@ -56,12 +59,12 @@ class MainNavbar extends Component {
         <Nav className="ml-auto" navbar>
           <NavItem>
 	    <NavLink href="#">
-              <p>Stats</p>
+              <FaSliders /> <p>Stats</p>
 	    </NavLink>
           </NavItem>
 	  <UncontrolledDropdown nav inNavbar>
 	    <DropdownToggle nav caret>
-              <span className="notification">{notifications.length}</span> Notifications
+              <FaBell /> <span className="notification">{notifications.length}</span> Notifications
             </DropdownToggle>
 	    <DropdownMenu right>
 	      {notifications.map((notification, i) => notification.item)}
@@ -71,7 +74,7 @@ class MainNavbar extends Component {
           </UncontrolledDropdown>
           <NavItem>
 	    <NavLink href="#">
-	      <p>Settings</p>
+	      <FaCog /> <p>Settings</p>
 	    </NavLink>
           </NavItem>
 	</Nav>

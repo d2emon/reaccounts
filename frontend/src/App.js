@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'themify-icons/themify-icons/_themify-icons.scss';
 import './css/dashboard.css';
 
 import Sidebar from './Sidebar';
