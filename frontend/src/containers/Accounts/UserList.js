@@ -1,166 +1,105 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 
-import axios from 'axios';
+// import './TopicsScreen.css';
+import * as usersActions from '../../store/users/actions';
+import * as usersSelector from '../../store/users/reducer';
 
-const Axios = axios.create({
-  baseURL: 'http://localhost:3000/',
-  timeout: 1000
-});
+// import ListView from '../components/ListView';
 
-class UsersTable extends Component {
-  showUser (payload, event) {
-    // event.preventDefault();
-
-    // Retrieve username from link rel attribute
-    console.log(event);
-    const user = payload.user;
-    console.log(user);
-    alert(user._id);
-
-    // Get Index of object based on id value
-    /*
-    var arrayPosition = userListData.map(function (arrayItem) {
-      return arrayItem.user_id;
-    }).indexOf(thisUserName);
-
-    // Get our User Object
-    var thisUserObject = userListData[arrayPosition];
-
-    console.log(thisUserName, arrayPosition, userListData, thisUserObject);
-    //Populate Info Box
-    $('#userInfoName').text(thisUserObject.fullname);
-    $('#userInfoAge').text(thisUserObject.user_id);
-    $('#userInfoGender').text(thisUserObject.gender);
-    $('#userInfoLocation').text(thisUserObject.location);
-    */
-  }
-
-  delUser (payload, event) {
-    event.preventDefault();
-
-    // Pop up a confirmation dialog
-    // var confirmation = confirm('Are you sure you want to delete this user?');
-    alert('Are you sure you want to delete this user?');
-    console.log(event);
-    console.log(event.target, event.target.ref, event.target.user_id);
-    const user = payload.user;
-    console.log(user);
-    alert(user._id);
-
-    // Check and make sure the user confirmed
-    /*
-    if (confirmation === true) {
-      // If they did, do our delete
-      $.ajax({
-        type: 'DELETE',
-        url: '/users/delete/' + $(this).attr('rel')
-      }).done(function( response ) {
-        // Check for a successful (blank) response
-        if (response.msg === '') {
-        }
-        else {
-          alert('Error: ' + response.msg);
-        }
-
-        // Update the table
-        populateTable();
-      });
-    }
-    else {
-      // If they said no to the confirm, do nothing
-      return false;
-    }
-    */
-  }
-
-  render () {
-    const users = this.props.users;
-    console.log(users);
-
+const UsersTable = ({title, cols, users, renderRow, ...props}) =>  {
     if (users.length <= 0) {
-      return (<h1>No users!</h1>);
+        return (<h1>No users!</h1>);
     }
 
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>UserName</th>
-            <th>Email</th>
-            <th>Delete?</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, i) => {
-            return (
-              <tr key={i}>
-                <td>
-		  <a
-		    rel={user._id}
-		    onClick={this.showUser.bind(this, {user: user})}
-		  >
-		    {user.user_id}
-		  </a>
-		</td>
-                <td>{user.email}</td>
-                <td>
-		  <button
-		    rel={user._id}
-		    onClick={this.delUser.bind(this, {user: user})}
-		  >
-		    delete
-		  </button>
-		</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+        <div {...props}>
+	    <h2>{title}</h2>
+            <table>
+                <thead>
+                    <tr>
+                        {cols.map((col, id) => <th key={"col-" + id}>{col}</th> )}
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map((user, i) => { return renderRow(i, user); })}
+                </tbody>
+            </table>
+        </div>
     )
-  }
 }
 
 class UserList extends Component {
-  constructor () {
-    super();
-    this.state = {
-      accounts: []
-    };
-  }
+    componentDidMount() {
+        this.props.dispatch(usersActions.fetchUsers());
+    }
 
-  componentDidMount () {
-    this.populate();
-  }
+    onShowUser (payload, event) {
+        this.props.dispatch(usersActions.showUser(payload));
+    }
 
-  populate () {
-    // jQuery AJAX call for JSON
-    Axios.get('/users/list')
-    .then((response) => {
-      this.setState({
-	accounts: response.data
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
+    onDelUser (payload, event) {
+        event.preventDefault();
 
-  // Username link click
-  // $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
+        this.props.dispatch(usersActions.delUser(payload));
+    }
 
-  // Delete User link click
-  // $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+    render() {
+	if (!this.props.users) return this.renderLoading();
+        return (
+	    <UsersTable
+                className="UsersList"
+                title="Users"
+		cols={[
+		    "User",
+                    "Email",
+                    "Money",
+                    "Data",
+                    "Delete"
+		]}
+		users={this.props.users}
+		renderRow={this.renderRow()}
+	    />
+        );
+    }
 
-  render () {
-    return (
-    <div>
-      <h2>User List</h2>
-      <div id="userList">
-	<UsersTable users={this.state.accounts} />
-      </div>
-    </div>
-    )
-  }
+    renderLoading() {
+        return (
+            <h1>Loading...</h1>
+        );
+    }
+
+    renderRow() {
+        return (id, user) => (
+            <tr key={id}>
+                <td>
+                    <a
+                        rel={user._id}
+                        onClick={this.onShowUser.bind(this, {user: user})}
+                    >
+                        {user.user_id}
+                    </a>
+                </td>
+                <td>{user.email}</td>
+                <td>{user.money}$</td>
+                <td>{JSON.stringify(user.data)}</td>
+                <td>
+                    <button
+	                rel={user._id}
+                        onClick={this.onDelUser.bind(this, {user: user})}
+                    >
+		        delete
+                    </button>
+                </td>
+            </tr>
+        );
+    }
 };
 
-export default UserList;
+function mapStateToProps(state) {
+    return {
+        users: usersSelector.getUsers(state)
+    };
+}
+
+export default connect(mapStateToProps)(UserList);
