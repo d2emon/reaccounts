@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import TopicsScreen from './containers/TopicsScreen';
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import './css/dashboard.css';
@@ -12,6 +13,7 @@ class App extends Component {
   render () {
     return (
       <div className="App">
+        <TopicsScreen />
 	{/*
 	<Container fluid={true}>
         <Row>
