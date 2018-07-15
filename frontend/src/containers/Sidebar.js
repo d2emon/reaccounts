@@ -13,7 +13,6 @@ class Sidebar extends Component {
 	    { title: "Maps" },
 	    { title: "Notifications" }
 	];
-        console.log(this, this.props);
         return (
             <Aside items={items} />
         )

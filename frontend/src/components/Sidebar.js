@@ -8,7 +8,6 @@ import {
 import Header from './Header';
 
 const Aside = ({children, items, ...props}) => {
-        console.log(this, props);
         return (
             <aside
 		{...props}

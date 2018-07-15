@@ -60,7 +60,6 @@ class MainNavbar extends Component {
     }
 
     render () {
-        console.log(this.props.notifications);
         return (
             <Navbar color="light" light expand="md">
                 {/*<Navbar.Header>*/}
@@ -78,7 +77,6 @@ class MainNavbar extends Component {
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
                         {this.props.items.map((item, i) => {
-                            console.log(item);
                             return item.submenu ?
 	                        this.renderComplexItem(i, item) :
 				this.renderSimpleItem(i, item);

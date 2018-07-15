@@ -12,7 +12,6 @@ class MainNavbar extends Component {
         super(props);
 
         let notifications_count = Math.floor(Math.random() * 10)
-        console.log(notifications_count);
         let notifications = [];
         for(let i = 0; i < notifications_count; i++){
             notifications.push({

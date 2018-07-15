@@ -9,7 +9,6 @@ const REDDIT_ENDPOINT = 'https://www.reddit.com';
 class RedditService {
     getDefaultSubreddits() {
         const url = `${REDDIT_ENDPOINT}/subreddits/default.json`;
-        console.log("FETCH FROM", url);
         // resolve("ok");
         return fetch(url, {
             method: 'GET',
@@ -22,7 +21,6 @@ class RedditService {
             }
             return response.json();
 	}).then(response => {
-	    console.log("JSONED", response);
             const children = _.get(response, 'data.children');
             if (!children) {
                 throw new Error(`RedditService getDefaultSubreddits failed, children not returned`);
@@ -35,8 +33,6 @@ class RedditService {
                     url: _.get(subreddit, 'data.url')
                 }
             });
-            console.log(res);
-            // resolve(res);
 	    return res;
         });
     }
