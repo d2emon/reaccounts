@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
-import TopicsScreen from './containers/TopicsScreen';
 import Sidebar from './containers/Sidebar';
 import MainNavbar from './containers/MainNavbar';
 import Main from './containers/Main';
@@ -16,7 +15,6 @@ class App extends Component {
             <div className="App">
                 <Sidebar />
                 <main>
-                    <TopicsScreen />
                     <MainNavbar />
                     <Main />
                 </main>
