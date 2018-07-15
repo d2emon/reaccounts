@@ -10,11 +10,12 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  DropdownItem
+} from 'reactstrap';
 import FaSliders from 'react-icons/lib/fa/sliders';
 import FaBell from 'react-icons/lib/fa/bell';
 import FaCog from 'react-icons/lib/fa/cog';
-import Logo from './Logo';
+import Logo from '../components/Logo';
 
 class MainNavbar extends Component {
   constructor(props) {
