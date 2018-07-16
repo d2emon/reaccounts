@@ -2,7 +2,11 @@
 import * as types from './actionTypes';
 
 const initialState = {
-    users: undefined
+    users: undefined,
+
+    args: { n: "arg2" },
+    user: "HOST MACHINE",
+    stats: "STATS"
 };
 
 export default function reduce(state = initialState, action = {}) {
@@ -21,4 +25,16 @@ export default function reduce(state = initialState, action = {}) {
 
 export function getUsers (state) {
     return state.users.accounts;
+}
+
+export function getArgs (state) {
+    return state.users.args;
+}
+
+export function getUser (state) {
+    return state.users.user;
+}
+
+export function getStats (state) {
+    return state.users.stats;
 }

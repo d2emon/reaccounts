@@ -15,6 +15,7 @@ import AddUser from './Accounts/AddUser';
 
 import TestComponent from '../components/TestComponent';
 import TopicsScreen from './TopicsScreen';
+import GMain2 from './GMain2';
 
 class Main extends Component {
   constructor () {
@@ -49,6 +50,11 @@ class Main extends Component {
   render () {
     return (
     <Container fluid={true}>
+      <Row>
+          <Col xs={12}>
+              <GMain2 />
+          </Col>
+      </Row>
       <Row>
           <Col xs={12}>
 	      <UserInfo />

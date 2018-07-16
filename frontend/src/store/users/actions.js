@@ -141,3 +141,104 @@ export function addUser(payload) {
       */
     };
 }
+
+
+export function gethostname (payload) {
+    return (dispatch, getState) => {
+        console.log("GETHOSTNAME", payload);
+    };
+}
+
+export function chknolog (payload) {
+    return (dispatch, getState) => {
+        console.log("CHKNOLOG", payload);
+    };
+}
+
+
+const stat = (payload) => {
+    console.log("STAT", payload);
+    return {}
+}
+
+const HOST_MACHINE = "HOST MACHINE";
+const EXE = "EXE";
+const RESET_N = "RESET_N";
+
+export function testHostname (payload) {
+    return (dispatch, getState) => {
+        console.log(payload, payload.user, HOST_MACHINE);
+        if (payload.user != HOST_MACHINE) {
+            throw Error(`AberMUD is only available on ${HOST_MACHINE}, not on ${payload.user}\n`);
+        }
+    };
+}
+
+export function loadStats (payload) {
+    return (dispatch, getState) => {
+        console.log(payload);
+
+        let space = 0;
+	let statbuf = stat(EXE);
+        if (!statbuf) {
+            space = "<unknown>\n";
+        } else {
+            space = ctime(statbuf.st_mtime);
+        }
+
+        let a = fopen(RESET_N, "r");
+    };
+}
+
+export function login (payload) {
+    return (dispatch, getState) => {
+        console.log("LOGIN", payload);
+        // long un1;
+        // char usermc[80],a[80],tim[80],dat[80],c;
+        /*
+         *
+         * Check if banned first
+         *
+         */    
+        chkbnid(cuserid());
+        /*
+         * Get the user name
+         *
+         */
+        if (!namegiv) {
+            // rena:
+            console.log("By what name shall I call you ?\n*");
+            getkbd(user,15);
+        } else {
+            user = namegt;
+        }
+        /*
+         * Check for legality of names
+         *
+         */       
+        namegiv = 0;
+        // if (!strlen(user)) goto rena;
+        if (any('.',user) > -1) crapup("\nIllegal characters in user name\n");
+        trim(user);
+        scan(user, user, 0, " ", "");
+        // if (!strlen(user)) goto rena;
+        chkname(user);
+        // if(!strlen(user)) goto rena;
+        dat = user;             /* Gets name tidied up */
+        usrnam = user;
+        if (!validname(usrnam)) crapup("Bye Bye");
+        if (logscan(dat,a)== -1) {
+            /* If he/she doesnt exist */
+            console.log("\nDid I get the name right %s ?", user);
+            fgets(a,79,stdin);
+            lowercase(a);
+            c=a[0];
+            if (c=='n')  {
+                printf("\n");
+		// goto rena;
+	    }
+	    /* Check name */
+       }
+       logpass(user);        /* Password checking */
+    };
+}
