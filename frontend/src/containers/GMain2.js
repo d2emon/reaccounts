@@ -16,19 +16,6 @@ function talker(user) { console.log("talker", user); }
 function crapup(text) { console.log("crapup", text); }
 
 
-class AfterMotd extends Component {
-    render () {
-	let space = cuserid();
-        console.log(`Game entry by ${this.props.user} : UID ${space}`);
-	/* Log entry */
-	talker(this.props.user);
-	/* Run system */
-	crapup("Bye Bye");
-	/* Exit */
-        return (<div></div>);
-    }
-}
-
 class GMain2 extends Component {
     constructor (props) {
         super(props);
@@ -86,6 +73,16 @@ class GMain2 extends Component {
         this.props.dispatch(usersActions.loadStats());
     }
 
+    afterMotd = () => {
+	let space = cuserid();
+        console.log(`Game entry by ${this.props.user} : UID ${space}`);
+	/* Log entry */
+	talker(this.props.user);
+	/* Run system */
+	crapup("Bye Bye");
+	/* Exit */
+    }
+
     render() {
         /*
          * Check for all the created at stuff
@@ -109,7 +106,8 @@ class GMain2 extends Component {
 	    <Login user={this.props.user} {...this.props} {...this.state} />
 
             { (!this.state.qnmrq) && <Motd user={this.props.user} {...this.props} {...this.state}/> }
-	    <AfterMotd user={this.props.user} />
+
+            <button onClick={this.afterMotd}>Ok</button>
 	</div>
     }
 }

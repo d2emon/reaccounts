@@ -4,8 +4,7 @@ import * as usersActions from '../store/users/actions';
 // import * as usersSelector from '../store/users/reducer';
 // import ListView from '../components/ListView';
 
-
-const MOTD = "MOTD";
+import { MOTD } from '../config';
 
 
 function Listfl ({fl, ...props}) {
@@ -14,6 +13,13 @@ function Listfl ({fl, ...props}) {
 
 
 class Motd extends Component {
+    constructor (props) {
+        super(props);
+	this.state = {
+            user: props.user
+	};
+    }
+
     componentDidMount() {
         let {user} = this.props;
     }
@@ -22,7 +28,6 @@ class Motd extends Component {
         return <div> 
 	    <Listfl fl={MOTD} />
             { /* list the message of the day */ }
-            <button>B</button>
             <br />
             <br />
         </div>

@@ -1,6 +1,13 @@
 import * as types from './actionTypes';
 import reaccountsService from '../../services/reaccounts';
 
+import {
+    HOST_MACHINE,
+    EXE,
+    RESET_N
+} from '../../config';
+
+
 export function fetchUsers() {
     return (dispatch, getState) => {
         return reaccountsService.getAccounts().then(response => {
@@ -173,10 +180,6 @@ const fopen = (payload) => {
     return {}
 }
 
-
-const HOST_MACHINE = "HOST MACHINE";
-const EXE = "EXE";
-const RESET_N = "RESET_N";
 
 export function testHostname (payload) {
     return (dispatch, getState) => {
