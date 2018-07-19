@@ -161,6 +161,19 @@ const stat = (payload) => {
     return {}
 }
 
+
+const ctime = (payload) => {
+    console.log("CTIME", payload);
+    return {}
+}
+
+
+const fopen = (payload) => {
+    console.log("FOPEN", payload);
+    return {}
+}
+
+
 const HOST_MACHINE = "HOST MACHINE";
 const EXE = "EXE";
 const RESET_N = "RESET_N";
@@ -190,9 +203,55 @@ export function loadStats (payload) {
     };
 }
 
-export function login (payload) {
+const chkbnid = (args) => { console.log("CHKBNID", args); }
+const cuserid = () => { console.log("CUSERID"); }
+const getkbd = (args) => { console.log("GETKBD", args); return "GETKBD..."; }
+const crapup = (args) => { console.log("CRAPUP", args); }
+const chkname = (args) => { console.log("CHKNAME", args); }
+const validname = (args) => { console.log("VALIDNAME", args); }
+const logscan = (args) => { console.log("LOGSCAN", args); }
+const logpass = (args) => { console.log("LOGSCAN", args); }
+
+export function beforeLogin (payload) {
     return (dispatch, getState) => {
         console.log("LOGIN", payload);
+        const rena = ({ user, ...payload }) => {
+            console.log("rena:");
+            if (!user) {
+                console.log("By what name shall I call you ?\n*");
+                user = getkbd(15);
+	    }
+            /*
+             * Check for legality of names
+             *
+             */
+	    payload.namegiv = 0;
+            if (!user) return rena({ user, ...payload });
+            if (user.indexOf('.') > -1) crapup("\nIllegal characters in user name\n");
+            user = user.trim();
+            // scan(user, user, 0, " ", "");
+            if (!user) return rena({ user, ...payload });
+            chkname(user);
+            if (!user) return rena({ user, ...payload });
+	    /* Gets name tidied up */
+            let dat = user;
+            let usrnam = user;
+            if (!validname(usrnam)) crapup("Bye Bye");
+            let a = logscan({dat});
+            if (a == -1) {
+                /* If he/she doesnt exist */
+                console.log("\nDid I get the name right %s ?", user);
+                fgets(a, 79, stdin);
+                lowercase(a);
+                c = a[0];
+                if (c=='n')  {
+                    printf("\n");
+		    return rena({ user, ...payload});
+	        }
+	        /* Check name */
+            }
+            return user;
+	};
         // long un1;
         // char usermc[80],a[80],tim[80],dat[80],c;
         /*
@@ -205,40 +264,13 @@ export function login (payload) {
          * Get the user name
          *
          */
-        if (!namegiv) {
-            // rena:
-            console.log("By what name shall I call you ?\n*");
-            getkbd(user,15);
+        let user = 0
+        if (!payload.namegiv) {
+            user = rena({});
         } else {
-            user = namegt;
+            user = payload.namegt;
+	    user = rena({ user });
         }
-        /*
-         * Check for legality of names
-         *
-         */       
-        namegiv = 0;
-        // if (!strlen(user)) goto rena;
-        if (any('.',user) > -1) crapup("\nIllegal characters in user name\n");
-        trim(user);
-        scan(user, user, 0, " ", "");
-        // if (!strlen(user)) goto rena;
-        chkname(user);
-        // if(!strlen(user)) goto rena;
-        dat = user;             /* Gets name tidied up */
-        usrnam = user;
-        if (!validname(usrnam)) crapup("Bye Bye");
-        if (logscan(dat,a)== -1) {
-            /* If he/she doesnt exist */
-            console.log("\nDid I get the name right %s ?", user);
-            fgets(a,79,stdin);
-            lowercase(a);
-            c=a[0];
-            if (c=='n')  {
-                printf("\n");
-		// goto rena;
-	    }
-	    /* Check name */
-       }
-       logpass(user);        /* Password checking */
+        logpass(user);        /* Password checking */
     };
 }

@@ -16,8 +16,6 @@ function Listfl ({fl, ...props}) {
 class Motd extends Component {
     componentDidMount() {
         let {user} = this.props;
-	/* Does all the login stuff */
-        this.props.dispatch(usersActions.login(user));
     }
 
     render () {

@@ -6,6 +6,7 @@ import * as usersSelector from '../store/users/reducer';
 // import ListView from '../components/ListView';
 
 import {CreatedTime, ElapsedTime} from './GMain2Time';
+import Login from './GMain2Login';
 import Motd from './GMain2Motd';
 
 
@@ -105,7 +106,9 @@ class GMain2 extends Component {
                 <h3><ElapsedTime time={this.props.stats.a} /></h3>
             </Fragment> }
 
-            { (!this.state.qnmrq) && <Motd user={this.props.user} /> }
+	    <Login user={this.props.user} {...this.props} {...this.state} />
+
+            { (!this.state.qnmrq) && <Motd user={this.props.user} {...this.props} {...this.state}/> }
 	    <AfterMotd user={this.props.user} />
 	</div>
     }
