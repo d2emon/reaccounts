@@ -4,7 +4,8 @@ import reaccountsService from '../../services/reaccounts';
 import {
     HOST_MACHINE,
     EXE,
-    RESET_N
+    RESET_N,
+    BAN_FILE
 } from '../../config';
 
 
@@ -206,8 +207,21 @@ export function loadStats (payload) {
     };
 }
 
-const chkbnid = (args) => { console.log("CHKBNID", args); }
-const cuserid = () => { console.log("CUSERID"); }
+
+/* Check to see if UID in banned list */
+const chkbnid = (payload) => new Promise((resolve, reject) => {
+    if (BAN_FILE == undefined) resolve(false);
+    console.log(BAN_FILE);
+    BAN_FILE.forEach((item, id) => {
+         console.log(item, payload.user);
+         if (item.toLowerCase() == payload.user.toLowerCase()) {
+             throw Error("I'm sorry- that userid has been banned from the Game");
+         }
+    });
+    resolve(false);
+});
+
+const cuserid = () => { console.log("CUSERID"); return "user_id"; }
 
 export function beforeLogin (payload) {
     return (dispatch, getState) => {
@@ -215,15 +229,23 @@ export function beforeLogin (payload) {
         /*
          * Check if banned first
          */    
-        chkbnid(cuserid());
-        /*
-         * Get the user name
-         */
-	/*
-        let user = 0
-        if (payload.namegiv) {
-            user = payload.namegt;
-        }
-	*/
+        return chkbnid({ user: cuserid() }).then(response => {
+            console.log(response);
+            console.log(payload);
+            /*
+             * Get the user name
+             */
+            let user = payload.user;
+            if (payload.namegiv) {
+                user = payload.namegt;
+            }
+            dispatch({
+		type: types.TEST_BANNED,
+		user: user,
+		is_banned: response
+	    });
+	}).catch(error => {
+            console.error(error);
+	});
     };
 }

@@ -13,41 +13,6 @@ var qnmrq = 0;
 
 // char usrnam[44];
  
- 
-
-
-
-
-
-
-
-
-
-
-
-
- 
-int chkbnid(user)   /* Check to see if UID in banned list */
- char *user;
-    {
-    FILE *a;
-    char b[80],c[40];
-    extern char *strchr();
-    strcpy(c,user);
-    lowercase(c);
-    a=openlock(BAN_FILE,"r+");
-    if(a==NULL) return(0);
-    while (fgets(b,79,a)!=0)
-       {
-       if(strchr(b,'\n')) *strchr(b,'\n')=0;
-       lowercase(b);
-       if (strcmp(b,user)==0)
-          {
-          crapup("I'm sorry- that userid has been banned from the Game\n");
-          }
-       }
-    fclose(a);
-    }
 
  
  

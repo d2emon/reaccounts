@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import * as usersActions from '../store/users/actions';
-// import * as usersSelector from '../store/users/reducer';
-// import ListView from '../components/ListView';
+import * as usersSelector from '../store/users/reducer';
 
 
 const chkname = (args) => { console.log("CHKNAME", args); }
@@ -139,6 +138,9 @@ class Login extends Component {
     }
 
     render () {
+	if (this.props.is_banned) {
+	    return <h3>I'm sorry- that userid has been banned from the Game</h3>
+	}
         return <div>
 	    <form className="loginForm">
                 <h2>Sign Up</h2>
@@ -166,9 +168,8 @@ class Login extends Component {
 // which props do we want to inject, given the global store state?
 function mapStateToProps(state) {
     return {
-        // args: usersSelector.getArgs(state),
-        // user: usersSelector.getUser(state),
-        // stats: usersSelector.getStats(state)
+        user: usersSelector.getUser(state),
+        is_banned: usersSelector.isBanned(state)
     };
 }
 
