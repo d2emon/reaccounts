@@ -9,21 +9,13 @@ import {CreatedTime, ElapsedTime} from './GMain2Time';
 import Login from './GMain2Login';
 import Motd from './GMain2Motd';
 
+import LogoScreen from  '../components/LogoScreen'
+
 
 function cuserid() { console.log("cuserid"); }
 function talker(user) { console.log("talker", user); }
 function crapup(text) { console.log("crapup", text); }
 
-
-const LogoScreen = (props) => <Fragment>
-    <br />
-    <h1>A B E R  M U D</h1>
-    <br />
-    <h2>By Alan Cox, Richard Acott Jim Finnis</h2>
-    <br />
-    <h3><CreatedTime time={props.stats.space} /></h3>
-    <h3><ElapsedTime time={props.stats.r} /></h3>
-</Fragment>;
 
 /* The initial routine */
 class GMain2 extends Component {
@@ -68,7 +60,10 @@ class GMain2 extends Component {
          */
         console.log(this.state, this.props);
         return <div>
-            { this.props.name && <LogoScreen stats={this.props.stats} /> }
+            { this.props.name && <LogoScreen stats={this.props.stats}>
+                <h3><CreatedTime time={this.props.stats.space} /></h3>
+                <h3><ElapsedTime time={this.props.stats.r} /></h3>
+            </LogoScreen> }
     	    <Login user={this.props.user} {...this.props} {...this.state} />
             { (!this.state.qnmrq) && <Motd user={this.props.user} {...this.props} {...this.state}/> }
             <button onClick={this.afterMotd}>Ok</button>
