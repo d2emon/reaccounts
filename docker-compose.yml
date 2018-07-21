@@ -7,8 +7,7 @@ services:
       - "27017:27017"
     volumes:
       - ./data/db:/data/db
-    command:
-      - "--syslog"
+    command: "--syslog"
   backend:
     container_name: reaccounts-backend
     restart: always

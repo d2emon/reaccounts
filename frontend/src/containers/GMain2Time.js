@@ -8,8 +8,8 @@ export function CreatedTime ({time, ...props}) {
 
 export function ElapsedTime ({time, ...props}) {
     function Seconds ({r, ...props}) {
-	seconds = r % 60;
-        if (seconds == 1) {
+	let seconds = r % 60;
+        if (seconds === 1) {
             return <span {...props}>1 second</span>
         }
         return <span {...props}>{seconds} seconds.</span>
@@ -17,9 +17,9 @@ export function ElapsedTime ({time, ...props}) {
 
     function Hours ({r, ...props}) {
 	if (r < 7200) {
-            return <span>1 hour and </span>
+            return <span {...props}>1 hour and </span>
         } else {
-            return <span>{r / 3600} hours and </span>
+            return <span {...props}>{r / 3600} hours and </span>
         }
     }
 
@@ -29,11 +29,11 @@ export function ElapsedTime ({time, ...props}) {
             return "Over a day!!!";
         }
         if (r < 61) { return <Seconds r={r} /> }
-        if (r == 60) { return <span>1 minute</span> }
+        if (r === 60) { return <span>1 minute</span> }
         if (r < 120) { return <span>1 minute and <Seconds r={r} /></span> }
-        if (r / 60 == 60) { return <span>1 hour</span> }
+        if (r / 60 === 60) { return <span>1 hour</span> }
         if (r < 3600) { return <span>{r / 60} minutes and <Seconds r={r} /></span> }
-        if ((r / 60) % 60 != 1) {
+        if ((r / 60) % 60 !== 1) {
             return <span><Hours r={r} /> {(r / 60) % 60} minutes.</span>
         } else {
             return <span><Hours r={r} /> 1 minute</span>

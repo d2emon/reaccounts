@@ -2,8 +2,6 @@
 import * as types from './actionTypes';
 
 const initialState = {
-    users: undefined,
-
     args: { n: "arg2" },
     user: "HOST MACHINE",
     stats: "STATS"
@@ -11,11 +9,6 @@ const initialState = {
 
 export default function reduce(state = initialState, action = {}) {
     switch (action.type) {
-        case types.USERS_FETCHED:
-            return {
-                ...state,
-                accounts: action.accounts
-            };
         case types.TEST_BANNED:
             return {
                 ...state,
@@ -29,7 +22,6 @@ export default function reduce(state = initialState, action = {}) {
 
 // селекторы
 
-export function getUsers (state) { return state.users.accounts; }
 export function getArgs (state) { return state.users.args; }
 export function getUser (state) { return state.users.user; }
 export function getStats (state) { return state.users.stats; }

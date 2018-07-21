@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // import './TopicsScreen.css';
-import * as usersActions from '../../store/users/actions';
-import * as usersSelector from '../../store/users/reducer';
+import * as accountActions from '../../store/account/actions';
+import * as accountSelector from '../../store/account/reducer';
 
 // import ListView from '../components/ListView';
 
@@ -27,25 +27,25 @@ const UsersTable = ({title, cols, users, renderRow, ...props}) =>  {
             </table>
         </div>
     )
-}
+};
 
 class UserList extends Component {
     componentDidMount() {
-        this.props.dispatch(usersActions.fetchUsers());
+        this.props.dispatch(accountActions.fetchUsers());
     }
 
-    onShowUser (payload, event) {
-        this.props.dispatch(usersActions.showUser(payload));
+    onShowUser (payload) {
+        this.props.dispatch(accountActions.showUser(payload));
     }
 
     onDelUser (payload, event) {
         event.preventDefault();
 
-        this.props.dispatch(usersActions.delUser(payload));
+        this.props.dispatch(accountActions.delUser(payload));
     }
 
     render() {
-	if (!this.props.users) return this.renderLoading();
+	if (!this.props.accounts) return UserList.renderLoading();
         return (
 	    <UsersTable
                 className="UsersList"
@@ -57,13 +57,13 @@ class UserList extends Component {
                     "Data",
                     "Delete"
 		]}
-		users={this.props.users}
+		users={this.props.accounts}
 		renderRow={this.renderRow()}
 	    />
         );
     }
 
-    renderLoading() {
+    static renderLoading() {
         return (
             <h1>Loading...</h1>
         );
@@ -94,11 +94,11 @@ class UserList extends Component {
             </tr>
         );
     }
-};
+}
 
 function mapStateToProps(state) {
     return {
-        users: usersSelector.getUsers(state)
+        accounts: accountSelector.getUsers(state)
     };
 }
 

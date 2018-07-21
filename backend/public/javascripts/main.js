@@ -29,15 +29,15 @@ function populateTable() {
     // For each item in our JSON, add a table row and cells to the content string
     $.each(data, function(){
       tableContent += '<tr>';
-      tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.user_id + '">' + this.user_id + '</a></td>';
-      tableContent += '<td>' + this.email + '</td>';
+      tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.user_id + '"> ' + this.user_id + ' </a></td>';
+      tableContent += '<td> ' + this.email + ' </td>';
       tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
       tableContent += '</tr>';
     });
     // Inject the whole content string into our existing HTML table
     $('#userList table tbody').html(tableContent);
   });
-};
+}
 
 // Show User Info
 function showUserInfo(event) {
@@ -70,6 +70,7 @@ function addUser(event) {
   // Super basic validation - increase errorCount variable if any fields are blank
   var errorCount = 0;
   $('#addUser input').each(function(index, val) {
+    console.log(index, val);
     if($(this).val() === '') { errorCount++; }
   });
 
@@ -83,7 +84,7 @@ function addUser(event) {
       'age': $('#addUser fieldset input#inputUserAge').val(),
       'location': $('#addUser fieldset input#inputUserLocation').val(),
       'gender': $('#addUser fieldset input#inputUserGender').val()
-    }
+    };
 
     // Use AJAX to post the object to our adduser service
     $.ajax({
@@ -110,7 +111,7 @@ function addUser(event) {
     alert('Please fill in all fields');
     return false;
   }
-};
+}
 
 // Delete User
 function deleteUser(event) {
@@ -141,4 +142,4 @@ function deleteUser(event) {
     // If they said no to the confirm, do nothing
     return false;
   }
-};
+}

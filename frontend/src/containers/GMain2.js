@@ -19,7 +19,7 @@ function crapup(text) { console.log("crapup", text); }
 class GMain2 extends Component {
     constructor (props) {
         super(props);
-	this.state = {
+        this.state = {
             // UNKNOWN
             ttyt: 0,
 
@@ -51,14 +51,14 @@ class GMain2 extends Component {
          */
         this.props.dispatch(usersActions.chknolog());
 	
-        let {args, user} = this.props;
+        let {args} = this.props;
         this.state.b = "";
         /*
          * Now check the option entries
          *
          * -n(name)
          */
-        if (args.n != undefined) {
+        if (args.n !== undefined) {
             this.setState({
 		qnmrq: 1,
 		ttyt: 0,
@@ -74,14 +74,14 @@ class GMain2 extends Component {
     }
 
     afterMotd = () => {
-	let space = cuserid();
+	    let space = cuserid();
         console.log(`Game entry by ${this.props.user} : UID ${space}`);
-	/* Log entry */
-	talker(this.props.user);
-	/* Run system */
-	crapup("Bye Bye");
-	/* Exit */
-    }
+	    /* Log entry */
+	    talker(this.props.user);
+	    /* Run system */
+	    crapup("Bye Bye");
+	    /* Exit */
+    };
 
     render() {
         /*

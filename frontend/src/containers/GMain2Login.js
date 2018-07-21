@@ -1,20 +1,20 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as usersActions from '../store/users/actions';
 import * as usersSelector from '../store/users/reducer';
 
 
-const chkname = (args) => { console.log("CHKNAME", args); }
-const validname = (args) => { console.log("VALIDNAME", args); return true; }
-const logscan = (args) => { console.log("LOGSCAN", args); }
-const logpass = (args) => { console.log("LOGPASS", args); }
+const chkname = (args) => { console.log("CHKNAME", args); };
+const validname = (args) => { console.log("VALIDNAME", args); return true; };
+const logscan = (args) => { console.log("LOGSCAN", args); };
+const logpass = (args) => { console.log("LOGPASS", args); };
 
 
 class PromptUserExists extends Component { 
     render () {
         let user = this.props.user;
         let a = logscan({user});
-        if (a == undefined) {
+        if (a === undefined) {
             /* If he/she doesnt exist */
             return <div>
                 <p>Did I get the name right {user} ?</p>
@@ -40,7 +40,7 @@ const FormErrors = ({errors}) =>
                 return '';
             }
         })}
-    </div>
+    </div>;
 
 
 class Login extends Component {
@@ -72,7 +72,7 @@ class Login extends Component {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value}, () => { this.validateField(name, value) });
-    }
+    };
 
     validateUsername = (value) => {
         // user = getkbd(15);
@@ -91,13 +91,13 @@ class Login extends Component {
 	/* Gets name tidied up */
         if (!validname(value)) throw Error("Bye Bye");
         return true;
-    }
+    };
 
-    validatePassword = (value) => {
+    validatePassword = () => {
         logpass(this.state.username);
 	/* Password checking */
         return true;
-    }
+    };
 
     validateField (fieldName, value) {
 	let fieldValidationErrors = this.state.formErrors;
@@ -129,7 +129,7 @@ class Login extends Component {
 	});
     }
 
-    errorClass (error) {
+    static errorClass (error) {
         return (error.length === 0 ? '' : 'has-error');
     }
 
@@ -149,11 +149,11 @@ class Login extends Component {
                 </div>
 		{ this.state.valid.username 
 	            ? <PromptUserExists user={this.state.username} />
-                    : <div className={`form-group ${this.errorClass(this.state.formErrors.username)}`}>
+                    : <div className={`form-group ${Login.errorClass(this.state.formErrors.username)}`}>
                           <label htmlFor="username">By what name shall I call you?</label>
 		          <input type="text" className="form-control" name="username" defaultValue={this.state.username} onChange={this.handleUserInput} />
                       </div> }
-                <div className={`form-group ${this.errorClass(this.state.formErrors.password)}`}>
+                <div className={`form-group ${Login.errorClass(this.state.formErrors.password)}`}>
                     <label htmlFor="password">Password</label>
                     <input type="password" className="form-control" name="password" onChange={this.handleUserInput}/>
                 </div>

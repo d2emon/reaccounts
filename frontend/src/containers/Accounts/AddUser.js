@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as usersActions from '../../store/users/actions';
+
+import * as usersActions from '../../store/account/actions';
 
 class AddUser extends Component {
     onAddUser (payload, event) {
@@ -43,9 +44,9 @@ class AddUser extends Component {
             </div>
         );
     }
-};
+}
 
-function mapStateToProps(state) {
+function mapStateToProps() {
     return {};
 }
 
