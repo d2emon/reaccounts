@@ -98,6 +98,48 @@ export const loadStats = () => dispatch => {
     });
 };
 
+
+/* Does all the login stuff */
+export const beforeLogin = (payload) => dispatch => {
+    console.log("LOGIN", payload);
+    /*
+     * Check if banned first
+     */
+    return chkbnid({ user: cuserid() }).then(response => {
+        console.log(response);
+        console.log(payload);
+        /*
+         * Get the user name
+         */
+        let user = payload.user;
+        if (payload.namegiv) {
+            user = payload.namegt;
+        }
+        dispatch({
+            type: types.TEST_BANNED,
+            user: user,
+            is_banned: response
+        });
+    }).catch(error => {
+        let user = payload.user;
+        if (payload.namegiv) {
+            user = payload.namegt;
+        }
+        console.error(error);
+        console.log({
+            type: types.TEST_BANNED,
+            user: user,
+            is_banned: false
+        });
+        dispatch({
+            type: types.TEST_BANNED,
+            user: user,
+            is_banned: true
+        });
+    });
+};
+
+
 // Other
 
 
@@ -116,29 +158,3 @@ const chkbnid = (payload) => new Promise((resolve) => {
 
 const cuserid = () => { console.log("CUSERID"); return "user_id"; };
 
-export function beforeLogin (payload) {
-    return (dispatch) => {
-        console.log("LOGIN", payload);
-        /*
-         * Check if banned first
-         */    
-        return chkbnid({ user: cuserid() }).then(response => {
-            console.log(response);
-            console.log(payload);
-            /*
-             * Get the user name
-             */
-            let user = payload.user;
-            if (payload.namegiv) {
-                user = payload.namegt;
-            }
-            dispatch({
-		type: types.TEST_BANNED,
-		user: user,
-		is_banned: response
-	    });
-	}).catch(error => {
-            console.error(error);
-	});
-    };
-}
