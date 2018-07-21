@@ -6,7 +6,7 @@ import * as usersSelector from '../store/users/reducer';
 // import ListView from '../components/ListView';
 
 import {CreatedTime, ElapsedTime} from './GMain2Time';
-import Login from './GMain2Login';
+import Login from './GMain/Login';
 import Motd from './GMain2Motd';
 
 import LogoScreen from  '../components/LogoScreen'
