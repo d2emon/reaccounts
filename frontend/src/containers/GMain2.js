@@ -1,13 +1,18 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import './TopicsScreen.css';
+import {
+    Container,
+    Row,
+    Col,
+    Button
+} from  'reactstrap';
+
 import * as usersActions from '../store/users/actions';
 import * as usersSelector from '../store/users/reducer';
-// import ListView from '../components/ListView';
 
 import {CreatedTime, ElapsedTime} from './GMain2Time';
 import Login from './GMain/Login';
-import Motd from './GMain2Motd';
+import Motd from './GMain/Motd';
 
 import LogoScreen from  '../components/LogoScreen'
 
@@ -56,15 +61,23 @@ class GMain2 extends Component {
          *
          */
         console.log(this.state, this.props);
-        return <div>
-            { this.props.name && <LogoScreen stats={this.props.stats}>
-                <h3><CreatedTime time={this.props.stats.created} /></h3>
-                <h3><ElapsedTime time={this.props.stats.elapsed} /></h3>
-            </LogoScreen> }
-    	    <Login user={this.props.user} {...this.props} {...this.state} />
-            { (!this.state.qnmrq) && <Motd user={this.props.user} {...this.props} {...this.state}/> }
-            <button onClick={this.afterMotd}>Ok</button>
-       	</div>
+        return <Container>
+            <Row>
+                { this.props.name && <Col xs={12}>
+                    <LogoScreen stats={this.props.stats}>
+                        <h3><CreatedTime time={this.props.stats.created} /></h3>
+                        <h3><ElapsedTime time={this.props.stats.elapsed} /></h3>
+                    </LogoScreen>
+                </Col> }
+                <Col xs={6}>
+                    <Login user={this.props.user} {...this.props} {...this.state} />
+                </Col>
+                { (!this.state.qnmrq) && <Col xs={6} >
+                    <Motd user={this.props.user} {...this.props} {...this.state}/>
+                </Col> }
+                <Col xs={12}><Button onClick={this.afterMotd}>Ok</Button></Col>
+            </Row>
+       	</Container>
     }
 }
 

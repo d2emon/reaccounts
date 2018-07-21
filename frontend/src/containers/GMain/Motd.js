@@ -1,14 +1,20 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import * as usersActions from '../store/users/actions';
+import {
+    Card,
+    CardBody,
+    CardText
+} from 'reactstrap';
+
+import * as usersActions from '../../store/users/actions';
 // import * as usersSelector from '../store/users/reducer';
 // import ListView from '../components/ListView';
 
-import { MOTD } from '../config';
+import { MOTD } from '../../config';
 
 
 function Listfl ({fl, ...props}) {
-    return <div {...props}>Listfl {fl}</div>
+    return <CardText {...props}>Listfl {fl}</CardText>
 }
 
 
@@ -24,13 +30,13 @@ class Motd extends Component {
         let {user} = this.props;
     }
 
+    /* list the message of the day */
     render () {
-        return <div> 
-	    <Listfl fl={MOTD} />
-            { /* list the message of the day */ }
-            <br />
-            <br />
-        </div>
+        return <Card>
+            <CardBody>
+                <Listfl fl={MOTD} />
+            </CardBody>
+        </Card>
     }
 }
 
