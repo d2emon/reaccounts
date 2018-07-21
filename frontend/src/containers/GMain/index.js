@@ -7,14 +7,14 @@ import {
     Button
 } from  'reactstrap';
 
-import * as usersActions from '../store/users/actions';
-import * as usersSelector from '../store/users/reducer';
+import * as usersActions from '../../store/users/actions';
+import * as usersSelector from '../../store/users/reducer';
 
 import {CreatedTime, ElapsedTime} from './GMain2Time';
-import Login from './GMain/Login';
-import Motd from './GMain/Motd';
+import Login from './Login';
+import Motd from './Motd';
 
-import LogoScreen from  '../components/LogoScreen'
+import LogoScreen from '../../components/LogoScreen'
 
 
 function talker(user) { console.log("talker", user); }
@@ -22,7 +22,7 @@ function crapup(text) { console.log("crapup", text); }
 
 
 /* The initial routine */
-class GMain2 extends Component {
+class Index extends Component {
     constructor (props) {
         super(props);
         this.state = {
@@ -92,4 +92,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(GMain2);
+export default connect(mapStateToProps)(Index);

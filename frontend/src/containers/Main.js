@@ -15,7 +15,7 @@ import AddUser from './Accounts/AddUser';
 
 import TestComponent from '../components/TestComponent';
 import TopicsScreen from './TopicsScreen';
-import GMain2 from './GMain2';
+import GMain2 from './GMain/index';
 
 class Main extends Component {
   constructor () {

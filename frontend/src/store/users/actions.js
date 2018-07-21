@@ -12,7 +12,7 @@ import {
 // Dummy functions
 
 const gethostname = (payload)  => { console.log("GETHOSTNAME", payload); };
-const getty = () => { console.log("getty"); };
+const getty = () => { console.log("GETTY"); };
 const stat = (payload) => { console.log("STAT", payload); return {st_mtime: 0}; };
 const ctime = (payload) => { console.log("CTIME", payload); return 0; };
 const time = (payload) => { console.log("TIME", payload); return 0; };

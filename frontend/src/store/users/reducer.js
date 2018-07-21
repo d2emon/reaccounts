@@ -19,7 +19,7 @@ const initialState = {
 };
 
 
-function cuserid() { console.log("cuserid"); }
+function cuserid() { console.log("CUSERID"); }
 
 
 export default function reduce(state = initialState, action = {}) {

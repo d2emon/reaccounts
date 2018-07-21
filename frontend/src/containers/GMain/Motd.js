@@ -6,10 +6,6 @@ import {
     CardText
 } from 'reactstrap';
 
-import * as usersActions from '../../store/users/actions';
-// import * as usersSelector from '../store/users/reducer';
-// import ListView from '../components/ListView';
-
 import { MOTD } from '../../config';
 
 
@@ -21,9 +17,9 @@ function Listfl ({fl, ...props}) {
 class Motd extends Component {
     constructor (props) {
         super(props);
-	this.state = {
+	    this.state = {
             user: props.user
-	};
+	    };
     }
 
     componentDidMount() {
