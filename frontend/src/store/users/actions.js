@@ -92,8 +92,8 @@ export const loadStats = () => dispatch => {
     dispatch({
         type: types.STATS_GET,
         stats: {
-            space: space,
-            r: r
+            created: space,
+            elapsed: r
         }
     });
 };

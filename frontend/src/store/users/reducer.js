@@ -4,7 +4,10 @@ import * as types from './actionTypes';
 const initialState = {
     args: { n: "arg2" },
     user: "HOST MACHINE",
-    stats: {},
+    stats: {
+        created: 0,
+        elapsed: 0
+    },
 
     // UNKNOWN
     ttyt: 0,
@@ -14,6 +17,10 @@ const initialState = {
     namegt: "",
     namegiv: false
 };
+
+
+function cuserid() { console.log("cuserid"); }
+
 
 export default function reduce(state = initialState, action = {}) {
     switch (action.type) {
@@ -47,4 +54,5 @@ export function getArgs (state) { return state.users.args; }
 export function getUser (state) { return state.users.user; }
 export function getStats (state) { return state.users.stats; }
 export const getName = (state) => state.users.namegiv;
+export const getUid = () => cuserid();
 export function isBanned (state) { return state.users.is_banned; }

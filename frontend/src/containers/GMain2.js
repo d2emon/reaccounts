@@ -12,7 +12,6 @@ import Motd from './GMain2Motd';
 import LogoScreen from  '../components/LogoScreen'
 
 
-function cuserid() { console.log("cuserid"); }
 function talker(user) { console.log("talker", user); }
 function crapup(text) { console.log("crapup", text); }
 
@@ -41,10 +40,8 @@ class GMain2 extends Component {
     }
 
     afterMotd = () => {
-	    const space = cuserid();
-
         /* Log entry */
-        console.log(`Game entry by ${this.props.user} : UID ${space}`);
+        console.log(`Game entry by ${this.props.user} : UID ${this.props.uid}`);
 	    /* Run system */
         talker(this.props.user);
 	    /* Exit */
@@ -61,8 +58,8 @@ class GMain2 extends Component {
         console.log(this.state, this.props);
         return <div>
             { this.props.name && <LogoScreen stats={this.props.stats}>
-                <h3><CreatedTime time={this.props.stats.space} /></h3>
-                <h3><ElapsedTime time={this.props.stats.r} /></h3>
+                <h3><CreatedTime time={this.props.stats.created} /></h3>
+                <h3><ElapsedTime time={this.props.stats.elapsed} /></h3>
             </LogoScreen> }
     	    <Login user={this.props.user} {...this.props} {...this.state} />
             { (!this.state.qnmrq) && <Motd user={this.props.user} {...this.props} {...this.state}/> }
@@ -77,7 +74,8 @@ function mapStateToProps(state) {
         args: usersSelector.getArgs(state),
         user: usersSelector.getUser(state),
         stats: usersSelector.getStats(state),
-        name: usersSelector.getName(state)
+        name: usersSelector.getName(state),
+        uid: usersSelector.getUid(state)
     };
 }
 
