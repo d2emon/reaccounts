@@ -4,7 +4,15 @@ import * as types from './actionTypes';
 const initialState = {
     args: { n: "arg2" },
     user: "HOST MACHINE",
-    stats: "STATS"
+    stats: {},
+
+    // UNKNOWN
+    ttyt: 0,
+
+    // GLOBAL
+    qnmrq: 0,
+    namegt: "",
+    namegiv: false
 };
 
 export default function reduce(state = initialState, action = {}) {
@@ -15,7 +23,20 @@ export default function reduce(state = initialState, action = {}) {
                 user: action.user,
                 is_banned: action.is_banned
             };
-	default:
+        case types.USERNAME_SET:
+            return {
+                ...state,
+                qnmrq: action.qnmrq,
+                ttyt: action.ttyt,
+                namegt: action.namegt,
+                namegiv: action.namegiv
+            };
+        case types.STATS_GET:
+            return {
+                ...state,
+                stats: action.stats
+            };
+	    default:
             return state;
     }
 };
@@ -25,4 +46,5 @@ export default function reduce(state = initialState, action = {}) {
 export function getArgs (state) { return state.users.args; }
 export function getUser (state) { return state.users.user; }
 export function getStats (state) { return state.users.stats; }
+export const getName = (state) => state.users.namegiv;
 export function isBanned (state) { return state.users.is_banned; }

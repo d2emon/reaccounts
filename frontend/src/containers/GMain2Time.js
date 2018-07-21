@@ -6,9 +6,12 @@ export function CreatedTime ({time, ...props}) {
 }
 
 
+/*
+ * Elapsed time and similar goodies
+ */
 export function ElapsedTime ({time, ...props}) {
     function Seconds ({r, ...props}) {
-	let seconds = r % 60;
+	    let seconds = r % 60;
         if (seconds === 1) {
             return <span {...props}>1 second</span>
         }
@@ -16,7 +19,7 @@ export function ElapsedTime ({time, ...props}) {
     }
 
     function Hours ({r, ...props}) {
-	if (r < 7200) {
+	    if (r < 7200) {
             return <span {...props}>1 hour and </span>
         } else {
             return <span {...props}>{r / 3600} hours and </span>
@@ -43,16 +46,6 @@ export function ElapsedTime ({time, ...props}) {
     if (!time) {
         return <div {...props}>AberMUD has yet to ever start!!!</div>
     }
-    let r = fscanf(time, "%ld");
-    fclose(time);
-
-    let ct = time();
-    r = ct - r;
-    /*
-     *
-     * Elapsed time and similar goodies
-     *
-     */
-    return <div {...props}>Game time elapsed: {elapse(r)}</div>
+    return <div {...props}>Game time elapsed: {elapse(time)}</div>
 }
 
