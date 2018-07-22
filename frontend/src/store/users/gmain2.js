@@ -237,15 +237,3 @@ const chkname = (user) => {
     user[0] -= 32;
     return true;
 };
-
-
-const chknolog = () => {
-    let b = "";
-    let a = fopen(NOLOGIN, "r");
-    if (!a) return;
-    while (a.fgets(b, 128)) {
-        console.log(b);
-    }
-    a.fclose();
-    exit(0);
-};

@@ -1,11 +1,19 @@
 import axios from 'axios';
+import {
+    PFL,
+    BAN_FILE,
+    HOST_MACHINE,
+    NOLOGIN,
 
-const REACCOUNTS_ENDPOINT = 'http://localhost:3000/';
-const REACCOUNTS_TIMEOUT = 1000;
+    REACCOUNTS_ENDPOINT,
+    REACCOUNTS_TIMEOUT
+} from '../config';
+import * as types from "../store/users/actionTypes";
+
 
 class ReaccountsService {
     getAccounts() {
-        const fetch_url = `${REACCOUNTS_ENDPOINT}users/list`;
+        // const fetch_url = `${REACCOUNTS_ENDPOINT}users/list`;
         const url = "/users/list";
         const Axios = axios.create({
             baseURL: REACCOUNTS_ENDPOINT,
@@ -49,6 +57,63 @@ class ReaccountsService {
             console.error(error);
         });
     }
+
+    /*
+     * Check we are running on the correct host
+     * see the notes about the use of flock();
+     * and the affects of lockf();
+     */
+    testHostname (hostname) {
+        return new Promise(resolve => {
+            if (hostname !== HOST_MACHINE) {
+                throw Error(`AberMUD is only available on ${HOST_MACHINE}, not on ${hostname}.`);
+            }
+            resolve(true);
+        });
+    }
+
+    /*
+     * Check if there is a no logins file active
+     */
+    testNologin () {
+        return new Promise(resolve => {
+            let a = NOLOGIN.fopen("r");
+            if (!a) resolve(true);
+            if (a.contents) throw Error(a.contents);
+            resolve(true);
+        });
+    }
+
+    /* Check to see if UID in banned list */
+    testBanned (payload) {
+        return new Promise(resolve => {
+            if (!BAN_FILE) resolve(true);
+            BAN_FILE.forEach(item => {
+                if (item.toLowerCase() === payload.user_id.toLowerCase()) {
+                    throw Error("I'm sorry- that userid has been banned from the Game");
+                }
+            });
+            resolve(true);
+        });
+    }
+
+    /* Return block data for user or -1 if not exist */
+    findUser (payload) {
+        return new Promise(resolve => {
+            console.log("LOGSCAN", payload);
+            let unit = PFL.openlock("r");
+            if (!unit) throw Error("No persona file");
+
+            unit.getAll().forEach(block => {
+                let wkng = unit.decode(block);
+                if (wkng.username.toLowerCase() === payload.username.toLowerCase()){
+                    resolve(block);
+                }
+            });
+            resolve(null);
+        });
+    };
+
 }
 
 export default new ReaccountsService();

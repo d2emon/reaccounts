@@ -19,4 +19,4 @@ export default function reduce(state = initialState, action = {}) {
 
 // селекторы
 
-export function getUsers (state) { console.log(state); return state.accounts.accounts; }
+export function getUsers (state) { return state.accounts.accounts; }

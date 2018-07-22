@@ -20,26 +20,14 @@ import LogoScreen from '../../components/LogoScreen'
 function talker(user) { console.log("talker", user); }
 
 
+const hostname = "HOST-MACHINE";
+
+
 /* The initial routine */
 class Index extends Component {
-    constructor (props) {
-        super(props);
-        this.state = {
-            // PROPS user: "",
-            b: "",
-            num: 0,
-        }
-    }
-
     componentDidMount() {
-        this.setState({b: ""});
-
-        this.props.dispatch(usersActions.testHostname({user: this.props.user}));
-        this.props.dispatch(usersActions.chknolog());
-        this.props.dispatch(usersActions.getArgs({args: this.props.args}));
-
-        this.setState({num: 0});
-
+        this.props.dispatch(usersActions.testHostname({hostname}));
+        this.props.dispatch(usersActions.getArgs(this.props.args));
         this.props.dispatch(usersActions.loadStats());
     }
 
@@ -53,24 +41,25 @@ class Index extends Component {
     render() {
         /*
          * Check for all the created at stuff
-         *
          * We use stats for this which is a UN*X system call
-         *
          */
         console.log(this.state, this.props);
+
+        if (this.props.error) return <h2>{this.props.error}</h2>;
+
         return <Container>
             <Row>
-                { this.props.name && <Col xs={12}>
+                { !this.props.name && <Col xs={12}>
                     <LogoScreen stats={this.props.stats}>
                         <h3><CreatedTime time={this.props.stats.created} /></h3>
                         <h3><ElapsedTime time={this.props.stats.elapsed} /></h3>
                     </LogoScreen>
                 </Col> }
                 <Col xs={6}>
-                    <Login user={this.props.user} {...this.props} {...this.state} />
+                    <Login username={"this.props.name"} {...this.props} />
                 </Col>
-                { (!this.state.qnmrq) && <Col xs={6} >
-                    <Motd user={this.props.user} {...this.props} {...this.state}/>
+                { (!this.props.qnmrq) && <Col xs={6} >
+                    <Motd user={this.props.user} {...this.props} />
                 </Col> }
                 <Col xs={12}><Button onClick={this.afterMotd}>Ok</Button></Col>
             </Row>
@@ -81,11 +70,17 @@ class Index extends Component {
 // which props do we want to inject, given the global store state?
 function mapStateToProps(state) {
     return {
+        error: usersSelector.getError(state),
+
         args: usersSelector.getArgs(state),
+
+        name: usersSelector.getName(state),
+
         user: usersSelector.getUser(state),
         stats: usersSelector.getStats(state),
-        name: usersSelector.getName(state),
-        uid: usersSelector.getUid(state)
+        uid: usersSelector.getUid(state),
+
+        qnmrq: 0
     };
 }
 
