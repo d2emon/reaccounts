@@ -49,8 +49,6 @@ class Index extends Component {
         console.log(`Game entry by ${this.props.user} : UID ${this.props.uid}`);
 	    /* Run system */
         talker(this.props.user);
-	    /* Exit */
-        crapup("Bye Bye");
     };
 
     render() {

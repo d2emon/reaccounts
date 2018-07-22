@@ -210,12 +210,6 @@ function listfl(name) {
 }
 
 
-function crapup(ptr) {
-    console.log("\n", ptr, "\n\nHit Return to Continue...\n");
-    let a = fgets(63);
-    exit(1);
-}
- 
 /*
  *		This is just a trap for debugging it should never get
  *		called.
