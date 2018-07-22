@@ -17,10 +17,6 @@ const getty = () => { console.log("GETTY"); };
 const stat = (payload) => { console.log("STAT", payload); return {st_mtime: 0}; };
 const ctime = (payload) => { console.log("CTIME", payload); return 0; };
 const time = (payload) => { console.log("TIME", payload); return 0; };
-const fopen = (payload) => { console.log("FOPEN", payload); return {}; };
-const fscanf = (payload) => { console.log("FSCANF", payload); return {}; };
-const fclose = (payload) => { console.log("FCLOSE", payload); return {}; };
-const fflush = (payload) => { console.log("FFLUSH", payload); return {}; };
 const gepass = (args) => { console.log("GEPASS", args); return "args.block"; };
 
 
@@ -102,10 +98,10 @@ export const loadStats = () => dispatch => {
     }
 
     let r = false;
-    let a = fopen(RESET_N, "r");
+    let a = RESET_N.fopen("r");
     if (a) {
-        r = fscanf(a, "%ld");
-        fclose(a);
+        r = a.fscanf("%ld");
+        a.fclose();
 
         let ct = time();
         r = ct - r;
@@ -167,7 +163,6 @@ export const logpass = (payload) => dispatch => {
 
 
 export const testPassword = (payload) => dispatch => {
-    fflush();
     let block = gepass();
     let valid = block === payload.pwd;
     dispatch({
