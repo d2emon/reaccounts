@@ -18,7 +18,6 @@ import LogoScreen from '../../components/LogoScreen'
 
 
 function talker(user) { console.log("talker", user); }
-function crapup(text) { console.log("crapup", text); }
 
 
 /* The initial routine */
