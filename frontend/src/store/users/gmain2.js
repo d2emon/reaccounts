@@ -14,255 +14,244 @@ var qnmrq = 0;
 // char usrnam[44];
  
 
- 
-void getunm(name)
- char *name;
-    {
-    printf("\nUser Name:");
-    fgets(name,79,stdin);
-    }
+function getunm () {
+    console.log("User Name:");
+    return fgets(79);
+}
 
-    void showuser()
-    {
-    long a;
-    char name[80],block[256];
+
+function showuser() {
     cls();
-    getunm(name);
-    shu(name,block);
-    printf("\nHit Return...\n");
-    while(getchar()!='\n');
+    let name = getunm();
+    let block = shu(name);
+    console.log("Hit Return...");
+    while (getchar() !== '\n') {}
+}
+
+
+/* for show user and edit user */
+function shu (name, block) {
+    let nm = "";
+    let pw = "";
+    // char pr[128],pv[128];
+    let a = logscan(name, block);
+    if (!a) {
+        console.log("No user registered in that name\n\n\n");
+    } else {
+        console.log("\n\nUser Data For ", name, "\n\n");
+        nm = scan(block, 0, "", ".");
+        pw = scan(block, 1, "", ".");
+        console.log("Name:", nm, "\nPassword:", pw, "\n");
     }
- 
-long shu(name,block)  /* for show user and edit user */
- char *name,*block;
-    {
-    long a;
-    long x;
-    char nm[128],pw[128],pr[128],pv[128];
-    a=logscan(name,block);
-    if (a== -1) printf("\nNo user registered in that name\n\n\n");
-    else
-       {
-       printf("\n\nUser Data For %s\n\n",name);
-       x=scan(nm,block,0,"",".");
-       x=scan(pw,block,x+1,"",".");
-       printf("Name:%s\nPassword:%s\n",nm,pw);
-       }
-    return(a);
-    }
- 
-void deluser()
-{
-    long a;
-    char name[80],block[256];
-    getunm(name);
-    a=logscan(name,block);
-    if (a== -1) printf("\nCannot delete non-existant user\n");
-    else
-    {
-	delu2(name);
+    return a;
+}
+
+
+function deluser () {
+    let block = ""
+    let name = getunm();
+    let a = logscan(name, block);
+    if (!a) {
+        console.log("\nCannot delete non-existant user\n");
+    } else {
+	    delu2(name);
     }
 }
  
-void edituser()
-    {
-    long a;
-    FILE *fl;
-    char name[80],block[256],bk2[256];
-    char nam2[128],pas2[128],per2[128],pr2[128];
+
+function edituser () {
+    let block = "";
+    // char per2[128],pr2[128];
     cls();
-    getunm(name);
-    a=shu(name,block);
-    if (a== -1) sprintf(block,"%s%s",name,".default.E..");
-    a=scan(nam2,block,0,"",".");
-    a=scan(pas2,block,a+1,"",".");
-    printf("\nEditing : %s\n\n",name);
-    ed_fld("Name:",nam2);
-    ed_fld("Password:",pas2);
-    sprintf(bk2,"%s%s%s%s%s%s%s%s",nam2,".",pas2,".",".",".",".",".");
+    let name = getunm();
+    let a = shu(name, block);
+    if (!a) block = name + ".default.E..";
+    let nam2 = scan(block, 0, "", ".");
+    let pas2 = scan(block, 1, "", ".");
+    console.log("\nEditing : ", name, "\n\n");
+    ed_fld("Name:", nam2);
+    ed_fld("Password:", pas2);
+    let bk2 = nam2 + "." + pas2 + ".....";
     delu2(name);
-    fl=openlock(PFL,"a");
-    if(fl==NULL) return;
-    qcrypt(bk2,lump,strlen(bk2));
-    strcpy(bk2,lump);
-    fprintf(fl,"%s\n",bk2);
-    fclose(fl);
-    }
- 
-void ed_fld(name,string)
- char *name,*string;
-    {
-    char bk[128];
-    bafld:printf("%s(Currently %s ):",name,string);
-    fgets(bk,128,stdin);
-    if(bk[0]=='.') strcpy(bk,"");
-    if(strchr(bk,'.')){printf("\nInvalid Data Field\n");goto bafld;}
-    if (strlen(bk)) strcpy(string,bk);
-    }
-void delu2(name)   /* For delete and edit */
- char *name;
-    {
-    char b2[128],buff[128];
-    FILE *a;
-    FILE *b;
-    char b3[128];
-    a=openlock(PFL,"r+");
-    b=openlock(PFT,"w");
-    if(a==NULL) return;
-    if(b==NULL) return;
-    while(fgets(buff,128,a)!=0)
-       {
-       dcrypt(buff,lump,strlen(buff)-1);
-       scan(b2,lump,0,"",".");
-       strcpy(b3,name);lowercase(b3);
-       if (strcmp(b3,lowercase(b2))) fprintf(b,"%s",buff);
-       }
-    fclose(a);
-    fclose(b);
-    a=openlock(PFL,"w");
-    b=openlock(PFT,"r+");
-    if(a==NULL) return;
-    if(b==NULL) return;
-    while(fgets(buff,128,b)!=0)
-       {
-       fprintf(a,"%s",buff);
-       }
-    fclose(a);
-    fclose(b);
-    }
- 
-  
-void chpwd(user)   /* Change your password */
- char *user;
-    {
-    char block[128],data[128],pwd[80],pv[80];
-    long a;
-    FILE *fl;
-    strcpy(data,user);
-    logscan(user,block);
-    strcpy(user,data);
-    a=scan(data,block,0,"",".");
-    a=scan(pwd,block,a+1,"",".");
-    printf("\nOld Password\n*");
-    fflush(stdout);
-    gepass(data);
-    if(strcmp(data,pwd)) printf("\nIncorrect Password\n");
-    else
-       {
-       printf("\nNew Password\n");
-       chptagn:printf("*");
-       fflush(stdout);
-       gepass(pwd);
-       printf("\n");
-       if (!strlen(pwd)) goto chptagn;
-       if (strchr(pwd,',')) 
-	{
-		printf("Illegal Character in password\n");
-		goto chptagn;
-	}
-       printf("\nVerify Password\n*");
-       gepass(pv);
-       printf("\n");
-       if (strcmp(pv,pwd))
-       {
-		printf("\nNO!\n");
-		goto chptagn;
-	}
-       sprintf(block,"%s%s%s%s%s%s%s%s",user,".",pwd,".",".",".",".",".");
-       delu2(user);  /* delete me and tack me on end! */
-       fl=openlock(PFL,"a");
-       if(fl==NULL) return;
-       qcrypt(block,lump,strlen(block));
-       strcpy(block,lump);
-       fprintf(fl,"%s\n",block);
-       fclose(fl);
-       printf("Changed\n");
-   }
+    let fl = openlock(PFL, "a");
+    if (!fl) return;
+    lump = qcrypt(bk2, bk.length);
+    bk2 = lump;
+    fl.fprintf("%s\n", bk2);
+    fl.fclose();
 }
  
- 
-char *getkbd(s,l)   /* Getstr() with length limit and filter ctrl */
- char *s;
- int l;
-    {
-    char c,f,n;
-    f=0;c=0;
-    while(c<l)
-       {
-       regec:n=getchar();
-       if ((n<' ')&&(n!='\n')) goto regec;
-       if (n=='\n') {s[c]=0;f=1;c=l-1;}
-       else
-          s[c]=n;
-       c++;
-       }
-    if (f==0) {s[c]=0;while(getchar()!='\n');}
-    return(s);
+
+function ed_fld(name, string) {
+    console.log(name, "(Currently ", string, " ):");
+    let bk = fgets(128);
+    if (bk[0] === '.') bk = "";
+    if (bk.indexOf('.') === undefined){
+        console.log("\nInvalid Data Field\n");
+        ed_fld(name, string);
     }
+    if (bk) string = bk;
+}
+
+
+/* For delete and edit */
+function delu2(name) {
+    let buff = "";
+    let a = openlock(PFL, "r+");
+    let b = openlock(PFT, "w");
+    if (!a) return;
+    if (!b) return;
+    while(fgets(buff, 128, a) != 0) {
+       lump = dcrypt(buff, buff.length - 1);
+       let b2 = scan(lump, 0, "", ".");
+       let b3 = name.toLowerCase();
+       if (b3 == b2.toLowerCase()) b.fprintf("%s", buff);
+    }
+    a.fclose();
+    b.fclose();
+
+    a = openlock(PFL, "w");
+    b = openlock(PFT, "r+");
+    if (!a) return;
+    if (!b) return;
+    while(fgets(buff, 128, a) != 0) {
+        a.fprintf("%s", buff);
+    }
+    a.fclose();
+    b.fclose();
+}
+
+
+/* Change your password */
+function chpwd(user) {
+    let block = "";
+    let pwd = "";
+    let data = user;
+    logscan(user, block);
+    user = data;
+    data = scan(block, 0, "", ".");
+    pwd = scan(block, 1, "", ".");
+    console.log("\nOld Password\n*");
+    fflush();
+    data = gepass();
+    if (data == pwd){
+        console.log("\nIncorrect Password\n");
+    } else {
+        console.log("\nNew Password\n");
+        // chptagn:
+        console.log("*");
+        fflush();
+        pwd = gepass();
+        console.log("\n");
+        if (!pwd) console.log("goto chptagn;");
+        if (pwd.indexOf(',')) {
+		    console.log("Illegal Character in password\n");
+		    // goto chptagn;
+	    }
+        console.log("\nVerify Password\n*");
+        let pv = gepass();
+        console.log("\n");
+        if (pv !== pwd) {
+		    console.log("\nNO!\n");
+		    // goto chptagn;
+	    }
+        block = user + "." + pwd + ".....";
+        delu2(user);
+        /* delete me and tack me on end! */
+        let fl = openlock(PFL,"a");
+        if(!fl) return;
+        lump = qcrypt(block, block.length);
+        block = lump;
+        fl.fprintf("%s\n",block);
+        fl.fclose(fl);
+        console.log("Changed\n");
+    }
+}
+
+
+/* Getstr() with length limit and filter ctrl */
+function getkbd(s,l) {
+    let f = 0;
+    let c = 0;
+    while (c < l) {
+        // regec:
+        let n = getchar();
+        if ((n < ' ') && (n !== '\n')) console.log("goto regec");
+        if (n === '\n') {
+            s[c] = 0;
+            f = 1;
+            c = l - 1;
+        } else {
+            s[c] = n;
+        }
+        c++;
+    }
+    if (f === 0) {
+        s[c] = 0;
+        while(getchar() !== '\n') {};
+    }
+    return s;
+}
     
 
-
-void listfl(name)
- char *name;
-    {
-    FILE * unit;
-    char string[82];
-    printf("\n");
-    unit=openlock(name,"r+");
-    if (unit==NULL) 
-    {
-    	printf("[Cannot Find -> %s]\n",name);
+function listfl(name) {
+    let string = "";
+    console.log("\n");
+    let unit = openlock(name, "r+");
+    if (!unit) {
+    	console.log("[Cannot Find -> ", name,"]\n");
         return;
     }
-    while(fgets(string,128,unit)!=0)
-       {
-       printf("%s",string);
-       }
-    fclose(unit);
-    printf("\n");
+    while (unit.fgets(string, 128) !== 0) {
+        console.log(string);
     }
+    unit.fclose();
+    console.log("\n");
+}
 
-void crapup(ptr)
- char *ptr;
-    {
-    char a[64];
-    printf("\n%s\n\nHit Return to Continue...\n",ptr);
-    fgets(a,63,stdin);
+
+function crapup(ptr) {
+    console.log("\n", ptr, "\n\nHit Return to Continue...\n");
+    let a = fgets(63);
     exit(1);
-    }
+}
  
 /*
  *		This is just a trap for debugging it should never get
  *		called.
  */ 
-
 const bprintf = () {
-    printf("EEK - A function has trapped via the bprintf call\n");
+    console.log("EEK - A function has trapped via the bprintf call\n");
     exit(0);
-}
+};
+
 
 const chkname = (user) => {
-    long a;
-    a = 0;
-    lowercase(user);
+    let a = 0;
+    user.toLowerCase();
     while(user[a]) {
-        if(user[a]>'z') {user[a]=0;return(-1); }
-        if(user[a]<'a') {user[a]=0;return(-1);}
+        if(user[a] > 'z') {
+            user[a] = 0;
+            return false;
+        }
+        if(user[a] < 'a') {
+            user[a] = 0;
+            return false;
+        }
         a++;
     }
-    user[0]-=32;
-    return(0);
-}
+    user[0] -= 32;
+    return true;
+};
+
 
 const chknolog = () => {
-  // FILE *a;
-  // char b[128];
-  a = fopen(NOLOGIN, "r");
-  if (a == NULL) return;
-  while (fgets(b, 128, a)) {
-    printf("%s", b);
-  }
-  fclose(a);
-  exit(0);
-}
-
+    let b = "";
+    let a = fopen(NOLOGIN, "r");
+    if (!a) return;
+    while (a.fgets(b, 128)) {
+        console.log(b);
+    }
+    a.fclose();
+    exit(0);
+};
