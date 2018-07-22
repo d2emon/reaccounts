@@ -5,7 +5,7 @@
 // #include "System.h"
 
 
-// char lump[256];
+var lump = "";
 var namegiv = 0;
 var namegt = "";
 var qnmrq = 0;
@@ -15,95 +15,14 @@ var qnmrq = 0;
  
 
  
- 
-long  logscan(uid,block)     /* Return block data for user or -1 if not exist */
- char *uid;
- char *block;
-    {
-    FILE *unit;
-    long f;
-    extern char lump[];
-    char wkng[128],wk2[128];
-    strcpy(wk2,uid);
-    unit=openlock(PFL,"r");f=0;
-    if(unit==NULL) crapup("No persona file\n");
-    while((f==0)&&(fgets(block,255,unit)!=0))
-       {
-       dcrypt(block,lump,strlen(block));
-       strcpy(block,lump);
-       scan(wkng,block,0,"",".");
-       if (strcmp(lowercase(wkng),lowercase(wk2))==0)f=1;
-       }
-    fclose(unit);
-    if (f==0) return(-1);
-    return(1);
-}
- 
-void logpass(uid)  /* Main login code */
- char *uid;
- {
-    long a,tries,b;
-    char pwd[32],sigf[128],pvs[32],block[128];
-    FILE *fl;
-    a=logscan(uid,block);
-    strcpy(pwd,uid); /* save for new user */
-    if (a==1)
-       {
-       a=scan(uid,block,0,"",".");
-       a=scan(pwd,block,a+1,"",".");
-       tries=0;
-       pastry:printf("\nThis persona already exists, what is the password ?\n*");
-       fflush(stdout);
-       gepass(block);
-       printf("\n");
-       if (strcmp(block,pwd))
-          {
-          if (tries<2) {tries++;goto pastry;}
-          else
-             crapup("\nNo!\n\n");
-          }
-       }
-    else
-       /* this bit registers the new user */
-       {
-		printf("Creating new persona...\n");
-		printf("Give me a password for this persona\n");
-		repass:printf("*");fflush(stdout);
-	        gepass(block);
-	        printf("\n");
-	        if (any('.',block)!= -1)
-                {
-                	printf("Illegal character in password\n");
-                	goto repass;
-                }
-	        if (!strlen(block)) goto repass;
-	        strcpy(uid,pwd);
-	        strcpy(pwd,block);
-	        sprintf(block,"%s%s%s%s",uid,".",pwd,"....");
-  	        fl=openlock(PFL,"a");
-	        if(fl==NULL) 
- 	        {
-			crapup("No persona file....\n");
-		        return;
-	       	}
-	       qcrypt(block,lump,strlen(block));
-	       strcpy(block,lump);
-	       fprintf(fl,"%s\n",block);
-	       fclose(fl);
-       }
-    cls();
-    }
- 
-
- 
 void getunm(name)
  char *name;
     {
     printf("\nUser Name:");
     fgets(name,79,stdin);
     }
- 
-void showuser()
+
+    void showuser()
     {
     long a;
     char name[80],block[256];

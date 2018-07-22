@@ -7,6 +7,7 @@ import {
     RESET_N,
     BAN_FILE
 } from '../../config';
+import React from "react";
 
 
 // Dummy functions
@@ -19,6 +20,27 @@ const time = (payload) => { console.log("TIME", payload); return 0; };
 const fopen = (payload) => { console.log("FOPEN", payload); return {}; };
 const fscanf = (payload) => { console.log("FSCANF", payload); return {}; };
 const fclose = (payload) => { console.log("FCLOSE", payload); return {}; };
+const fflush = (payload) => { console.log("FFLUSH", payload); return {}; };
+const gepass = (args) => { console.log("GEPASS", args); return "args.block"; };
+
+
+// Functions
+
+/* Return block data for user or -1 if not exist */
+const logscan = (user) => {
+    let unit = openlock(PFL, "r");
+    if (!unit) throw Error("No persona file");
+
+    let block = "";
+    while (fgets(block, 255, unit)) {
+        block = dcrypt(block, block.length);
+        let wkng = scan(block, 0, "", ".");
+        if (wkng.toLowerCase() === user.toLowerCase()){
+            return block;
+        }
+    }
+    return null;
+};
 
 
 // Actions
@@ -126,17 +148,35 @@ export const beforeLogin = (payload) => dispatch => {
             user = payload.namegt;
         }
         console.error(error);
-        console.log({
-            type: types.TEST_BANNED,
-            user: user,
-            is_banned: false
-        });
         dispatch({
             type: types.TEST_BANNED,
             user: user,
             is_banned: true
         });
     });
+};
+
+
+/* Main login code */
+export const logpass = (payload) => dispatch => {
+    dispatch({
+        type: types.USERNAME_SCAN,
+        lump: logscan(payload.user)
+    });
+};
+
+
+export const testPassword = (payload) => dispatch => {
+    fflush();
+    let block = gepass();
+    let valid = block === payload.pwd;
+    dispatch({
+        type: types.TEST_PASSWORD,
+        valid: valid
+    });
+
+    // if (block !== payload.pwd) return true;
+    // if (tries >= 2) { throw Error("No!"); }
 };
 
 

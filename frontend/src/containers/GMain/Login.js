@@ -19,8 +19,8 @@ import PromptUserCreation from "./PromptUserCreation";
 
 const chkname = (args) => { console.log("CHKNAME", args); };
 const validname = (args) => { console.log("VALIDNAME", args); return true; };
-const logpass = (args) => { console.log("LOGPASS", args); };
-const logscan = (args) => { console.log("LOGSCAN", args); };
+const gepass = (args) => { console.log("GEPASS", args); return args.block; };
+const scan = (args) => { console.log("SCAN", args); return args; };
 
 
 class Login extends Component {
@@ -35,7 +35,9 @@ class Login extends Component {
             formErrors: {username: '', password: ''},
             valid: {username: false, password: false},
 
-            visible: false
+            visible: false,
+
+            create_user: false
         };
 
         this.validateUsername = this.validateUsername.bind(this);
@@ -52,10 +54,20 @@ class Login extends Component {
     componentWillReceiveProps (newProps) {
         this.setState({
             username: newProps.user,
-            visible: false
+            visible: newProps.is_new
         }, () => {
             this.validateField('username', newProps.user);
         });
+
+        if (newProps.is_new) {
+            this.props.dispatch(usersActions.testPassword({
+                block: scan({ user: newProps.user, start: 0, skip: "", stop: "."} ),
+                pwd: scan({ user: newProps.user, start: 1, skip: "", stop: "." })
+            }));
+        } else {
+            /* this bit registers the new user */
+            this.setState({ create_user: true }, () => { this.validatePassword(); });
+        }
     }
 
     handleUserInput (e) {
@@ -83,9 +95,26 @@ class Login extends Component {
         return true;
     }
 
-    validatePassword () {
-        logpass(this.state.username);
-        /* Password checking */
+    /* Password checking */
+    validatePassword (value) {
+        // logpass(this.state.username);
+
+        let block = gepass("block");
+
+        if (any('.', block)) throw Error("Illegal character in password");
+        if (!block.length) throw Error("Password is required");
+
+        let uid = pwd;
+        block = uid + "." + block + "....";
+
+        let fl = openlock(PFL, "a");
+        if (!fl) throw Error("No persona file....");
+
+        let lump = qcrypt(block, block.length);
+        block = lump;
+        fprintf(fl, "%s\n", block);
+        fclose(fl);
+
         return true;
     }
 
@@ -122,8 +151,9 @@ class Login extends Component {
     login (e) {
         e.preventDefault();
 
-        let user = this.props.user;
-        this.setState({ visible: logscan({user}) === undefined });
+        this.props.dispatch(usersActions.beforeLogin({ user: this.props.user }));
+        this.props.dispatch(usersActions.logpass({ user: this.props.user }));
+        this.props.dispatch(usersActions.testPassword({ pwd: this.state.password }));
     }
 
     formValid () {
@@ -148,9 +178,16 @@ class Login extends Component {
                         <Label for="password">Password</Label>
                         <Input invalid={!this.state.valid.password} type="password" name="password" id="password" onChange={this.handleUserInput}/>
                         <FormFeedback>{this.state.formErrors.password}</FormFeedback>
+                        { !this.props.is_new && <FormFeedback>This persona already exists, what is the password?</FormFeedback> }
                     </FormGroup>
                     <Button type="submit" color="primary" disabled={!this.formValid()} onClick={this.login}>Sign up</Button>
                 </Form>
+
+                { this.state.create_user && <div>
+                    <div>Creating new persona...</div>
+                    <div>Give me a password for this persona</div>
+                </div> }
+                <hr />
             </CardBody>
         </Card>
     }
@@ -159,7 +196,8 @@ class Login extends Component {
 function mapStateToProps(state) {
     return {
         user: usersSelector.getUser(state),
-        is_banned: usersSelector.isBanned(state)
+        is_banned: usersSelector.isBanned(state),
+        is_new: usersSelector.isNew(state)
     };
 }
 
