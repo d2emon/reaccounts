@@ -11,7 +11,6 @@ import {
 
 import * as usersActions from '../../store/users/actions';
 import * as usersSelector from '../../store/users/reducer';
-import CardBody from "reactstrap/src/CardBody";
 
 
 const chkname = (args) => { console.log("CHKNAME", args); };
