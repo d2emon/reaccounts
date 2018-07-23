@@ -49,25 +49,35 @@ function resetTime () {
     return models.Config.findOne({ key: "RESET_N" });
 }
 
+/* Check to see if UID in banned list */
 function testBanned (user_id) {
     return models.Ban.findOne({ user_id: user_id })
     .then(response => {
-        if (response) throw Error("Banned");
+        if (response) throw Error("I'm sorry- that userid has been banned from the Game");
     });
+}
+
+function requestTests (user_id, hostname) {
+    return Promise.all([
+        testHostname(hostname),
+        chknolog(),
+        /*
+         * Check if banned first
+         */
+        testBanned()
+    ])
 }
 
 
 router.get('/main', (req, res) => {
     Promise.all([
-        testHostname(req.query.host),
-        chknolog(),
-        testBanned(),
+        requestTests(req.query.user_id, req.query.host),
         createdTime(),
         resetTime()
     ]).then(response => {
         res.json({
-            created: response[3],
-            reset: response[4]
+            created: response[1],
+            reset: response[2]
         });
     }).catch(error => {
         console.error(error);

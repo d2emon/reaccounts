@@ -68,22 +68,6 @@ class ReaccountsService {
         });
     }
 
-    /*
-     * Check if banned first
-     */
-    /* Check to see if UID in banned list */
-    testBanned (payload) {
-        return new Promise(resolve => {
-            if (!BAN_FILE) resolve(true);
-            BAN_FILE.forEach(item => {
-                if (item.toLowerCase() === payload.user_id.toLowerCase()) {
-                    throw Error("I'm sorry- that userid has been banned from the Game");
-                }
-            });
-            resolve(true);
-        });
-    }
-
     /* Return block data for user or -1 if not exist */
     findUser (payload) {
         return new Promise(resolve => {
