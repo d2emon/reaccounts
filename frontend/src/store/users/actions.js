@@ -1,13 +1,8 @@
-import * as types from './actionTypes';
-// import reaccountsService from '../../services/reaccounts';
-
-import {
-    EXE,
-    RESET_N,
-    BAN_FILE,
-} from '../../config';
 import React from "react";
-import reaccountsService from "../../services/reaccounts";
+
+
+import * as types from './actionTypes';
+import reaccountsService from '../../services/reaccounts';
 
 
 // Dummy functions
@@ -20,35 +15,25 @@ const time = (payload) => { console.log("TIME", payload); return 0; };
 // Actions
 
 export const testHostname = payload => dispatch => {
-    reaccountsService.testHostname(payload.hostname)
-        .then(() => {})
-        .catch(error => {
-            dispatch({
-                type: types.SET_ERROR,
-                error: error.message
-            });
+    // reaccountsService.usersMain(payload.hostname)
+    reaccountsService.usersMain({
+        hostname: 1,
+        user_id: payload.user_id
+    })
+    .then(response => {
+        console.log(response);
+        dispatch({
+            type: types.STATS_GET,
+            stats: response
         });
-
-    reaccountsService.testNologin()
-        .then(() => {})
-        .catch(error => {
-            dispatch({
-                type: types.SET_ERROR,
-                error: error.message
-            });
+    })
+    .catch(error => {
+        console.error(error);
+        dispatch({
+            type: types.SET_ERROR,
+            error: error.message
         });
-
-    /*
-     * Check if banned first
-     */
-    reaccountsService.testBanned({ user_id: payload.user_id })
-        .then(() => {})
-        .catch(error => {
-            dispatch({
-                type: types.SET_ERROR,
-                error: error.message
-            });
-        });
+    });
 };
 
 /*
@@ -64,35 +49,6 @@ export const getArgs = ({username}) => dispatch => {
         qnmrq: 1,
         ttyt: 0,
         namegt: username
-    });
-};
-
-
-export const loadStats = () => dispatch => {
-    let space = 0;
-	let statbuf = stat(EXE);
-    if (!statbuf) {
-        space = "&lt;&lt;unknown&gt;&gt;\n";
-    } else {
-        space = ctime(statbuf.st_mtime);
-    }
-
-    let r = false;
-    let a = RESET_N.fopen("r");
-    if (a) {
-        r = a.fscanf("%ld");
-        a.fclose();
-
-        let ct = time();
-        r = ct - r;
-    }
-
-    dispatch({
-        type: types.STATS_GET,
-        stats: {
-            created: space,
-            elapsed: r
-        }
     });
 };
 

@@ -14,11 +14,9 @@ import {
 
 import * as usersActions from '../../store/users/actions';
 import * as usersSelector from '../../store/users/reducer';
+
 import PromptUserCreation from "./PromptUserCreation";
 import LoginForm from './LoginForm';
-
-
-const scan = (args) => { console.log("SCAN", args); return args; };
 
 
 class Login extends Component {
@@ -29,8 +27,6 @@ class Login extends Component {
 
             username: '',
             visible: false,
-
-            create_user: false
         };
     }
 
@@ -41,13 +37,6 @@ class Login extends Component {
         }, () => {
             this.props.dispatch(usersActions.setUser({username: newProps.username}));
         });
-
-        if (newProps.is_new) {
-            this.props.dispatch(usersActions.testPassword({
-                block: scan({ user: newProps.user, start: 0, skip: "", stop: "."} ),
-                pwd: scan({ user: newProps.user, start: 1, skip: "", stop: "." })
-            }));
-        }
     }
 
     render () {

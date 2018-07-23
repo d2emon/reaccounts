@@ -2,8 +2,6 @@ import axios from 'axios';
 import {
     PFL,
     BAN_FILE,
-    HOST_MACHINE,
-    NOLOGIN,
 
     REACCOUNTS_ENDPOINT,
     REACCOUNTS_TIMEOUT
@@ -11,14 +9,16 @@ import {
 import * as types from "../store/users/actionTypes";
 
 
+const ReaccountsAxios = axios.create({
+    baseURL: REACCOUNTS_ENDPOINT,
+    timeout: REACCOUNTS_TIMEOUT
+});
+
+
 class ReaccountsService {
     getAccounts() {
         // const fetch_url = `${REACCOUNTS_ENDPOINT}users/list`;
-        const url = "/users/list";
-        const Axios = axios.create({
-            baseURL: REACCOUNTS_ENDPOINT,
-            timeout: REACCOUNTS_TIMEOUT
-        });
+        const url = "/accounts/list";
 
         /*
         return fetch(fetch_url, {
@@ -34,7 +34,7 @@ class ReaccountsService {
             return response.json();
 	})
 	*/
-        return Axios.get(url)
+        return ReaccountsAxios.get(url)
         .then(response => {
             // const accounts = _.get(response, 'data.children');
             const accounts = response.data;
@@ -58,32 +58,19 @@ class ReaccountsService {
         });
     }
 
-    /*
-     * Check we are running on the correct host
-     * see the notes about the use of flock();
-     * and the affects of lockf();
-     */
-    testHostname (hostname) {
-        return new Promise(resolve => {
-            if (hostname !== HOST_MACHINE) {
-                throw Error(`AberMUD is only available on ${HOST_MACHINE}, not on ${hostname}.`);
-            }
-            resolve(true);
+    usersMain ({ hostname, user_id }) {
+        return ReaccountsAxios.get(`/users/main?host=${hostname}&user_id=${user_id}`)
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => {
+            throw Error(error.response.data.error)
         });
     }
 
     /*
-     * Check if there is a no logins file active
+     * Check if banned first
      */
-    testNologin () {
-        return new Promise(resolve => {
-            let a = NOLOGIN.fopen("r");
-            if (!a) resolve(true);
-            if (a.contents) throw Error(a.contents);
-            resolve(true);
-        });
-    }
-
     /* Check to see if UID in banned list */
     testBanned (payload) {
         return new Promise(resolve => {

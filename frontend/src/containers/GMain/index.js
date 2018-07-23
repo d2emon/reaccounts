@@ -28,7 +28,7 @@ class Index extends Component {
     componentDidMount() {
         this.props.dispatch(usersActions.testHostname({hostname}));
         this.props.dispatch(usersActions.getArgs(this.props.args));
-        this.props.dispatch(usersActions.loadStats());
+        // this.props.dispatch(usersActions.loadStats());
     }
 
     afterMotd = () => {
@@ -43,20 +43,20 @@ class Index extends Component {
          * Check for all the created at stuff
          * We use stats for this which is a UN*X system call
          */
-        console.log(this.state, this.props);
+        console.log(this.props);
 
         if (this.props.error) return <h2>{this.props.error}</h2>;
 
         return <Container>
             <Row>
-                { !this.props.name && <Col xs={12}>
+                { this.props.name && <Col xs={12}>
                     <LogoScreen stats={this.props.stats}>
                         <h3><CreatedTime time={this.props.stats.created} /></h3>
-                        <h3><ElapsedTime time={this.props.stats.elapsed} /></h3>
+                        <h3><ElapsedTime time={this.props.stats.reset} /></h3>
                     </LogoScreen>
                 </Col> }
                 <Col xs={6}>
-                    <Login username={"this.props.name"} {...this.props} />
+                    <Login username={this.props.username} {...this.props} />
                 </Col>
                 { (!this.props.qnmrq) && <Col xs={6} >
                     <Motd user={this.props.user} {...this.props} />

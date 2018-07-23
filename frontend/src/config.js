@@ -41,11 +41,6 @@ function FileLike(filename, contents) {
 export const REACCOUNTS_ENDPOINT = 'http://localhost:3000/';
 export const REACCOUNTS_TIMEOUT = 1000;
 
-export const HOST_MACHINE = "HOST-MACHINE";
-export const EXE = "EXE";
-
-export const RESET_N = FileLike("RESET_N");
-export const NOLOGIN = FileLike("NOLOGIN");
 export const PFL = FileLike("PFL", [
     { username: "USER" }
 ]);
