@@ -13,7 +13,8 @@ var config = require('../config');
 function testHostname (hostname) {
     return models.Config.findOne({ key: "HOST_MACHINE" })
     .then(response => {
-        allowed = response.value;
+        if (!response) return true;
+        let allowed = response.value;
         if (hostname !== allowed) {
             throw Error(`AberMUD is only available on ${allowed}, not on ${hostname}`);
         }
