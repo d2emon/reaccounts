@@ -1,27 +1,28 @@
-var express = require('express');
-var router = express.Router();
+'use strict';
+import express from 'express';
+const router = express.Router();
 
-var models = require('../models');
+import { Account } from '../models';
 
 // Remove CORS
-router.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-  next()
-})
+router.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 /* GET home page. */
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/helloworld', function(req, res) {
+router.get('/helloworld', (req, res) => {
   res.render('helloworld', { title: 'Hello, World!' });
 });
 
-router.get('/listusers', function(req, res) {
-  models.Account.find(
+router.get('/listusers', (req, res) => {
+  Account.find(
     {},
     null,
     {sort: {user_id: 1}},
@@ -33,18 +34,18 @@ router.get('/listusers', function(req, res) {
   );
 });
 
-router.get('/newuser', function(req, res) {
+router.get('/newuser', (req, res) => {
   res.render('newuser', { title: 'Add New User' });
-})
+});
 
-router.post('/adduser', function(req, res) {
-    var account = new models.Account({
+router.post('/adduser', (req, res) => {
+    var account = new Account({
       "user_id" : req.body.user_id,
       "email" : req.body.useremail
-    })
-    account.save(function (err, doc) {
+    });
+    account.save(err => {
         if (err) {
-            console.log(err)
+            console.log(err);
             res.send("There was a problem adding the information to the database.");
         }
         else {
@@ -52,4 +53,5 @@ router.post('/adduser', function(req, res) {
         }
     });
 });
-module.exports = router;
+
+export default router;

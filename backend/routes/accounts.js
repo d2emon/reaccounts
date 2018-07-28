@@ -1,11 +1,12 @@
-var express = require('express');
-var router = express.Router();
+'use strict';
+import express from 'express';
+const router = express.Router();
 
-var models = require('../models');
+import { Account } from '../models';
 
 /* GET users listing. */
-router.get('/list', function(req, res) {
-  models.Account.find(
+router.get('/list', (req, res) => {
+  Account.find(
     {},
     null,
     {sort: {user_id: 1}},
@@ -17,13 +18,13 @@ router.get('/list', function(req, res) {
 });
 
 /* POST to adduser. */
-router.post('/add', function(req, res) {
-  var account = new models.Account({
+router.post('/add', (req, res) => {
+  let account = new Account({
     "user_id" : req.body.user_id,
     "email" : req.body.useremail
   });
-  account.save(function (err, doc) {
-      console.log(err)
+  account.save(err => {
+      console.log(err);
       res.send(
         (err === null) ? { msg: '' } : { msg: err }
       );
@@ -31,10 +32,10 @@ router.post('/add', function(req, res) {
 });
 
 /* DELETE to deleteuser. */
-router.delete('/delete/:id', function(req, res) {
-  models.Account.findById(req.params.id).remove(function (err) {
+router.delete('/delete/:id', (req, res) => {
+  Account.findById(req.params.id).remove(function (err) {
       res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
   });
 });
 
-module.exports = router;
+export default router;

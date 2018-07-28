@@ -1,25 +1,17 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-
-var accountSchema = mongoose.Schema({
+const accountSchema = mongoose.Schema({
     user_id: String
 });
-var Account = mongoose.model('Account', accountSchema);
+export const Account = mongoose.model('Account', accountSchema);
 
-var configSchema = mongoose.Schema({
+const configSchema = mongoose.Schema({
     key: String,
     value: String
 });
-var Config = mongoose.model('Config', configSchema);
+export const Config = mongoose.model('Config', configSchema);
 
-var banSchema = mongoose.Schema({
+const banSchema = mongoose.Schema({
     user_id: String
 });
-var Ban = mongoose.model('Ban', banSchema);
-
-
-module.exports = {
-    Account,
-    Config,
-    Ban
-};
+export const Ban = mongoose.model('Ban', banSchema);

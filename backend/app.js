@@ -1,26 +1,27 @@
-var express = require('express');
-var path = require('path');
+'use strict';
+import express from 'express';
+import path from 'path';
 
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-var logger = require('morgan');
+import logger from 'morgan';
 
 /// Parsers
 // var favicon = require('serve-favicon');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
 // Requiring routes
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var accounts = require('./routes/accounts');
+import routes from './routes/index';
+import users from './routes/users';
+import accounts from './routes/accounts';
 
-var createError = require('http-errors');
+import createError from 'http-errors';
 
-var app = express();
+const app = express();
 
 mongoose.connect('mongodb://mongo:27017/reaccounts');
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () { console.log("OPENED"); });
 
@@ -54,7 +55,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use((err, req, res) => {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -65,7 +66,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use((err, req, res) => {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
@@ -73,5 +74,4 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
-module.exports = app;
+export default app;
