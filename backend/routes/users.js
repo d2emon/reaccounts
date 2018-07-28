@@ -5,6 +5,15 @@ const router = express.Router();
 import requestTests from '../tests';
 import { Config } from '../models';
 
+router.use((req, res, next) => {
+    requestTests(req.query.user_id, req.query.host).then(() => {
+        next();
+    }).catch(error => {
+        console.error(error);
+        res.status(403).send({ error: error.message })
+    });
+});
+
 /**
  * Check for all the created at stuff
  * We use stats for this which is a UN*X system call
@@ -23,7 +32,6 @@ function resetTime () {
 
 router.get('/main', (req, res) => {
   Promise.all([
-    requestTests(req.query.user_id, req.query.host),
     createdTime(),
     resetTime()
   ]).then(response => {
