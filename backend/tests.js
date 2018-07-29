@@ -11,8 +11,9 @@ import { HostMachine, NoLogin, BanFile } from "./config";
 function testHostname (hostname) {
     return HostMachine()
         .then(res => {
+            if (!res) return true;
             if (hostname !== res) throw Error(`AberMUD is only available on ${res}, not on ${hostname}`);
-            return res;
+            return true;
         })
 }
 

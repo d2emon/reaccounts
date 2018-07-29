@@ -8,19 +8,18 @@ import {
 // #define ROOMS "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/ROOMS/"
 // #define LOG_FILE "/cygdrive/c/Programs/Adv/AberMUD2/mud/mud_syslog"
 
-export const BanFile = (user_id) => {
-    return Ban.findOne({ user_id: user_id })
-};
+export const BanFile = (user_id) => Ban.findOne({ user_id: user_id });
 
 export const NoLogin = () => {
     return Config.findOne({ key: 'NOLOGIN' })
         .then(res => {
-            if (!res.value) return null;
+            if (!res) return null;
             return res.value;
         })
 };
 
-// #define RESET_T "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_t"
+export const ResetT = () => Config.findOne({ key: 'RESET_N' });
+
 // #define RESET_N "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_n"
 // #define RESET_DATA "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_data"
 // #define MOTD "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/gmotd2"
@@ -34,7 +33,9 @@ export const NoLogin = () => {
 // #define LEVELS "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/level.txt"
 // #define PFL "/cygdrive/c/Programs/Adv/AberMUD2/mud/user_file"
 // #define PFT "/cygdrive/c/Programs/Adv/AberMUD2/mud/user_file.b"
-// #define EXE "/cygdrive/c/Programs/Adv/AberMUD2/mud/mud.exe"
+
+export const Exe = () => Config.findOne({ key: 'EXE' });
+
 // #define EXE2 "/cygdrive/c/Programs/Adv/AberMUD2/mud/mud.1"
 // #define SNOOP "/cygdrive/c/Programs/Adv/AberMUD2/mud/SNOOP/"
 
@@ -50,9 +51,9 @@ export default {
     // #define UAF_RAND "/cygdrive/c/Programs/Adv/AberMUD2/mud/uaf.rand"
     // #define ROOMS "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/ROOMS/"
     // #define LOG_FILE "/cygdrive/c/Programs/Adv/AberMUD2/mud/mud_syslog"
-    // #define BAN_FILE "/cygdrive/c/Programs/Adv/AberMUD2/mud/banned_file"
-    // #define NOLOGIN "/cygdrive/c/Programs/Adv/AberMUD2/mud/nologin"
-    // #define RESET_T "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_t"
+    BAN_FILE: './banned_file',
+    NOLOGIN: './nologin',
+    RESET_T: './reset_t',
     // #define RESET_N "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_n"
     // #define RESET_DATA "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_data"
     // #define MOTD "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/gmotd2"
@@ -66,7 +67,7 @@ export default {
     // #define LEVELS "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/level.txt"
     // #define PFL "/cygdrive/c/Programs/Adv/AberMUD2/mud/user_file"
     // #define PFT "/cygdrive/c/Programs/Adv/AberMUD2/mud/user_file.b"
-    // #define EXE "/cygdrive/c/Programs/Adv/AberMUD2/mud/mud.exe"
+    EXE: './mud.exe',
     // #define EXE2 "/cygdrive/c/Programs/Adv/AberMUD2/mud/mud.1"
     // #define SNOOP "/cygdrive/c/Programs/Adv/AberMUD2/mud/SNOOP/"
     HOST_MACHINE: "DAVIDPOOTER"
