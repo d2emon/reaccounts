@@ -66,24 +66,6 @@ class LoginForm extends Component {
         this.setState({ [fieldName]: field });
     }
 
-    savePassword (uid, password) {
-        let block = [
-            uid,
-            password,
-            '',
-            '',
-            '',
-            ''
-        ];
-
-        let fl = PFL.openlock("a");
-        if (!fl) throw Error("No persona file....");
-
-        let lump = qcrypt(block, block.length);
-        fl.fprintf("%s\n", lump);
-        fl.fclose();
-    }
-
     validate (fieldName, value) {
         this.setState({ [fieldName]: {
             value,
@@ -99,10 +81,6 @@ class LoginForm extends Component {
         return this.state.username.valid && this.state.password.valid;
     }
 
-    userExists () {
-        return !!this.props.data;
-    }
-
     handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
@@ -115,7 +93,7 @@ class LoginForm extends Component {
         this.validate('username', this.state.username.value);
         this.validate('password', this.state.password.value);
 
-        if (this.userExists()) {
+        if (this.props.user_exists) {
             console.log('exists');
 
             this.props.dispatch(usersActions.testPassword({
@@ -129,18 +107,17 @@ class LoginForm extends Component {
         }
 
         this.props.dispatch(usersActions.testPassword({ pwd: this.state.password }));
-
         this.props.dispatch(usersActions.setUser({username: this.state.username}));
-        this.savePassword(this.state.username, this.state.password);
+        this.props.dispatch(usersActions.savePassword({
+            username: this.state.username,
+            password: this.state.password
+        }));
     }
 
     render () {
-        let passwordLabel = '';
-        if (this.userExists()) {
-            passwordLabel = <Fragment>This persona already exists, what is the password?</Fragment>;
-        } else {
-            passwordLabel = <Fragment>Creating new persona...<br />Give me a password for this persona</Fragment>;
-        }
+        let passwordLabel = (this.props.user_exists)
+            ? <Fragment>This persona already exists, what is the password?</Fragment>
+            : <Fragment>Creating new persona...<br />Give me a password for this persona</Fragment>;
 
         return <Form className="loginForm">
             <FormGroup>
@@ -175,7 +152,8 @@ class LoginForm extends Component {
 function mapStateToProps(state) {
     return {
         errors: usersSelector.getErrors(state),
-        data: usersSelector.getUserData(state)
+        data: usersSelector.getUserData(state),
+        user_exists: false
     };
 }
 

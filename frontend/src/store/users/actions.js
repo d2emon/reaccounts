@@ -57,6 +57,24 @@ export const setUser = ({ username }) => dispatch => {
     });
 };
 
+export const savePassword = ({ username, password }) => dispatch => {
+    let block = [
+        username,
+        password,
+        '',
+        '',
+        '',
+        ''
+    ];
+
+    let fl = PFL.openlock("a");
+    if (!fl) throw Error("No persona file....");
+
+    let lump = qcrypt(block, block.length);
+    fl.fprintf("%s\n", lump);
+    fl.fclose();
+};
+
 export const validateUser = ({ username, password }) => dispatch => {
     reaccountsService.validateUser({ username, password })
         .then(response => dispatch({
