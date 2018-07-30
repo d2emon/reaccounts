@@ -1,19 +1,15 @@
 import axios from 'axios';
 import {
     PFL,
-    BAN_FILE,
 
     REACCOUNTS_ENDPOINT,
     REACCOUNTS_TIMEOUT
 } from '../config';
-import * as types from "../store/users/actionTypes";
-
 
 const ReaccountsAxios = axios.create({
     baseURL: REACCOUNTS_ENDPOINT,
     timeout: REACCOUNTS_TIMEOUT
 });
-
 
 class ReaccountsService {
     getAccounts() {
@@ -66,6 +62,25 @@ class ReaccountsService {
         .catch(error => {
             throw Error(error.response.data.error)
         });
+    }
+
+    validateUser ({ username, password }) {
+        console.log('VALIDATE', username, password);
+        return ReaccountsAxios.post('/users/validate', { username, password })
+            .then(response => {
+                console.log(response.data);
+                return response.data.errors;
+            })
+            .catch(error => {
+                return error.response.data.errors;
+            });
+            // validateUsername (value) {
+            // this.setState({ namegiv: false });
+            // this.props.dispatch(usersActions.findUser({ username: value }));
+
+            /* Password checking */
+            // validatePassword (value) {
+            // logpass(this.state.username);
     }
 
     /* Return block data for user or -1 if not exist */

@@ -18,8 +18,8 @@ const initialState = {
         elapsed: 0
     },
 
-    // ERROR
-    error: false,
+    // ERRORS
+    errors: [],
 
     // UNKNOWN
     ttyt: 0,
@@ -30,15 +30,12 @@ const initialState = {
 };
 
 
-function cuserid() { console.log("CUSERID"); }
-
-
 export default function reduce(state = initialState, action = {}) {
     switch (action.type) {
         case types.SET_ERROR:
             return {
                 ...state,
-                error: action.error
+                errors: action.errors
             };
         case types.SET_USERNAME:
             return {
@@ -78,7 +75,7 @@ export default function reduce(state = initialState, action = {}) {
 
 // селекторы
 
-export const getError = (state) => state.users.error;
+export const getErrors = (state) => state.users.errors;
 export const getUid = (state) => state.users.uid;
 export function getUserData (state) { return state.users.userData; }
 

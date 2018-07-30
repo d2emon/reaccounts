@@ -4,7 +4,7 @@ import {
     Row,
     Col,
 } from 'reactstrap';
-import Accounts from './Accounts';
+// import Accounts from './Accounts';
 import {
     GraphWidget,
     SmallWidget
@@ -52,7 +52,7 @@ class Main extends Component {
     <Container fluid={true}>
       <Row>
           <Col xs={12}>
-              <GMain2 username="gmain2" />
+              <GMain2 username="gmain2" hostname="HOST-MACHINE" />
           </Col>
       </Row>
       <Row>
@@ -139,6 +139,6 @@ class Main extends Component {
     </Container>
     )
   }
-};
+}
 
 export default Main;

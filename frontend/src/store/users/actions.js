@@ -1,30 +1,21 @@
 import React from "react";
 
-
 import * as types from './actionTypes';
 import reaccountsService from '../../services/reaccounts';
-
-
-// Dummy functions
-
-const stat = (payload) => { console.log("STAT", payload); return {st_mtime: 0}; };
-const ctime = (payload) => { console.log("CTIME", payload); return 0; };
-const time = (payload) => { console.log("TIME", payload); return 0; };
-
 
 // Actions
 
 export const testHostname = payload => dispatch => {
-    // reaccountsService.usersMain(payload.hostname)
+    console.log(payload);
     reaccountsService.usersMain({
-        hostname: 1,
+        hostname: payload.hostname,
         user_id: payload.user_id
     })
-    .then(response => {
-        console.log(response);
+    .then(res => {
+        console.log(res);
         dispatch({
             type: types.STATS_GET,
-            stats: response
+            stats: res
         });
     })
     .catch(error => {
@@ -66,6 +57,13 @@ export const setUser = ({ username }) => dispatch => {
     });
 };
 
+export const validateUser = ({ username, password }) => dispatch => {
+    reaccountsService.validateUser({ username, password })
+        .then(response => dispatch({
+            type: types.SET_ERROR,
+            errors: response
+        }));
+};
 
 /* Main login code */
 export const findUser = ({ username }) => dispatch => {

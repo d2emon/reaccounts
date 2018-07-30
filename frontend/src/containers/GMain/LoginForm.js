@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
 import { connect } from 'react-redux';
 import {
     Button,
@@ -13,10 +13,6 @@ import * as usersActions from '../../store/users/actions';
 import * as usersSelector from '../../store/users/reducer';
 
 
-const chkname = (args) => { console.log("CHKNAME", args); };
-const validname = (args) => { console.log("VALIDNAME", args); return true; };
-
-
 class LoginForm extends Component {
     constructor (props) {
         super(props);
@@ -24,6 +20,10 @@ class LoginForm extends Component {
         this.state = {
             namegiv: false,
 
+            fields: [
+                'username',
+                'password'
+            ],
             username: {
                 value: props.username,
                 valid: false,
@@ -34,22 +34,36 @@ class LoginForm extends Component {
                 valid: false,
                 error: false
             },
-            valid: false,
             exists: false
         };
 
-        this.validateUsername = this.validateUsername.bind(this);
-        this.validatePassword = this.validatePassword.bind(this);
-
         this.handleUserInput = this.handleUserInput.bind(this);
         this.login = this.login.bind(this);
-
-        this.validate('username', props.username);
     }
 
     componentWillReceiveProps (newProps) {
-        // console.log(newProps);
+        console.log(newProps);
         // this.setState({ exists: !!newProps.data });
+
+        this.state.fields.forEach(field => this.setField(field));
+        if (newProps.errors) {
+            newProps.errors.forEach(e => this.setField(e.param, e.msg));
+        }
+    }
+
+    componentDidMount () {
+        this.validate('username', this.props.username);
+    }
+
+    setField (fieldName, error) {
+        if (error) console.error(error);
+
+        let field = this.state[fieldName];
+        if (!field) return;
+        if (error && field.error) return;
+        field.valid = !error;
+        field.error = error;
+        this.setState({ [fieldName]: field });
     }
 
     savePassword (uid, password) {
@@ -70,81 +84,15 @@ class LoginForm extends Component {
         fl.fclose();
     }
 
-    validateUsername (value) {
-        return new Promise(resolve => {
-            // user = getkbd(15);
-            this.setState({namegiv: false});
-
-            /*
-             * Check for legality of names
-             */
-            if (!value) throw Error("Username is required");
-            if (value.indexOf('.') > -1) throw Error("Illegal characters in user name");
-            value = value.trim();
-            // scan(user, user, 0, " ", "");
-            if (!value) throw Error("Username is required");
-            chkname(value);
-            if (!value) throw Error("Username is required");
-
-            /* Gets name tidied up */
-            if (!validname(value)) throw Error("Bye Bye");
-
-            this.props.dispatch(usersActions.findUser({ username: value }));
-
-            resolve(true);
-        });
-    }
-
-    /* Password checking */
-    validatePassword (value) {
-        return new Promise(resolve => {
-            // logpass(this.state.username);
-
-            if (!value) throw Error("Password is required");
-            if (value.indexOf('.') > -1) throw Error("Illegal character in password");
-
-            resolve(true);
-        });
-    }
-
     validate (fieldName, value) {
-        // let fieldValidationErrors = this.state.formErrors;
-
-        let field = this.state[fieldName];
-        field.value = value;
-
-        let validator = undefined;
-
-        switch (fieldName) {
-            case 'username':
-                validator = this.validateUsername;
-                break;
-            case 'password':
-                validator = this.validatePassword;
-                break;
-            default:
-                break;
-        }
-
-        if (!validator) return;
-
-        validator(value)
-            .then(response => {
-                field.valid = response;
-                field.error = '';
-
-                console.log(fieldName, field, value);
-                this.setState({ [fieldName]: field });
-            })
-            .catch(e => {
-                console.error(e);
-                field.valid = false;
-                field.error = e.message;
-
-                console.log(fieldName, field, value);
-                this.setState({ [fieldName]: field });
-            });
-
+        this.setState({ [fieldName]: {
+            value,
+            valid: false,
+            error: false
+        } }, () => this.props.dispatch(usersActions.validateUser({
+            username: this.state.username.value,
+            password: this.state.password.value
+        })));
     }
 
     valid () {
@@ -187,15 +135,13 @@ class LoginForm extends Component {
     }
 
     render () {
-        let message = "";
+        let passwordLabel = '';
         if (this.userExists()) {
-            message = <div>This persona already exists, what is the password?</div>;
+            passwordLabel = <Fragment>This persona already exists, what is the password?</Fragment>;
         } else {
-            message = <div>
-                <div>Creating new persona...</div>
-                <div>Give me a password for this persona</div>
-            </div>;
+            passwordLabel = <Fragment>Creating new persona...<br />Give me a password for this persona</Fragment>;
         }
+
         return <Form className="loginForm">
             <FormGroup>
                 <Label for="username">By what name shall I call you?</Label>
@@ -209,9 +155,8 @@ class LoginForm extends Component {
                 />
                 <FormFeedback>{this.state.username.error}</FormFeedback>
             </FormGroup>
-            { message }
             <FormGroup>
-                <Label for="password">Password</Label>
+                <Label for="password">{ passwordLabel }</Label>
                 <Input
                     invalid={!this.state.password.valid}
                     type="password"
@@ -229,6 +174,7 @@ class LoginForm extends Component {
 
 function mapStateToProps(state) {
     return {
+        errors: usersSelector.getErrors(state),
         data: usersSelector.getUserData(state)
     };
 }
