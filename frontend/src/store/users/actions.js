@@ -57,29 +57,55 @@ export const setUser = ({ username }) => dispatch => {
     });
 };
 
-export const savePassword = ({ username, password }) => dispatch => {
-    let block = [
-        username,
-        password,
-        '',
-        '',
-        '',
-        ''
-    ];
-
-    let fl = PFL.openlock("a");
-    if (!fl) throw Error("No persona file....");
-
-    let lump = qcrypt(block, block.length);
-    fl.fprintf("%s\n", lump);
-    fl.fclose();
+export const login = ({ username, password }) => dispatch => {
+    console.log(username, password);
+    reaccountsService.login({ username, password, save: true })
+        .then(response => dispatch({
+            type: types.SET_ERROR,
+            errors: response.errors,
+            response: response,
+            user: response.user
+        }))
+        .then(response => dispatch({
+            ...response,
+            type: types.FOUND_USER
+        }))
+        .then(response => dispatch({
+            ...response,
+            type: types.TEST_PASSWORD,
+            valid: !response.errors.length
+        }));
 };
 
 export const validateUser = ({ username, password }) => dispatch => {
-    reaccountsService.validateUser({ username, password })
+    reaccountsService.login({ username, password, save: false })
         .then(response => dispatch({
             type: types.SET_ERROR,
-            errors: response
+            errors: response.errors,
+            response: response,
+            user: response.user
+        }))
+        .then(response => dispatch({
+            ...response,
+            type: types.FOUND_USER
+        }))
+        .then(response => dispatch({
+            type: types.TEST_PASSWORD,
+            valid: !response.errors.length
+        }));
+};
+
+export const searchUser = (user) => dispatch => {
+    reaccountsService.search(user)
+        .then(response => dispatch({
+            type: types.SET_ERROR,
+            errors: response.errors,
+            response: response,
+            user: response.user
+        }))
+        .then(response => dispatch({
+            ...response,
+            type: types.FOUND_USER
         }));
 };
 
@@ -93,23 +119,5 @@ export const findUser = ({ username }) => dispatch => {
                 type: types.FOUND_USER,
                 user: response
             });
-        })
-};
-
-
-export const testPassword = ({ username, password }) => dispatch => {
-    reaccountsService.findUser({ username: username })
-        .then(response => {
-            console.log(response);
-
-            let valid = password === response.password;
-            dispatch({
-                type: types.TEST_PASSWORD,
-                user: response,
-                valid: valid
-            });
-
-            // if (block !== payload.pwd) return true;
-            // if (tries >= 2) { throw Error("No!"); }
         })
 };

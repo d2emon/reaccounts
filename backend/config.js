@@ -1,7 +1,8 @@
 'use strict';
 import {
     Config,
-    Ban
+    Ban,
+    User
 } from './models';
 
 // #define UAF_RAND "/cygdrive/c/Programs/Adv/AberMUD2/mud/uaf.rand"
@@ -31,7 +32,25 @@ export const ResetT = () => Config.findOne({ key: 'RESET_N' });
 // #define CREDITS "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/credits"
 // #define EXAMINES "/cygdrive/c/Programs/Adv/AberMUD2/mud/EXAMINES/"
 // #define LEVELS "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/level.txt"
-// #define PFL "/cygdrive/c/Programs/Adv/AberMUD2/mud/user_file"
+
+export const Pfl = {
+    // dcrypt: data => data;
+    // qcrypt: data => data;
+    /**
+     * Return block data for user or -1 if not exist
+     * @param username
+     * @returns {null}
+     */
+    load: (username) => {
+        // let lump = dcrypt(block);
+        return User.findOne({ username: username });
+    },
+    save: (user) => {
+        // let lump = qcrypt(block);
+        return user.save();
+    }
+};
+
 // #define PFT "/cygdrive/c/Programs/Adv/AberMUD2/mud/user_file.b"
 
 export const Exe = () => Config.findOne({ key: 'EXE' });
@@ -65,7 +84,7 @@ export default {
     // #define CREDITS "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/credits"
     // #define EXAMINES "/cygdrive/c/Programs/Adv/AberMUD2/mud/EXAMINES/"
     // #define LEVELS "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/level.txt"
-    // #define PFL "/cygdrive/c/Programs/Adv/AberMUD2/mud/user_file"
+    PFL: './user_file',
     // #define PFT "/cygdrive/c/Programs/Adv/AberMUD2/mud/user_file.b"
     EXE: './mud.exe',
     // #define EXE2 "/cygdrive/c/Programs/Adv/AberMUD2/mud/mud.1"

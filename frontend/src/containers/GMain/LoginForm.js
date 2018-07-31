@@ -71,10 +71,15 @@ class LoginForm extends Component {
             value,
             valid: false,
             error: false
-        } }, () => this.props.dispatch(usersActions.validateUser({
-            username: this.state.username.value,
-            password: this.state.password.value
-        })));
+        } }, () => {
+                this.props.dispatch(usersActions.validateUser({
+                    username: this.state.username.value,
+                    password: this.state.password.value
+                }));
+                this.props.dispatch(usersActions.searchUser({
+                    username: this.state.username.value,
+                }))
+        });
     }
 
     valid () {
@@ -90,28 +95,30 @@ class LoginForm extends Component {
     login (e) {
         e.preventDefault();
 
-        this.validate('username', this.state.username.value);
-        this.validate('password', this.state.password.value);
+        /*
+        if (!user) {
+            // If he/she doesnt exist
+            res.json({ answer: `Did I get the name right ${user} ?` });
+            let answer = fgets(79).toLowerCase()[0];
+            if (answer === 'n') res.json({ answer: true });
+            return;
+        }
+        */
+
+        /* this bit registers the new user */
+        this.props.dispatch(usersActions.login({
+            username: this.state.username.value,
+            password: this.state.password.value
+        }));
+
 
         if (this.props.user_exists) {
             console.log('exists');
-
-            this.props.dispatch(usersActions.testPassword({
-                block: scan({ user: newProps.username, start: 0, skip: "", stop: "."} ),
-                pwd: scan({ user: newProps.password, start: 1, skip: "", stop: "." })
-            }));
         } else {
-            console.log('not exists');
-
-            /* this bit registers the new user */
+            console.log('not exists', this.state);
         }
 
-        this.props.dispatch(usersActions.testPassword({ pwd: this.state.password }));
         this.props.dispatch(usersActions.setUser({username: this.state.username}));
-        this.props.dispatch(usersActions.savePassword({
-            username: this.state.username,
-            password: this.state.password
-        }));
     }
 
     render () {
@@ -153,7 +160,9 @@ function mapStateToProps(state) {
     return {
         errors: usersSelector.getErrors(state),
         data: usersSelector.getUserData(state),
-        user_exists: false
+
+        found: usersSelector.getUserFound(state),
+        user_exists: !!usersSelector.getUserFound(state)
     };
 }
 

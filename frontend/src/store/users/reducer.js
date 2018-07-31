@@ -9,9 +9,11 @@ const initialState = {
     user: "",
     userData: null,
 
+    tempUser: null,
+
     valid: false,
     tries: 0,
-    locked: false,
+    // locked: false,
 
     stats: {
         created: 0,
@@ -45,15 +47,24 @@ export default function reduce(state = initialState, action = {}) {
         case types.FOUND_USER:
             return {
                 ...state,
-                userData: action.user
+                tempUser: action.user
             };
         case types.TEST_PASSWORD:
+            /*
             let tries = action.valid ? state.tries : state.tries + 1;
+            console.log(action, tries);
+            if (tries >= 2) return {
+                ...state,
+                errors: [{
+                    param: 'password',
+                    msg: 'No!'
+                }]
+            };
+            */
             return {
                 ...state,
-                valid: action.valid,
-                tries: tries,
-                locked: tries >= 2
+                valid: action.valid
+                // tries: tries
             };
 
         case types.USERNAME_SET:
@@ -78,6 +89,8 @@ export default function reduce(state = initialState, action = {}) {
 export const getErrors = (state) => state.users.errors;
 export const getUid = (state) => state.users.uid;
 export function getUserData (state) { return state.users.userData; }
+
+export function getUserFound (state) { return state.users.tempUser; }
 
 export function getArgs (state) { return state.users.args; }
 export function getUser (state) { return state.users.user; }

@@ -64,15 +64,28 @@ class ReaccountsService {
         });
     }
 
-    validateUser ({ username, password }) {
-        console.log('VALIDATE', username, password);
-        return ReaccountsAxios.post('/users/validate', { username, password })
+    search ({ username }) {
+        return ReaccountsAxios.get(`/users/search?username=${username}`)
             .then(response => {
                 console.log(response.data);
-                return response.data.errors;
+                return response.data;
             })
             .catch(error => {
-                return error.response.data.errors;
+                console.error('Error', error.response.data);
+                return error.response.data;
+            });
+    }
+
+    login ({ username, password, save }) {
+        console.log('Log In', username, password);
+        return ReaccountsAxios.post('/users/login', { username, password, save })
+            .then(response => {
+                console.log(response.data);
+                return response.data;
+            })
+            .catch(error => {
+                console.error('Error', error.response.data);
+                return error.response.data;
             });
             // validateUsername (value) {
             // this.setState({ namegiv: false });

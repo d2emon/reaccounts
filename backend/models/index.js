@@ -15,3 +15,13 @@ const banSchema = mongoose.Schema({
     user_id: String
 });
 export const Ban = mongoose.model('Ban', banSchema);
+
+const userSchema = mongoose.Schema({
+    username: String,
+    password: String
+    // data1: String,
+    // data2: String,
+    // data3: String,
+    // data4: String,
+});
+export const User = mongoose.model('User', userSchema);
