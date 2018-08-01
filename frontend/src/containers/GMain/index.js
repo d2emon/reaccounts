@@ -30,8 +30,9 @@ class Index extends Component {
     }
 
     afterMotd = () => {
+        let {username, id} = this.props.user;
         /* Log entry */
-        console.log(`Game entry by ${this.props.user} : UID ${this.props.uid}`);
+        console.log(`Game entry by ${username} : UID ${id}`);
 	    /* Run system */
         talker(this.props.user);
     };
@@ -78,7 +79,6 @@ function mapStateToProps(state) {
 
         user: usersSelector.getUser(state),
         stats: usersSelector.getStats(state),
-        uid: usersSelector.getUid(state),
 
         qnmrq: 0
     };

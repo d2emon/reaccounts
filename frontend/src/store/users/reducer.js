@@ -5,9 +5,11 @@ import React from "react";
 const initialState = {
     args: { username: "username" },
 
-    uid: 10,
-    user: "",
-    userData: null,
+    user: {
+        id: 10,
+        user: "",
+        data: null
+    },
 
     tempUser: null,
 
@@ -40,9 +42,12 @@ export default function reduce(state = initialState, action = {}) {
                 errors: action.errors
             };
         case types.SET_USERNAME:
+            let user = state.user;
+            user.username = action.username;
+
             return {
                 ...state,
-                user: action.username
+                user: user
             };
         case types.FOUND_USER:
             return {
@@ -86,14 +91,14 @@ export default function reduce(state = initialState, action = {}) {
 
 // селекторы
 
+// Errors
 export const getErrors = (state) => state.users.errors;
-export const getUid = (state) => state.users.uid;
-export function getUserData (state) { return state.users.userData; }
 
 export function getUserFound (state) { return state.users.tempUser; }
 
-export function getArgs (state) { return state.users.args; }
+// User
 export function getUser (state) { return state.users.user; }
+
+export function getArgs (state) { return state.users.args; }
 export function getStats (state) { return state.users.stats; }
 export const getName = (state) => state.users.namegt;
-export const isValid = (state) => state.users.valid;

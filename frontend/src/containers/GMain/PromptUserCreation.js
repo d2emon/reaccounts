@@ -56,7 +56,7 @@ class PromptUserCreation extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: usersSelector.getUser(state),
+        // user: usersSelector.getUser(state),
     };
 }
 

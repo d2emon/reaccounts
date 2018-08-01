@@ -43,7 +43,7 @@ class LoginForm extends Component {
 
     componentWillReceiveProps (newProps) {
         console.log(newProps);
-        // this.setState({ exists: !!newProps.data });
+        // this.setState({ exists: !!newProps.user.data });
 
         this.state.fields.forEach(field => this.setField(field));
         if (newProps.errors) {
@@ -159,7 +159,7 @@ class LoginForm extends Component {
 function mapStateToProps(state) {
     return {
         errors: usersSelector.getErrors(state),
-        data: usersSelector.getUserData(state),
+        // user: usersSelector.getUser(state),
 
         found: usersSelector.getUserFound(state),
         user_exists: !!usersSelector.getUserFound(state)
