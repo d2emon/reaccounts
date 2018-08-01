@@ -52,7 +52,7 @@ class Main extends Component {
     <Container fluid={true}>
       <Row>
           <Col xs={12}>
-              <GMain2 username="gmain2" hostname="HOST-MACHINE" />
+              <GMain2 username="gmain2" hostname="HOST-MACHINE" user_id={10} />
           </Col>
       </Row>
       <Row>

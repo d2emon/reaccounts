@@ -1,48 +1,30 @@
 import React from "react";
 
 import * as types from './actionTypes';
+import * as errorTypes from '../errors/actionTypes';
+
 import reaccountsService from '../../services/reaccounts';
 
 // Actions
-
 export const testHostname = payload => dispatch => {
-    console.log(payload);
-    reaccountsService.usersMain({
-        hostname: payload.hostname,
-        user_id: payload.user_id
-    })
-    .then(res => {
-        console.log(res);
-        dispatch({
-            type: types.STATS_GET,
-            stats: res
+    // console.log(payload);
+    reaccountsService.usersMain(payload)
+        .then(res => {
+            console.log(res);
+            dispatch({
+                type: types.SET_STATS,
+                stats: res
+            });
+        })
+        .catch(error => {
+            console.error(error);
+            dispatch({
+                type: errorTypes.SET_ERROR,
+                param: 'global',
+                error: error.message
+            });
         });
-    })
-    .catch(error => {
-        console.error(error);
-        dispatch({
-            type: types.SET_ERROR,
-            error: error.message
-        });
-    });
 };
-
-/*
- * Now check the option entries
- *
- * -n(name)
- */
-export const getArgs = ({username}) => dispatch => {
-    console.log("ARGS", username);
-    if (!username) return;
-    dispatch({
-        type: types.USERNAME_SET,
-        qnmrq: 1,
-        ttyt: 0,
-        namegt: username
-    });
-};
-
 
 /* Does all the login stuff */
 export const setUser = ({ username }) => dispatch => {
@@ -61,7 +43,7 @@ export const login = ({ username, password }) => dispatch => {
     console.log(username, password);
     reaccountsService.login({ username, password, save: true })
         .then(response => dispatch({
-            type: types.SET_ERROR,
+            type: errorTypes.SET_ERROR,
             errors: response.errors,
             response: response,
             user: response.user
@@ -80,7 +62,7 @@ export const login = ({ username, password }) => dispatch => {
 export const validateUser = ({ username, password }) => dispatch => {
     reaccountsService.login({ username, password, save: false })
         .then(response => dispatch({
-            type: types.SET_ERROR,
+            type: errorTypes.SET_ERROR,
             errors: response.errors,
             response: response,
             user: response.user
@@ -98,7 +80,7 @@ export const validateUser = ({ username, password }) => dispatch => {
 export const searchUser = (user) => dispatch => {
     reaccountsService.search(user)
         .then(response => dispatch({
-            type: types.SET_ERROR,
+            type: errorTypes.SET_ERROR,
             errors: response.errors,
             response: response,
             user: response.user

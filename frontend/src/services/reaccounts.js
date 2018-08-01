@@ -77,16 +77,12 @@ class ReaccountsService {
     }
 
     login ({ username, password, save }) {
-        console.log('Log In', username, password);
+        console.log(`Log In ${username}:${password}`);
         return ReaccountsAxios.post('/users/login', { username, password, save })
             .then(response => {
                 console.log(response.data);
                 return response.data;
             })
-            .catch(error => {
-                console.error('Error', error.response.data);
-                return error.response.data;
-            });
             // validateUsername (value) {
             // this.setState({ namegiv: false });
             // this.props.dispatch(usersActions.findUser({ username: value }));
@@ -94,6 +90,10 @@ class ReaccountsService {
             /* Password checking */
             // validatePassword (value) {
             // logpass(this.state.username);
+            .catch(error => {
+                console.error('Error', error.response.data);
+                return error.response.data;
+            });
     }
 
     /* Return block data for user or -1 if not exist */

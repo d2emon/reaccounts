@@ -16,10 +16,7 @@ import * as usersSelector from '../../store/users/reducer';
 class LoginForm extends Component {
     constructor (props) {
         super(props);
-        console.log(props);
         this.state = {
-            namegiv: false,
-
             fields: [
                 'username',
                 'password'
@@ -67,18 +64,18 @@ class LoginForm extends Component {
     }
 
     validate (fieldName, value) {
-        this.setState({ [fieldName]: {
+        this.setState({[fieldName]: {
             value,
             valid: false,
             error: false
-        } }, () => {
-                this.props.dispatch(usersActions.validateUser({
-                    username: this.state.username.value,
-                    password: this.state.password.value
-                }));
-                this.props.dispatch(usersActions.searchUser({
-                    username: this.state.username.value,
-                }))
+        }}, () => {
+            this.props.dispatch(usersActions.validateUser({
+                username: this.state.username.value,
+                password: this.state.password.value
+            }));
+            this.props.dispatch(usersActions.searchUser({
+                username: this.state.username.value,
+            }))
         });
     }
 
@@ -94,16 +91,6 @@ class LoginForm extends Component {
 
     login (e) {
         e.preventDefault();
-
-        /*
-        if (!user) {
-            // If he/she doesnt exist
-            res.json({ answer: `Did I get the name right ${user} ?` });
-            let answer = fgets(79).toLowerCase()[0];
-            if (answer === 'n') res.json({ answer: true });
-            return;
-        }
-        */
 
         /* this bit registers the new user */
         this.props.dispatch(usersActions.login({
@@ -154,7 +141,6 @@ class LoginForm extends Component {
         </Form>;
     }
 }
-
 
 function mapStateToProps(state) {
     return {

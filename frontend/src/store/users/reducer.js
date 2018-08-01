@@ -3,44 +3,32 @@ import * as types from './actionTypes';
 import React from "react";
 
 const initialState = {
+    stats: {},
+
     args: { username: "username" },
 
     user: {
         id: 10,
         user: "",
         data: null
+        // locked: false,
     },
 
     tempUser: null,
 
     valid: false,
     tries: 0,
-    // locked: false,
-
-    stats: {
-        created: 0,
-        elapsed: 0
-    },
-
-    // ERRORS
-    errors: [],
-
-    // UNKNOWN
-    ttyt: 0,
-
-    // GLOBAL
-    qnmrq: 0,
-    namegt: ""
 };
 
 
 export default function reduce(state = initialState, action = {}) {
     switch (action.type) {
-        case types.SET_ERROR:
+        case types.SET_STATS:
             return {
                 ...state,
-                errors: action.errors
+                stats: action.stats
             };
+
         case types.SET_USERNAME:
             let user = state.user;
             user.username = action.username;
@@ -71,34 +59,16 @@ export default function reduce(state = initialState, action = {}) {
                 valid: action.valid
                 // tries: tries
             };
-
-        case types.USERNAME_SET:
-            return {
-                ...state,
-                qnmrq: action.qnmrq,
-                ttyt: action.ttyt,
-                namegt: action.namegt
-            };
-        case types.STATS_GET:
-            return {
-                ...state,
-                stats: action.stats
-            };
-	    default:
+        default:
             return state;
     }
 };
 
 // селекторы
 
-// Errors
-export const getErrors = (state) => state.users.errors;
-
 export function getUserFound (state) { return state.users.tempUser; }
 
 // User
 export function getUser (state) { return state.users.user; }
 
-export function getArgs (state) { return state.users.args; }
 export function getStats (state) { return state.users.stats; }
-export const getName = (state) => state.users.namegt;

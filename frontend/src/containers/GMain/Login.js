@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    Button,
     Card,
     CardBody,
     CardTitle,
-    Form,
-    FormGroup,
-    FormFeedback,
-    Label,
-    Input
 } from 'reactstrap';
 
 import * as usersActions from '../../store/users/actions';
@@ -23,19 +17,17 @@ class Login extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            namegiv: 0,
-
             username: '',
             visible: false,
         };
     }
 
-    componentWillReceiveProps (newProps) {
-        console.log(newProps);
+    componentWillReceiveProps (nextProps) {
+        console.log(nextProps);
         this.setState({
-            username: newProps.username,
+            username: nextProps.username,
         }, () => {
-            this.props.dispatch(usersActions.setUser({username: newProps.username}));
+            this.props.dispatch(usersActions.setUser({username: nextProps.username}));
         });
     }
 
@@ -52,7 +44,7 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-        user_id: usersSelector.getUid(state)
+        // user_id: usersSelector.getUid(state)
     };
 }
 

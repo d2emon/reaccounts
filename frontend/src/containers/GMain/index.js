@@ -10,6 +10,7 @@ import {
 
 import * as usersActions from '../../store/users/actions';
 import * as usersSelector from '../../store/users/reducer';
+import * as errorsSelector from '../../store/errors/reducer';
 
 import {CreatedTime, ElapsedTime} from './GMain2Time';
 import Login from './Login';
@@ -17,23 +18,33 @@ import Motd from './Motd';
 
 import LogoScreen from '../../components/LogoScreen'
 
-function talker(user) { console.log("talker", user); }
+/* Log entry */
+function logEntry (user) {console.log(`Game entry by ${user.username} : UID ${user.id}`);}
+/* Run system */
+function talker (user) { console.log("talker", user); }
 
 /**
  * The initial routine
  */
 class Index extends Component {
-    componentDidMount() {
-        this.props.dispatch(usersActions.testHostname({ hostname: this.props.hostname }));
-        this.props.dispatch(usersActions.getArgs(this.props.args));
+    constructor (props) {
+        super(props);
+        this.state = {
+            username: props.username
+        };
+        this.play = this.play.bind(this);
+    }
+
+    componentDidMount () {
+        this.props.dispatch(usersActions.testHostname({
+            hostname: this.props.hostname,
+            user_id: this.props.user_id
+        }));
         // this.props.dispatch(usersActions.loadStats());
     }
 
-    afterMotd = () => {
-        let {username, id} = this.props.user;
-        /* Log entry */
-        console.log(`Game entry by ${username} : UID ${id}`);
-	    /* Run system */
+    play = () => {
+        logEntry(this.props.user);
         talker(this.props.user);
     };
 
@@ -43,13 +54,13 @@ class Index extends Component {
      * @returns {*}
      */
     render() {
-        console.log(this.props);
+        console.log(this.props, this.state);
 
         /* if (this.props.errors.length > 0) return <h2>{this.props.errors}</h2>; */
 
         return <Container>
             <Row>
-                { (!this.props.username) && <Col xs={12}>
+                { (!this.state.username) && <Col xs={12}>
                     <LogoScreen>
                         <h3><CreatedTime time={this.props.stats.created} /></h3>
                         <h3><ElapsedTime time={this.props.stats.reset} /></h3>
@@ -57,13 +68,13 @@ class Index extends Component {
                 </Col> }
 
                 <Col xs={6}>
-                    <Login username={this.props.username} />
+                    <Login username={this.state.username} />
                 </Col>
 
-                { (!this.props.qnmrq) && <Col xs={6} >
+                { (!this.state.username) && <Col xs={6} >
                     <Motd user={this.props.user} {...this.props} />
                 </Col> }
-                <Col xs={12}><Button onClick={this.afterMotd}>Ok</Button></Col>
+                <Col xs={12}><Button onClick={this.play}>Ok</Button></Col>
             </Row>
        	</Container>;
     }
@@ -71,16 +82,10 @@ class Index extends Component {
 
 function mapStateToProps(state) {
     return {
-        errors: usersSelector.getErrors(state),
-
-        args: usersSelector.getArgs(state),
-
-        name: usersSelector.getName(state),
-
-        user: usersSelector.getUser(state),
+        errors: errorsSelector.getErrors(state),
         stats: usersSelector.getStats(state),
 
-        qnmrq: 0
+        user: usersSelector.getUser(state)
     };
 }
 

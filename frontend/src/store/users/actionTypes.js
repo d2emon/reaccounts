@@ -1,8 +1,6 @@
-export const SET_ERROR = 'users.SET_ERROR';
+export const SET_STATS = 'users.SET_STATS';
+
 export const SET_USERNAME = 'users.SET_USERNAME';
 export const FOUND_USER = 'users.FOUND_USER';
-
-export const USERNAME_SET = 'users.USERNAME_SET';
-export const STATS_GET = 'users.STATS_GET';
 
 export const TEST_PASSWORD = 'users.TEST_PASSWORD';
