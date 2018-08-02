@@ -53,29 +53,33 @@ class LoginForm extends Component {
         this.login = this.login.bind(this);
     }
 
-    componentWillReceiveProps (newProps) {
-        console.log(newProps);
-        // this.setState({ exists: !!newProps.user.data });
+    componentWillReceiveProps (nextProps) {
+        console.log(nextProps);
+        // this.setState({ exists: !!nextProps.user.data });
 
-        this.state.fields.forEach(field => this.setField(field));
-        if (newProps.errors) {
-            newProps.errors.forEach(e => this.setField(e.param, e.msg));
-        }
+        this.state.fields.forEach(fieldName => {
+            let field = this.state[fieldName];
+            if (!field) return;
+
+            field.valid = true;
+            field.error = false;
+            if (!nextProps.errors) return this.setState({ [fieldName]: field });
+            // this.setField(field, nextProps.errors[field])
+
+            let error = nextProps.errors[fieldName];
+            if (!error) return this.setState({ [fieldName]: field });
+
+            console.error(fieldName, error);
+
+            if (error && field.error) return;
+            field.valid = !error;
+            field.error = error;
+            this.setState({ [fieldName]: field });
+        });
     }
 
     componentDidMount () {
         this.validate('username', this.props.username);
-    }
-
-    setField (fieldName, error) {
-        if (error) console.error(error);
-
-        let field = this.state[fieldName];
-        if (!field) return;
-        if (error && field.error) return;
-        field.valid = !error;
-        field.error = error;
-        this.setState({ [fieldName]: field });
     }
 
     validate (fieldName, value) {

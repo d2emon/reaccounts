@@ -60,19 +60,20 @@ class ReaccountsService {
             return response.data;
         })
         .catch(error => {
+            console.log(error.response);
             throw Error(error.response.data.error)
         });
     }
 
     search ({ username }) {
+        console.log(username);
         return ReaccountsAxios.get(`/users/search?username=${username}`)
             .then(response => {
                 console.log(response.data);
                 return response.data;
             })
             .catch(error => {
-                console.error('Error', error.response.data);
-                return error.response.data;
+                return (!error.response) ? error.message : error.response.data;
             });
     }
 
@@ -91,8 +92,7 @@ class ReaccountsService {
             // validatePassword (value) {
             // logpass(this.state.username);
             .catch(error => {
-                console.error('Error', error.response.data);
-                return error.response.data;
+                return (!error.response) ? error.message : error.response.data;
             });
     }
 

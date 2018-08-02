@@ -26,7 +26,7 @@ export const fetchStats = payload => dispatch => {
             });
         })
         .catch(error => {
-            console.error(error);
+            console.error('ERROR', error);
             dispatch({
                 type: errorTypes.SET_ERROR,
                 param: 'global',

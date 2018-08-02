@@ -13,12 +13,34 @@ import {
 
 const router = express.Router();
 
+function extractErrors (res, data) {
+    console.log('EXTRACT', data);
+    if (!data) return {};
+    let errors = {};
+    data.forEach(item => {
+        console.log('ERROR', item);
+        if (!item.param) return;
+        if (errors[item.param]) return;
+        errors[item.param] = item.msg;
+    });
+    console.log('ERRORS', errors);
+    console.error(errors);
+    return res.status(403).json({ errors: errors });
+}
+
+function makeError (param, message) {
+    console.error(error);
+    return [{
+        param: param,
+        msg: message
+    }]
+}
+
 router.use((req, res, next) => {
     requestTests(req.query.user_id, req.query.host).then(() => {
         next();
     }).catch(error => {
-        console.error(error);
-        res.status(403).send({ error: error.message })
+        extractErrors(res, makeError('system', error.message))
     });
 });
 
@@ -40,10 +62,7 @@ router.get('/main', (req, res) => {
             motd: response[2].text || ''
         })
     }).catch(error => {
-        console.error(error);
-        res.status(403).send({
-            error: error.message
-        })
+        extractErrors(res, makeError('system', error.message))
     })
 });
 
@@ -82,16 +101,17 @@ router.post('/login', [
     const testPassword = (user) => {
         // printf('This persona already exists, what is the password ?');
         // for (let i = 0; i <= 2; i++) {
-        if (req.body.password !== user.password) {
-            let error = new Error('Wrong password!');
-            error.param = 'password';
-            throw error;
-        }
+        let passwordError = (req.body.password !== user.password)
+            ? 'Wrong password!'
+            : false;
         // }
         return {
             user: user,
             is_new: false,
-            errors: []
+            errors: {
+                username: false,
+                password: passwordError
+            }
         }
     };
 
@@ -110,11 +130,13 @@ router.post('/login', [
 
         return Pfl.save(user)
             .then(response => {
-                console.log('111', response);
                 return {
                     user: user,
                     is_new: true,
-                    errors: []
+                    errors: {
+                        username: false,
+                        password: false
+                    }
                 }
             })
     };
@@ -124,7 +146,10 @@ router.post('/login', [
         if (!req.body.save) return {
             user: user,
             is_new: true,
-            errors: []
+            errors: {
+                username: false,
+                password: false
+            }
         };
 
         return user
@@ -134,9 +159,7 @@ router.post('/login', [
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({
-            errors: errors.array()
-        });
+        return extractErrors(res, errors.array());
     }
 
     console.log(req.body);
@@ -145,11 +168,7 @@ router.post('/login', [
         .then(logpass)
         .then(response => res.json(response))
         .catch(err => {
-            console.error(err);
-            return res.status(422).json({ errors: [{
-                param: err.param,
-                msg: err.message
-            }] });
+            return extractErrors(res, [ err ]);
         });
 });
 
@@ -164,11 +183,7 @@ router.get('/search', (req, res) => {
             user: response,
         }))
         .catch(err => {
-            console.error(err);
-            return res.status(422).json({ errors: [{
-                    // param: err.param,
-                    msg: err.message
-                }] });
+            return res.status(422).json(extractErrors([ err ]));
         });
 });
 
