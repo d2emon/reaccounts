@@ -38,7 +38,7 @@ class Index extends Component {
         super(props);
         this.state = {
             username: props.username,
-            showMotd: false
+            is_playing: false
         };
 
         this.props.dispatch(usersActions.setStep({ step: STEP_START }));
@@ -53,15 +53,13 @@ class Index extends Component {
             hostname: this.props.hostname,
             user_id: this.props.user_id
         }));
-        // this.props.dispatch(usersActions.loadStats());
     }
 
     componentWillReceiveProps (nextProps) {
+        // console.log(nextProps, this.state);
+        if (!!nextProps.current_user && !this.state.is_playing) this.play();
         this.setState({
-            showMotd: nextProps.step > STEP_LOGIN
-        }, () => {
-            // console.log(nextProps, this.state);
-            if (nextProps.step > STEP_LOGIN) this.play();
+            is_playing: this.state.is_playing  || !!nextProps.current_user
         })
     }
 
@@ -75,7 +73,10 @@ class Index extends Component {
     };
 
     reset () {
-        this.props.dispatch(usersActions.setStep({ step: STEP_START }));
+        this.setState({ is_playing: false }, () => {
+            this.props.dispatch(usersActions.setStep({ step: STEP_START }));
+        });
+
     };
 
     /**
@@ -90,13 +91,13 @@ class Index extends Component {
 
         return <Container>
             <Row>
-                <LoginModal username={this.state.username} />
-                <MotdModal {...this.props} isOpen={this.state.showMotd} motd={this.props.motd} />
+                <LoginModal isOpen={!this.state.is_playing} username={this.state.username} />
+                <MotdModal {...this.props} isOpen={this.state.is_playing} motd={this.props.motd} />
                 <Col xs={12}>
                     <LogoScreen>
                         <h3><CreatedTime time={this.props.created_time} /></h3>
                         <h3><ElapsedTime time={this.props.reset_time} /></h3>
-                        { (this.props.step === STEP_START)
+                        { (!this.state.is_playing)
                             ? <Button onClick={this.login}>Login</Button>
                             : <Button onClick={this.reset}>Reset</Button> }
                     </LogoScreen>
@@ -114,9 +115,11 @@ function mapStateToProps(state) {
         // Stats
         created_time: usersSelector.getCreatedTime(state),
         reset_time: usersSelector.getResetTime(state),
-        motd: usersSelector.getMotd(state) + 'MotD',
+        motd: usersSelector.getMotd(state),
 
-        user: usersSelector.getUser(state)
+        user: usersSelector.getUser(state),
+
+        current_user: usersSelector.getCurrentUser(state)
     };
 }
 

@@ -48,7 +48,7 @@ class LoginModal extends Component {
     }
 
     render () {
-        return <Modal isOpen={ this.props.step === STEP_LOGIN }>
+        return <Modal isOpen={ this.props.isOpen }>
             <ModalHeader>Sign Up { this.props.username }</ModalHeader>
             <ModalBody>
                 <PromptUserCreation username={this.state.username} is_new={this.state.showPrompt} open={this.state.showPrompt} />

@@ -2,6 +2,8 @@
 import * as types from './actionTypes';
 import React from "react";
 
+import {STEP_LOGIN} from "./steps";
+
 const initialState = {
     created_time: null,
     reset_time: null,
@@ -38,7 +40,7 @@ export default function reduce(state = initialState, action = {}) {
                 ...state,
                 created_time: action.created_time,
                 reset_time: action.reset_time,
-                motd: action.motd
+                motd: action.motd + 'MotD'
             };
 
         case types.SET_USERNAME:
@@ -88,3 +90,4 @@ export function getUserFound (state) { return state.users.tempUser; }
 // User
 export function getUser (state) { return state.users.user; }
 
+export function getCurrentUser (state) { return state.users.step > STEP_LOGIN }
