@@ -11,7 +11,22 @@ import {
 
 import * as usersActions from '../../store/users/actions';
 import * as usersSelector from '../../store/users/reducer';
+import * as errorsSelector from '../../store/errors/reducer';
 
+function FormField ({ name, field, type, label, onChange }) {
+    return <FormGroup>
+        <Label for={ name }>{ label }</Label>
+        <Input
+            invalid={ !field.valid }
+            type={ type }
+            id={ name }
+            name={ name }
+            value={ field.value }
+            onChange={ onChange }
+        />
+        <FormFeedback>{ field.error }</FormFeedback>
+    </FormGroup>;
+}
 
 class LoginForm extends Component {
     constructor (props) {
@@ -114,29 +129,20 @@ class LoginForm extends Component {
             : <Fragment>Creating new persona...<br />Give me a password for this persona</Fragment>;
 
         return <Form className="loginForm">
-            <FormGroup>
-                <Label for="username">By what name shall I call you?</Label>
-                <Input
-                    invalid={!this.state.username.valid}
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={this.state.username.value}
-                    onChange={this.handleUserInput}
-                />
-                <FormFeedback>{this.state.username.error}</FormFeedback>
-            </FormGroup>
-            <FormGroup>
-                <Label for="password">{ passwordLabel }</Label>
-                <Input
-                    invalid={!this.state.password.valid}
-                    type="password"
-                    id="password"
-                    name="password"
-                    onChange={this.handleUserInput}
-                />
-                <FormFeedback>{this.state.password.error}</FormFeedback>
-            </FormGroup>
+            <FormField
+                name="username"
+                label="By what name shall I call you?"
+                field={this.state.username}
+                type="text"
+                onChange={this.handleUserInput}
+            />
+            <FormField
+                name="password"
+                label={passwordLabel}
+                field={this.state.password}
+                type="password"
+                onChange={this.handleUserInput}
+            />
             <Button type="submit" color="primary" disabled={!this.valid()} onClick={this.login}>Sign up</Button>
         </Form>;
     }
@@ -144,7 +150,7 @@ class LoginForm extends Component {
 
 function mapStateToProps(state) {
     return {
-        errors: usersSelector.getErrors(state),
+        errors: errorsSelector.getErrors(state),
         // user: usersSelector.getUser(state),
 
         found: usersSelector.getUserFound(state),
