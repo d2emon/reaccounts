@@ -6,6 +6,13 @@ import * as errorTypes from '../errors/actionTypes';
 import reaccountsService from '../../services/reaccounts';
 
 // Actions
+export const setStep = payload => dispatch => {
+    dispatch({
+        type: types.SET_STEP,
+        step: payload.step
+    })
+};
+
 export const testHostname = payload => dispatch => {
     // console.log(payload);
     reaccountsService.usersMain(payload)

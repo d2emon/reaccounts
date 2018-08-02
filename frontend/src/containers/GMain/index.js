@@ -13,10 +13,17 @@ import * as usersSelector from '../../store/users/reducer';
 import * as errorsSelector from '../../store/errors/reducer';
 
 import {CreatedTime, ElapsedTime} from './GMain2Time';
-import Login from './Login';
-import Motd from './Motd';
 
-import LogoScreen from '../../components/LogoScreen'
+import LogoScreen from '../../components/LogoScreen';
+
+import LoginModal from '../../modals/LoginModal';
+import MotdModal from '../../modals/MotdModal';
+
+import {
+    STEP_START,
+    STEP_LOGIN,
+    STEP_PLAY
+} from "../../store/users/steps";
 
 /* Log entry */
 function logEntry (user) {console.log(`Game entry by ${user.username} : UID ${user.id}`);}
@@ -32,7 +39,12 @@ class Index extends Component {
         this.state = {
             username: props.username
         };
+
+        this.props.dispatch(usersActions.setStep({ step: STEP_START }));
+
+        this.login = this.login.bind(this);
         this.play = this.play.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
     componentDidMount () {
@@ -43,9 +55,18 @@ class Index extends Component {
         // this.props.dispatch(usersActions.loadStats());
     }
 
-    play = () => {
+    login () {
+        this.props.dispatch(usersActions.setStep({ step: STEP_LOGIN }));
+    }
+
+    play () {
+        this.props.dispatch(usersActions.setStep({ step: STEP_PLAY }));
         logEntry(this.props.user);
         talker(this.props.user);
+    };
+
+    reset () {
+        this.props.dispatch(usersActions.setStep({ step: STEP_START }));
     };
 
     /**
@@ -60,21 +81,18 @@ class Index extends Component {
 
         return <Container>
             <Row>
-                { (!this.state.username) && <Col xs={12}>
+                { (this.props.step === STEP_START) && <Col xs={12}>
                     <LogoScreen>
                         <h3><CreatedTime time={this.props.stats.created} /></h3>
                         <h3><ElapsedTime time={this.props.stats.reset} /></h3>
+                        <Button onClick={this.login}>Login</Button>
                     </LogoScreen>
                 </Col> }
-
-                <Col xs={6}>
-                    <Login username={this.state.username} />
-                </Col>
-
-                { (!this.state.username) && <Col xs={6} >
-                    <Motd user={this.props.user} {...this.props} />
+                { (this.props.step !== STEP_START) && <Col xs={12}>
+                    <Button onClick={this.reset}>Reset</Button>
                 </Col> }
-                <Col xs={12}><Button onClick={this.play}>Ok</Button></Col>
+                <LoginModal username={this.state.username} />
+                <MotdModal user={this.props.user} {...this.props} />
             </Row>
        	</Container>;
     }
@@ -83,6 +101,7 @@ class Index extends Component {
 function mapStateToProps(state) {
     return {
         errors: errorsSelector.getErrors(state),
+        step: usersSelector.getStep(state),
         stats: usersSelector.getStats(state),
 
         user: usersSelector.getUser(state)

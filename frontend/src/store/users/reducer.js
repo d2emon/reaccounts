@@ -18,11 +18,19 @@ const initialState = {
 
     valid: false,
     tries: 0,
+
+    step: null
 };
 
 
 export default function reduce(state = initialState, action = {}) {
     switch (action.type) {
+        case types.SET_STEP:
+            console.log(`Go to step "${action.step}"`);
+            return {
+                ...state,
+                step: action.step
+            };
         case types.SET_STATS:
             return {
                 ...state,
@@ -65,6 +73,7 @@ export default function reduce(state = initialState, action = {}) {
 };
 
 // селекторы
+export function getStep (state) { return state.users.step; }
 
 export function getUserFound (state) { return state.users.tempUser; }
 

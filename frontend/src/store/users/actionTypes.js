@@ -1,3 +1,4 @@
+export const SET_STEP = 'users.SET_STEP';
 export const SET_STATS = 'users.SET_STATS';
 
 export const SET_USERNAME = 'users.SET_USERNAME';
