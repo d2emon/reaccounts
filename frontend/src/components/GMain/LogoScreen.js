@@ -1,6 +1,6 @@
 'use strict';
 import React, {Fragment} from 'react';
-import Logo from './Logo';
+import Logo from '../Logo';
 
 
 const LogoScreen = ({ children }) => <Fragment>

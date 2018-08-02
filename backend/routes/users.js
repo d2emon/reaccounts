@@ -1,12 +1,17 @@
 'use strict';
 import express from 'express';
-const router = express.Router();
 import { check, validationResult } from 'express-validator/check';
 
 import requestTests from '../tests';
-import { ResetT, Exe, Pfl } from "../config";
-// import * as usersActions from "../../frontend/src/store/users/actions";
+import { Pfl, Motd } from "../config";
 import { User } from '../models';
+
+import {
+    createdTime,
+    resetTime
+} from "../models/game_time";
+
+const router = express.Router();
 
 router.use((req, res, next) => {
     requestTests(req.query.user_id, req.query.host).then(() => {
@@ -18,32 +23,28 @@ router.use((req, res, next) => {
 });
 
 /**
- * Check for all the created at stuff
- * We use stats for this which is a UN*X system call
- * @returns {Promise<any>}
+ * {
+ *     created: {Time when system created},
+ *     reset: {Time when system was reset}
+ * }
  */
-const createdTime = () => Exe();
-
-/**
- * Check for reset time
- * @returns {Promise<any>}
- */
-const resetTime = () => ResetT();
-
 router.get('/main', (req, res) => {
     Promise.all([
         createdTime(),
-        resetTime()
+        resetTime(),
+        Motd()
     ]).then(response => {
         res.json({
-              created: response[0] || '<unknown>',
-              reset: response[1]
+            created: response[0] || '<unknown>',
+            reset: response[1],
+            motd: response[2].text || ''
         })
     }).catch(error => {
         console.error(error);
-        res.status(403).send({ error: error.message })
+        res.status(403).send({
+            error: error.message
+        })
     })
-
 });
 
 /**
@@ -158,8 +159,6 @@ router.post('/login', [
  * The whole login system is called from this
  */
 router.get('/search', (req, res) => {
-    console.log(req.query);
-
     return Pfl.load(req.query.username)
         .then(response => res.json({
             user: response,
@@ -171,16 +170,6 @@ router.get('/search', (req, res) => {
                     msg: err.message
                 }] });
         });
-});
-
-router.get('/motd', () => {
-    // if(!qnmrq)
-    // {
-    //     cls();
-    //     listfl(MOTD); 			/* list the message of the day */
-    //     fgets(space,399,stdin);
-    //     printf("\n\n");
-    // }
 });
 
 router.get('/talker', () => {

@@ -1,0 +1,17 @@
+GET http://localhost:3000/users/main
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+POST http://localhost:3000/users/login?username=username&password=password
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+GET http://localhost:3000/users/search?username=username
+Accept: */*
+Cache-Control: no-cache
+
+###

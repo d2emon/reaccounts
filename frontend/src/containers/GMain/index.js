@@ -14,7 +14,7 @@ import * as errorsSelector from '../../store/errors/reducer';
 
 import {CreatedTime, ElapsedTime} from './GMain2Time';
 
-import LogoScreen from '../../components/LogoScreen';
+import LogoScreen from '../../components/GMain/LogoScreen';
 
 import LoginModal from '../../modals/LoginModal';
 import MotdModal from '../../modals/MotdModal';
@@ -37,7 +37,8 @@ class Index extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            username: props.username
+            username: props.username,
+            showMotd: false
         };
 
         this.props.dispatch(usersActions.setStep({ step: STEP_START }));
@@ -48,11 +49,20 @@ class Index extends Component {
     }
 
     componentDidMount () {
-        this.props.dispatch(usersActions.testHostname({
+        this.props.dispatch(usersActions.fetchStats({
             hostname: this.props.hostname,
             user_id: this.props.user_id
         }));
         // this.props.dispatch(usersActions.loadStats());
+    }
+
+    componentWillReceiveProps (nextProps) {
+        this.setState({
+            showMotd: nextProps.step > STEP_LOGIN
+        }, () => {
+            console.log(nextProps, this.state);
+            if (nextProps.step > STEP_LOGIN) this.play();
+        })
     }
 
     login () {
@@ -83,8 +93,8 @@ class Index extends Component {
             <Row>
                 { (this.props.step === STEP_START) && <Col xs={12}>
                     <LogoScreen>
-                        <h3><CreatedTime time={this.props.stats.created} /></h3>
-                        <h3><ElapsedTime time={this.props.stats.reset} /></h3>
+                        <h3><CreatedTime time={this.props.created_time} /></h3>
+                        <h3><ElapsedTime time={this.props.reset_time} /></h3>
                         <Button onClick={this.login}>Login</Button>
                     </LogoScreen>
                 </Col> }
@@ -92,7 +102,7 @@ class Index extends Component {
                     <Button onClick={this.reset}>Reset</Button>
                 </Col> }
                 <LoginModal username={this.state.username} />
-                <MotdModal user={this.props.user} {...this.props} />
+                <MotdModal {...this.props} isOpen={this.state.showMotd} motd={this.props.motd} />
             </Row>
        	</Container>;
     }
@@ -102,7 +112,11 @@ function mapStateToProps(state) {
     return {
         errors: errorsSelector.getErrors(state),
         step: usersSelector.getStep(state),
-        stats: usersSelector.getStats(state),
+
+        // Stats
+        created_time: usersSelector.getCreatedTime(state),
+        reset_time: usersSelector.getResetTime(state),
+        motd: usersSelector.getMotd(state) + 'MotD',
 
         user: usersSelector.getUser(state)
     };

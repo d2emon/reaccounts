@@ -16,12 +16,13 @@ import LoginForm from '../containers/GMain/LoginForm';
 
 import {
     STEP_LOGIN,
-    STEP_MOTD
+    STEP_PLAY
 } from "../store/users/steps";
 
 class LoginModal extends Component {
     constructor (props) {
         super(props);
+
         this.state = {
             username: '',
             showPrompt: false,
@@ -42,7 +43,8 @@ class LoginModal extends Component {
     close (e) {
         e.preventDefault();
 
-        this.props.dispatch(usersActions.setStep({ step: STEP_MOTD }));
+        // this.props.dispatch(usersActions.setStep({ step: STEP_MOTD }));
+        this.props.dispatch(usersActions.setStep({ step: STEP_PLAY }));
     }
 
     render () {

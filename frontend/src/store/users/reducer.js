@@ -3,7 +3,9 @@ import * as types from './actionTypes';
 import React from "react";
 
 const initialState = {
-    stats: {},
+    created_time: null,
+    reset_time: null,
+    motd: null,
 
     args: { username: "username" },
 
@@ -34,7 +36,9 @@ export default function reduce(state = initialState, action = {}) {
         case types.SET_STATS:
             return {
                 ...state,
-                stats: action.stats
+                created_time: action.created_time,
+                reset_time: action.reset_time,
+                motd: action.motd
             };
 
         case types.SET_USERNAME:
@@ -75,9 +79,12 @@ export default function reduce(state = initialState, action = {}) {
 // селекторы
 export function getStep (state) { return state.users.step; }
 
+export function getCreatedTime (state) { return state.users.created_time; }
+export function getResetTime (state) { return state.users.reset_time; }
+export function getMotd (state) { return state.users.motd; }
+
 export function getUserFound (state) { return state.users.tempUser; }
 
 // User
 export function getUser (state) { return state.users.user; }
 
-export function getStats (state) { return state.users.stats; }

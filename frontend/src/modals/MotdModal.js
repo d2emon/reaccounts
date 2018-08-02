@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import {
     Modal,
     ModalHeader,
@@ -8,47 +7,38 @@ import {
     Button
 } from 'reactstrap';
 
-import * as usersActions from '../store/users/actions';
-import * as usersSelector from '../store/users/reducer';
+import Motd from "../components/GMain/Motd";
 
-import Motd from "../containers/GMain/Motd";
-
-import {
-    STEP_MOTD,
-    STEP_PLAY
-} from "../store/users/steps";
-
-class LoginModal extends Component {
+class MotdModal extends Component {
     constructor (props) {
         super(props);
 
+        this.state = { isOpen: props.isOpen };
+
         this.close = this.close.bind(this);
+    }
+
+    componentWillReceiveProps (nextProps) {
+        this.setState({ isOpen: nextProps.isOpen });
     }
 
     close (e) {
         e.preventDefault();
 
-        this.props.dispatch(usersActions.setStep({ step: STEP_PLAY }));
+        this.setState({ isOpen: false });
     }
 
     render () {
-        return <Modal toggle={this.close} isOpen={ this.props.step === STEP_MOTD }>
+        return <Modal toggle={this.close} isOpen={ this.state.isOpen }>
             <ModalHeader toggle={this.close}>Message of the day</ModalHeader>
             <ModalBody>
-                <Motd {...this.props} />
+                <Motd motd={this.props.motd} />
             </ModalBody>
             <ModalFooter>
                 <Button color="primary" onClick={this.close}>Ok</Button>
             </ModalFooter>
         </Modal>
-
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        step: usersSelector.getStep(state)
-    };
-}
-
-export default connect(mapStateToProps)(LoginModal);
+export default MotdModal;

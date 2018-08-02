@@ -2,8 +2,10 @@
 import {
     Config,
     Ban,
-    User
+    User,
+    MessageOfTheDay
 } from './models';
+import router from "./routes/users";
 
 // #define UAF_RAND "/cygdrive/c/Programs/Adv/AberMUD2/mud/uaf.rand"
 // #define ROOMS "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/ROOMS/"
@@ -23,7 +25,13 @@ export const ResetT = () => Config.findOne({ key: 'RESET_N' });
 
 // #define RESET_N "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_n"
 // #define RESET_DATA "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_data"
-// #define MOTD "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/gmotd2"
+
+/**
+ * List the message of the day
+ */
+export const Motd = () => MessageOfTheDay.findOne()
+    .then(response => response || new MessageOfTheDay());
+
 // #define GWIZ "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/gwiz"
 // #define HELP1 "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/help1"
 // #define HELP2 "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/help2"
@@ -75,7 +83,7 @@ export default {
     RESET_T: './reset_t',
     // #define RESET_N "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_n"
     // #define RESET_DATA "/cygdrive/c/Programs/Adv/AberMUD2/mud/reset_data"
-    // #define MOTD "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/gmotd2"
+    MOTD: './TEXT/gmotd2',
     // #define GWIZ "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/gwiz"
     // #define HELP1 "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/help1"
     // #define HELP2 "/cygdrive/c/Programs/Adv/AberMUD2/mud/TEXT/help2"

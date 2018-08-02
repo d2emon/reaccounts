@@ -25,3 +25,8 @@ const userSchema = mongoose.Schema({
     // data4: String,
 });
 export const User = mongoose.model('User', userSchema);
+
+const motdSchema = mongoose.Schema({
+    text: String
+});
+export const MessageOfTheDay = mongoose.model('Motd', motdSchema);

@@ -44,8 +44,3 @@ export const REACCOUNTS_TIMEOUT = 1000;
 export const PFL = FileLike("PFL", [
     { username: "USER" }
 ]);
-
-export const MOTD = "MOTD";
-export const BAN_FILE = [];
-
-

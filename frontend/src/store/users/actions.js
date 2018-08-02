@@ -13,14 +13,16 @@ export const setStep = payload => dispatch => {
     })
 };
 
-export const testHostname = payload => dispatch => {
+export const fetchStats = payload => dispatch => {
     // console.log(payload);
     reaccountsService.usersMain(payload)
         .then(res => {
             console.log(res);
             dispatch({
                 type: types.SET_STATS,
-                stats: res
+                created_time: res.created,
+                reset_time: res.reset,
+                motd: res.motd
             });
         })
         .catch(error => {
