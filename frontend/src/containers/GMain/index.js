@@ -60,7 +60,7 @@ class Index extends Component {
         this.setState({
             showMotd: nextProps.step > STEP_LOGIN
         }, () => {
-            console.log(nextProps, this.state);
+            // console.log(nextProps, this.state);
             if (nextProps.step > STEP_LOGIN) this.play();
         })
     }
@@ -70,7 +70,6 @@ class Index extends Component {
     }
 
     play () {
-        this.props.dispatch(usersActions.setStep({ step: STEP_PLAY }));
         logEntry(this.props.user);
         talker(this.props.user);
     };
@@ -91,18 +90,17 @@ class Index extends Component {
 
         return <Container>
             <Row>
-                { (this.props.step === STEP_START) && <Col xs={12}>
+                <LoginModal username={this.state.username} />
+                <MotdModal {...this.props} isOpen={this.state.showMotd} motd={this.props.motd} />
+                <Col xs={12}>
                     <LogoScreen>
                         <h3><CreatedTime time={this.props.created_time} /></h3>
                         <h3><ElapsedTime time={this.props.reset_time} /></h3>
-                        <Button onClick={this.login}>Login</Button>
+                        { (this.props.step === STEP_START)
+                            ? <Button onClick={this.login}>Login</Button>
+                            : <Button onClick={this.reset}>Reset</Button> }
                     </LogoScreen>
-                </Col> }
-                { (this.props.step !== STEP_START) && <Col xs={12}>
-                    <Button onClick={this.reset}>Reset</Button>
-                </Col> }
-                <LoginModal username={this.state.username} />
-                <MotdModal {...this.props} isOpen={this.state.showMotd} motd={this.props.motd} />
+                </Col>
             </Row>
        	</Container>;
     }
