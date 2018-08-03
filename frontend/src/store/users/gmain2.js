@@ -12,7 +12,7 @@ var qnmrq = 0;
 
 
 // char usrnam[44];
- 
+
 
 function getunm () {
     console.log("User Name:");
@@ -57,7 +57,7 @@ function deluser () {
 	    delu2(name);
     }
 }
- 
+
 
 function edituser () {
     let block = "";
@@ -80,7 +80,7 @@ function edituser () {
     fl.fprintf("%s\n", bk2);
     fl.fclose();
 }
- 
+
 
 function ed_fld(name, string) {
     console.log(name, "(Currently ", string, " ):");
@@ -192,7 +192,7 @@ function getkbd(s,l) {
     }
     return s;
 }
-    
+
 
 function listfl(name) {
     let string = "";
@@ -213,8 +213,8 @@ function listfl(name) {
 /*
  *		This is just a trap for debugging it should never get
  *		called.
- */ 
-const bprintf = () {
+ */
+const bprintf = () => {
     console.log("EEK - A function has trapped via the bprintf call\n");
     exit(0);
 };

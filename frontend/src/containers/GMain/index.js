@@ -12,7 +12,7 @@ import * as usersActions from '../../store/users/actions';
 import * as usersSelector from '../../store/users/reducer';
 import * as errorsSelector from '../../store/errors/reducer';
 
-import {CreatedTime, ElapsedTime} from './GMain2Time';
+import {CreatedTime, ElapsedTime} from '../../components/GMain/GMain2Time';
 
 import LogoScreen from '../../components/GMain/LogoScreen';
 
@@ -24,6 +24,7 @@ import {
     STEP_LOGIN,
     STEP_PLAY
 } from "../../store/users/steps";
+import Talker from "./Talker";
 
 /* Log entry */
 function logEntry (user) {console.log(`Game entry by ${user.username} : UID ${user.id}`);}
@@ -101,6 +102,9 @@ class Index extends Component {
                             ? <Button onClick={this.login}>Login</Button>
                             : <Button onClick={this.reset}>Reset</Button> }
                     </LogoScreen>
+                </Col>
+                <Col xs={12}>
+                    <Talker username={this.state.username} user_id="wilsner" />
                 </Col>
             </Row>
        	</Container>;

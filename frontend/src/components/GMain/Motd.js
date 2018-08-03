@@ -10,12 +10,6 @@ import {
 /**
  * List the message of the day
  */
-const Motd = ({motd, ...props}) => {
-    return <Card>
-        <CardBody>
-            <CardText {...props}>{motd}</CardText>
-        </CardBody>
-    </Card>
-};
+const Motd = ({motd, ...props}) => { return <div {...props}>{motd}</div> }
 
 export default Motd;
