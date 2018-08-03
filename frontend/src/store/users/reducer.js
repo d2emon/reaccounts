@@ -78,9 +78,10 @@ export default function reduce(state = initialState, action = {}) {
     }
 };
 
-// селекторы
+// TODO: Remove it
 export function getStep (state) { return state.users.step; }
 
+// Stats
 export function getCreatedTime (state) { return state.users.created_time; }
 export function getResetTime (state) { return state.users.reset_time; }
 export function getMotd (state) { return state.users.motd; }

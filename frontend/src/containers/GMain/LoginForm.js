@@ -12,6 +12,7 @@ import {
 import * as usersActions from '../../store/users/actions';
 import * as usersSelector from '../../store/users/reducer';
 import * as errorsSelector from '../../store/errors/reducer';
+import {STEP_PLAY} from "../../store/users/steps";
 
 function FormField ({ name, field, type, label, onChange }) {
     return <FormGroup>
@@ -125,6 +126,7 @@ class LoginForm extends Component {
         }
 
         this.props.dispatch(usersActions.setUser({username: this.state.username}));
+        this.props.dispatch(usersActions.setStep({ step: STEP_PLAY }));
     }
 
     render () {

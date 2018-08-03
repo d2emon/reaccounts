@@ -4,8 +4,6 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter,
-    Button
 } from 'reactstrap';
 
 import * as usersActions from '../store/users/actions';
@@ -13,11 +11,6 @@ import * as usersSelector from '../store/users/reducer';
 
 import PromptUserCreation from "../containers/GMain/PromptUserCreation";
 import LoginForm from '../containers/GMain/LoginForm';
-
-import {
-    STEP_LOGIN,
-    STEP_PLAY
-} from "../store/users/steps";
 
 class LoginModal extends Component {
     constructor (props) {
@@ -27,8 +20,6 @@ class LoginModal extends Component {
             username: '',
             showPrompt: false,
         };
-
-        this.close = this.close.bind(this);
     }
 
     componentWillReceiveProps (nextProps) {
@@ -40,13 +31,6 @@ class LoginModal extends Component {
         });
     }
 
-    close (e) {
-        e.preventDefault();
-
-        // this.props.dispatch(usersActions.setStep({ step: STEP_MOTD }));
-        this.props.dispatch(usersActions.setStep({ step: STEP_PLAY }));
-    }
-
     render () {
         return <Modal isOpen={ this.props.isOpen }>
             <ModalHeader>Sign Up { this.props.username }</ModalHeader>
@@ -54,9 +38,6 @@ class LoginModal extends Component {
                 <PromptUserCreation username={this.state.username} is_new={this.state.showPrompt} open={this.state.showPrompt} />
                 <LoginForm username={this.props.username} />
             </ModalBody>
-            <ModalFooter>
-                <Button color="primary" onClick={this.close}>Ok</Button>
-            </ModalFooter>
         </Modal>
 
     }

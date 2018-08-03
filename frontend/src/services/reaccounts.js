@@ -85,7 +85,6 @@ class ReaccountsService {
                 return response.data;
             })
             // validateUsername (value) {
-            // this.setState({ namegiv: false });
             // this.props.dispatch(usersActions.findUser({ username: value }));
 
             /* Password checking */
@@ -95,24 +94,6 @@ class ReaccountsService {
                 return (!error.response) ? error.message : error.response.data;
             });
     }
-
-    /* Return block data for user or -1 if not exist */
-    findUser (payload) {
-        return new Promise(resolve => {
-            console.log("LOGSCAN", payload);
-            let unit = PFL.openlock("r");
-            if (!unit) throw Error("No persona file");
-
-            unit.getAll().forEach(block => {
-                let wkng = unit.decode(block);
-                if (wkng.username.toLowerCase() === payload.username.toLowerCase()){
-                    resolve(block);
-                }
-            });
-            resolve(null);
-        });
-    };
-
 }
 
 export default new ReaccountsService();

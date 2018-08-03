@@ -99,16 +99,3 @@ export const searchUser = (user) => dispatch => {
             type: types.FOUND_USER
         }));
 };
-
-/* Main login code */
-export const findUser = ({ username }) => dispatch => {
-    console.log("search for", username);
-    reaccountsService.findUser({ username: username })
-        .then(response => {
-            console.log(response);
-            dispatch({
-                type: types.FOUND_USER,
-                user: response
-            });
-        })
-};

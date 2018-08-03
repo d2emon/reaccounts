@@ -36,6 +36,15 @@ function makeError (param, message) {
     }]
 }
 
+function userToJson (user, is_new) {
+    return {
+        id: user.id,
+        username: user.username,
+        password: user.password,
+        is_new: is_new
+    }
+}
+
 router.use((req, res, next) => {
     requestTests(req.query.user_id, req.query.host).then(() => {
         next();
@@ -97,46 +106,31 @@ router.post('/login', [
         .isAlphanumeric()
         .withMessage('Illegal characters in password')
 ], (req, res) => {
-    /* save for new user */
     const testPassword = (user) => {
-        // printf('This persona already exists, what is the password ?');
         // for (let i = 0; i <= 2; i++) {
         let passwordError = (req.body.password !== user.password)
             ? 'Wrong password!'
             : false;
         // }
         return {
-            user: user,
-            is_new: false,
-            errors: {
-                username: false,
-                password: passwordError
-            }
+            user: userToJson(user, false),
+            errors: { password: passwordError }
         }
     };
 
+    /* save for new user */
     /* this bit registers the new user */
     const newUser = () => {
-        // printf("Creating new persona...\n");
-        // printf("Give me a password for this persona\n");
         let user = new User({
             username: req.body.username,
             password: req.body.password
-            // data1: null,
-            // data2: null,
-            // data3: null,
-            // data4: null,
         });
 
         return Pfl.save(user)
             .then(response => {
                 return {
-                    user: user,
-                    is_new: true,
-                    errors: {
-                        username: false,
-                        password: false
-                    }
+                    user: userToJson(user, true),
+                    errors: {}
                 }
             })
     };
@@ -144,12 +138,8 @@ router.post('/login', [
     // Password checking
     const logpass = user => {
         if (!req.body.save) return {
-            user: user,
-            is_new: true,
-            errors: {
-                username: false,
-                password: false
-            }
+            user: userToJson(user, true),
+            errors: {}
         };
 
         return user
@@ -161,8 +151,6 @@ router.post('/login', [
     if (!errors.isEmpty()) {
         return extractErrors(res, errors.array());
     }
-
-    console.log(req.body);
 
     return Pfl.load(req.body.username)
         .then(logpass)
@@ -179,19 +167,10 @@ router.post('/login', [
  */
 router.get('/search', (req, res) => {
     return Pfl.load(req.query.username)
-        .then(response => res.json({
-            user: response,
-        }))
+        .then(user => res.json({ user: userToJson(user, false) }))
         .catch(err => {
-            return res.status(422).json(extractErrors([ err ]));
+            return extractErrors(res, [ err ]);
         });
-});
-
-router.get('/talker', () => {
-    // cuserid(space);
-    // syslog("Game entry by %s : UID %s",user,space); /* Log entry */
-    // talker(user);				/* Run system */
-    // crapup("Bye Bye");				/* Exit */
 });
 
 export default router;
