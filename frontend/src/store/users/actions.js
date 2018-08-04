@@ -67,8 +67,8 @@ export const login = ({ username, password }) => dispatch => {
     reaccountsService.login({ username, password, save: true })
         .then(response => dispatch({
             type: errorsTypes.SET_LOGIN_ERROR,
-            username: response.errors.username,
-            password: response.errors.password,
+            username: response.errors && response.errors.username,
+            password: response.errors && response.errors.password,
 
             errors: response.errors,
             response: response,
@@ -89,8 +89,8 @@ export const validateUser = ({ username, password }) => dispatch => {
     reaccountsService.login({ username, password, save: false })
         .then(response => dispatch({
             type: errorsTypes.SET_LOGIN_ERROR,
-            username: response.errors.username,
-            password: response.errors.password,
+            username: response.errors && response.errors.username,
+            password: response.errors && response.errors.password,
 
             errors: response.errors,
             response: response,
@@ -108,15 +108,17 @@ export const validateUser = ({ username, password }) => dispatch => {
 
 export const searchUser = (user) => dispatch => {
     reaccountsService.search(user)
+        /*
         .then(response => dispatch({
             type: errorsTypes.SET_LOGIN_ERROR,
-            username: response.errors.username,
-            password: response.errors.password,
+            username: response.errors && response.errors.username,
+            password: response.errors && response.errors.password,
 
             errors: response.errors,
             response: response,
             user: response.user
         }))
+        */
         .then(response => dispatch({
             ...response,
             type: types.FOUND_USER

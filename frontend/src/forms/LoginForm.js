@@ -32,8 +32,6 @@ class LoginForm extends Component {
     }
 
     componentWillReceiveProps (nextProps, nextContext) {
-        console.log(nextProps)
-        console.log(nextProps.errors)
         // this.setState({ exists: !!nextProps.user.data });
     }
 
@@ -45,7 +43,7 @@ class LoginForm extends Component {
         this.props.dispatch(usersActions.validateUser({
             username: this.state.username,
             password: this.state.password
-        }));
+        }))
         this.props.dispatch(usersActions.searchUser({
             username: this.state.username,
         }))
@@ -57,8 +55,8 @@ class LoginForm extends Component {
     }
 
     update (e) {
-        this.setState({ [e.target.name]: e.target.value })
-        this.validate()
+        this.setState({ [e.target.name]: e.target.value }, this.validate)
+        // this.validate()
     }
 
     login (e) {
