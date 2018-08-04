@@ -6,11 +6,11 @@ import {
     Form
 } from 'reactstrap'
 
-import FormField from '../../components/FormField'
+import FormField from '../components/FormField'
 
-import * as usersActions from '../../store/users/actions'
+import * as usersActions from '../store/users/actions'
 
-import * as errorsSelector from '../../store/errors/reducer'
+import * as errorsSelector from '../store/errors/reducer'
 
 class ChangePasswordForm extends Component {
     constructor (props) {

@@ -7,7 +7,7 @@ import {
     ModalBody
 } from 'reactstrap'
 
-import ChangePasswordForm from '../containers/Talker/ChangePasswordForm'
+import ChangePasswordForm from '../forms/ChangePasswordForm'
 
 import * as modalsSelector from '../store/modals/reducer'
 

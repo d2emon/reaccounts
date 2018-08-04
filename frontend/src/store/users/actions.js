@@ -1,8 +1,9 @@
+'use strict'
 import React from 'react'
 
 import * as types from './actionTypes'
-import * as errorTypes from '../errors/actionTypes'
-import * as modalTypes from '../modals/actionTypes'
+import * as errorsTypes from '../errors/actionTypes'
+import * as modalsTypes from '../modals/actionTypes'
 
 import reaccountsService from '../../services/reaccounts'
 
@@ -17,11 +18,11 @@ export const setStep = payload => dispatch => {
         step: payload.step
     })
     dispatch({
-        type: modalTypes.LOGIN,
+        type: modalsTypes.LOGIN,
         show: payload.step <= STEP_LOGIN
     })
     dispatch({
-        type: modalTypes.MOTD,
+        type: modalsTypes.MOTD,
         show: payload.step > STEP_LOGIN
     })
 }
@@ -65,7 +66,10 @@ export const login = ({ username, password }) => dispatch => {
     console.log(username, password);
     reaccountsService.login({ username, password, save: true })
         .then(response => dispatch({
-            type: errorsTypes.SET_ERROR,
+            type: errorsTypes.SET_LOGIN_ERROR,
+            username: response.errors && response.errors.username,
+            password: response.errors && response.errors.password,
+
             errors: response.errors,
             response: response,
             user: response.user
@@ -84,7 +88,10 @@ export const login = ({ username, password }) => dispatch => {
 export const validateUser = ({ username, password }) => dispatch => {
     reaccountsService.login({ username, password, save: false })
         .then(response => dispatch({
-            type: errorsTypes.SET_ERROR,
+            type: errorsTypes.SET_LOGIN_ERROR,
+            username: response.errors && response.errors.username,
+            password: response.errors && response.errors.password,
+
             errors: response.errors,
             response: response,
             user: response.user
@@ -101,12 +108,17 @@ export const validateUser = ({ username, password }) => dispatch => {
 
 export const searchUser = (user) => dispatch => {
     reaccountsService.search(user)
+        /*
         .then(response => dispatch({
-            type: errorsTypes.SET_ERROR,
+            type: errorsTypes.SET_LOGIN_ERROR,
+            username: response.errors && response.errors.username,
+            password: response.errors && response.errors.password,
+
             errors: response.errors,
             response: response,
             user: response.user
         }))
+        */
         .then(response => dispatch({
             ...response,
             type: types.FOUND_USER

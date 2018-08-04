@@ -7,10 +7,9 @@ import {
 } from 'reactstrap';
 
 import * as usersActions from '../../store/users/actions';
-import * as usersSelector from '../../store/users/reducer';
 
 import PromptUserCreation from "./PromptUserCreation";
-import LoginForm from './LoginForm';
+import LoginForm from '../../forms/LoginForm';
 
 
 class Login extends Component {

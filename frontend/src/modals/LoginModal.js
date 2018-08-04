@@ -11,7 +11,8 @@ import * as usersActions from '../store/users/actions'
 import * as usersSelector from '../store/users/reducer'
 
 import PromptUserCreation from "../containers/GMain/PromptUserCreation"
-import LoginForm from '../containers/GMain/LoginForm'
+import LoginForm from '../forms/LoginForm';
+
 import * as modalsSelector from "../store/modals/reducer"
 
 class LoginModal extends Component {
