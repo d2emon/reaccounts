@@ -1,6 +1,6 @@
-'use strict';
-import React, {Component} from 'react';
-import { connect } from 'react-redux';
+'use strict'
+import React, {Component, Fragment} from 'react'
+import { connect } from 'react-redux'
 import {
     Card,
     CardHeader,
@@ -9,50 +9,22 @@ import {
     CardText,
     ListGroup,
     ListGroupItem
-} from  'reactstrap';
+} from  'reactstrap'
 
-function EnterGame (props) {
-    /*
-    execl(
-        EXE,
-        '   --{----- ABERMUD -----}--      Playing as ',
-        props.username,
-        0
-    )
-    */
-    return <Card>
-        <CardHeader>
-            <CardTitle>The Hallway</CardTitle>
-        </CardHeader>
-        <CardBody>
-            <CardText>
-                You stand in a long dark hallway, which echoes to the tread of your
-                booted feet. You stride on down the hall, choose your masque and enter the
-                worlds beyond the known......
-            </CardText>
-        </CardBody>
-    </Card>
-}
+import Execl from './Execl'
+import EnterGame from './EnterGame'
+import ChangePasswordModal from "../../modals/ChangePasswordModal";
 
 class Talker extends Component {
     constructor (props) {
         super(props);
 
         this.state = {
-            wizard: (props.user_id !== "wisner"),
-            enter: false
+            qnmrq: true,
+            wizard: true, // (props.user_id === "wisner"),
+            enter: false,
+            changePassword: true
         };
-
-        /*
-        if (props.qnmrq) {
-            if (!execl([
-                EXE,
-                '   --}----- ABERMUD -----{--    Playing as ',
-                props.username,
-                0
-            ])) throw Error('mud.exe : Not found')
-        }
-        */
 
         this.enterGame = this.enterGame.bind(this);
         this.changePassword = this.changePassword.bind(this);
@@ -64,12 +36,18 @@ class Talker extends Component {
 
     enterGame (e) {
         e.preventDefault()
+        // TODO: Change it to action
         this.setState({enter: true})
     }
 
+    /**
+     * Change your password
+     * @param e
+     */
     changePassword (e) {
         e.preventDefault()
-        // chpwd(nam)
+        // TODO: Change it to action
+        this.setState({changePassword: true})
     }
 
     runTestGame (e) {
@@ -103,6 +81,9 @@ class Talker extends Component {
                 <CardTitle>Welcome To AberMUD II [Unix]</CardTitle>
             </CardHeader>
             <CardBody>
+                { this.state.qnmrq &&
+                    <Execl file="EXE" text="   --}----- ABERMUD -----{--    Playing as " user={this.props.username} />
+                }
                 <ListGroup>
                     <ListGroupItem tag="a" href="#" onClick={this.enterGame}>1]  Enter The Game</ListGroupItem>
                     <ListGroupItem tag="a" href="#" onClick={this.changePassword}>2]  Change Password</ListGroupItem>
@@ -115,6 +96,7 @@ class Talker extends Component {
                     <ListGroupItem tag="a" href="#" onClick={this.deletePerson}>C] Delete persona</ListGroupItem>
                 </ListGroup> }
                 { this.state.enter && <EnterGame username={this.props.username} /> }
+                <ChangePasswordModal username={this.props.username} isOpen={this.state.changePassword} />
             </CardBody>
         </Card>
     }

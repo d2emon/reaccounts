@@ -18,13 +18,13 @@ import LogoScreen from '../../components/GMain/LogoScreen';
 
 import LoginModal from '../../modals/LoginModal';
 import MotdModal from '../../modals/MotdModal';
+import Talker from "../Talker/index";
 
 import {
     STEP_START,
     STEP_LOGIN,
     STEP_PLAY
 } from "../../store/users/steps";
-import Talker from "./Talker";
 
 /* Log entry */
 function logEntry (user) {console.log(`Game entry by ${user.username} : UID ${user.id}`);}
