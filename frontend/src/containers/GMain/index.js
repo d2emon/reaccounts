@@ -85,7 +85,7 @@ class Index extends Component {
 
         return <Container>
             <Row>
-                <LoginModal isOpen={!this.state.is_playing} username={this.state.username} />
+                <LoginModal username={this.state.username} />
                 <MotdModal motd={this.props.motd} />
                 <Col xs={12}>
                     <LogoScreen {...this.props}>

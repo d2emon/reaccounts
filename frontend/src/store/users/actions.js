@@ -17,6 +17,10 @@ export const setStep = payload => dispatch => {
         step: payload.step
     })
     dispatch({
+        type: modalTypes.LOGIN,
+        show: payload.step <= STEP_LOGIN
+    })
+    dispatch({
         type: modalTypes.MOTD,
         show: payload.step > STEP_LOGIN
     })

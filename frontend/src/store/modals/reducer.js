@@ -6,6 +6,7 @@ import * as types from './actionTypes'
 const initialState = {
     modal: null,
 
+    login: false,
     motd: false
 }
 
@@ -15,6 +16,11 @@ export default function reduce(state = initialState, action = {}) {
             return {
                 ...state,
                 modal: action.show
+            }
+        case types.LOGIN:
+            return {
+                ...state,
+                login: action.show
             }
         case types.MOTD:
             return {
@@ -28,4 +34,5 @@ export default function reduce(state = initialState, action = {}) {
 
 export const isModalOpen = state => state.modals.modal
 
+export const isLoginOpen = state => state.modals.login
 export const isMotdOpen = state => state.modals.motd

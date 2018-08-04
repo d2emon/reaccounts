@@ -1,4 +1,5 @@
 'use strict'
 export const MODAL = 'modals.MODAL'
 
-export const MOTD = 'modats.MOTD'
+export const LOGIN = 'modals.LOGIN'
+export const MOTD = 'modals.MOTD'

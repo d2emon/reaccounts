@@ -8,6 +8,11 @@ export const showModal = show => dispatch => dispatch({
     show: show
 })
 
+export const showLoginModal = show => dispatch => dispatch({
+    type: types.LOGIN,
+    show: show
+})
+
 export const showMotdModal = show => dispatch => dispatch({
     type: types.MOTD,
     show: show
