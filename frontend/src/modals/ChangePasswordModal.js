@@ -7,15 +7,16 @@ import {
     ModalBody
 } from 'reactstrap'
 
-import ChangePasswordForm from "../containers/Talker/ChangePasswordForm"
+import ChangePasswordForm from '../containers/Talker/ChangePasswordForm'
 
-import * as usersSelector from "../store/users/reducer";
-import * as usersActions from "../store/users/actions";
+import * as modalsSelector from '../store/modals/reducer'
+
+import * as modalsActions from '../store/modals/actions'
 
 class ChangePasswordModal extends Component {
     close (e) {
         e.preventDefault()
-        this.props.dispatch(usersActions.showChangePasswordModal(false))
+        this.props.dispatch(modalsActions.showChangePasswordModal(false))
     }
 
     render () {
@@ -30,7 +31,7 @@ class ChangePasswordModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        isOpen: usersSelector.showChangePassword(state)
+        isOpen: modalsSelector.isChangePasswordModalOpen(state)
     }
 }
 

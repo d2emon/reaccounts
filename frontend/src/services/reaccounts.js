@@ -1,7 +1,5 @@
 import axios from 'axios';
 import {
-    PFL,
-
     REACCOUNTS_ENDPOINT,
     REACCOUNTS_TIMEOUT
 } from '../config';

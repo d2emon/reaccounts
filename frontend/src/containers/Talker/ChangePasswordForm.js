@@ -1,13 +1,9 @@
-'user strict'
+'use strict'
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {
     Button,
-    Form,
-    FormGroup,
-    FormFeedback,
-    Label,
-    Input
+    Form
 } from 'reactstrap'
 
 import FormField from '../../components/FormField'
@@ -15,7 +11,6 @@ import FormField from '../../components/FormField'
 import * as usersActions from '../../store/users/actions'
 
 import * as errorsSelector from '../../store/errors/reducer'
-import * as usersSelector from '../../store/users/reducer'
 
 class ChangePasswordForm extends Component {
     constructor (props) {

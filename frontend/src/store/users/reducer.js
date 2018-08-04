@@ -99,5 +99,3 @@ export function getUserFound (state) { return state.users.tempUser; }
 export function getUser (state) { return state.users.user; }
 
 export function getCurrentUser (state) { return state.users.step > STEP_LOGIN }
-
-export function showChangePassword (state) { return !!state.users.showChangePassword }

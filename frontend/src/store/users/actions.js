@@ -1,7 +1,8 @@
 import React from "react";
 
-import * as types from './actionTypes';
-import * as errorTypes from '../errors/actionTypes';
+import * as types from './actionTypes'
+import * as errorsTypes from '../errors/actionTypes'
+import * as modalsTypes from '../modals/actionTypes'
 
 import reaccountsService from '../../services/reaccounts';
 
@@ -28,7 +29,7 @@ export const fetchStats = payload => dispatch => {
         .catch(error => {
             console.error('ERROR', error);
             dispatch({
-                type: errorTypes.SET_ERROR,
+                type: errorsTypes.SET_ERROR,
                 param: 'global',
                 error: error.message
             });
@@ -52,7 +53,7 @@ export const login = ({ username, password }) => dispatch => {
     console.log(username, password);
     reaccountsService.login({ username, password, save: true })
         .then(response => dispatch({
-            type: errorTypes.SET_ERROR,
+            type: errorsTypes.SET_ERROR,
             errors: response.errors,
             response: response,
             user: response.user
@@ -71,7 +72,7 @@ export const login = ({ username, password }) => dispatch => {
 export const validateUser = ({ username, password }) => dispatch => {
     reaccountsService.login({ username, password, save: false })
         .then(response => dispatch({
-            type: errorTypes.SET_ERROR,
+            type: errorsTypes.SET_ERROR,
             errors: response.errors,
             response: response,
             user: response.user
@@ -89,7 +90,7 @@ export const validateUser = ({ username, password }) => dispatch => {
 export const searchUser = (user) => dispatch => {
     reaccountsService.search(user)
         .then(response => dispatch({
-            type: errorTypes.SET_ERROR,
+            type: errorsTypes.SET_ERROR,
             errors: response.errors,
             response: response,
             user: response.user
@@ -99,8 +100,6 @@ export const searchUser = (user) => dispatch => {
             type: types.FOUND_USER
         }));
 };
-
-export const showChangePasswordModal = show => dispatch => dispatch({ type: types.SHOW_CHANGE_PASSWORD, show })
 
 /**
  * Change user password
@@ -118,11 +117,11 @@ export const changePassword = payload => dispatch => {
         .then(res => { console.log('Success', res); return res })
         .then(res => dispatch({
             ...res,
-            type: errorTypes.SET_PASSWORD_ERROR
+            type: errorsTypes.SET_PASSWORD_ERROR
         }))
         .then(res => dispatch({
             ...res,
-            type: types.SHOW_CHANGE_PASSWORD,
+            type: modalsTypes.CHANGE_PASSWORD,
             show: !res.result
         }))
         .catch(err => {

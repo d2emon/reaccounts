@@ -22,8 +22,7 @@ import Talker from "../Talker/index";
 
 import {
     STEP_START,
-    STEP_LOGIN,
-    STEP_PLAY
+    STEP_LOGIN
 } from "../../store/users/steps";
 
 /* Log entry */

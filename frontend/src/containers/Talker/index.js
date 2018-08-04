@@ -13,7 +13,8 @@ import {
 import Execl from './Execl'
 import EnterGame from './EnterGame'
 import ChangePasswordModal from "../../modals/ChangePasswordModal";
-import * as usersActions from "../../store/users/actions";
+
+import * as modalsActions from '../../store/modals/actions'
 
 class Talker extends Component {
     constructor (props) {
@@ -45,7 +46,7 @@ class Talker extends Component {
      */
     changePassword (e) {
         e.preventDefault()
-        this.props.dispatch(usersActions.showChangePasswordModal(true))
+        this.props.dispatch(modalsActions.showChangePasswordModal(true))
     }
 
     runTestGame (e) {

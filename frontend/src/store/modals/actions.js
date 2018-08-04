@@ -5,5 +5,11 @@ import * as types from './actionTypes';
 
 export const showModal = show => dispatch => dispatch({
     type: types.MODAL,
-    show: show
+    show
 })
+
+export const showChangePasswordModal = show => dispatch => dispatch({
+    type: types.CHANGE_PASSWORD,
+    show
+})
+

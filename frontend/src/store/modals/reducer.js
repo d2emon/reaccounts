@@ -4,7 +4,8 @@ import React from "react"
 import * as types from './actionTypes'
 
 const initialState = {
-    modal: null
+    modal: null,
+    changePassword: false
 }
 
 export default function reduce(state = initialState, action = {}) {
@@ -14,9 +15,15 @@ export default function reduce(state = initialState, action = {}) {
                 ...state,
                 modal: action.show
             }
+        case types.CHANGE_PASSWORD:
+            return {
+                ...state,
+                changePassword: action.show
+            }
         default:
             return state
     }
 }
 
 export const isModalOpen = state => state.modals.modal
+export const isChangePasswordModalOpen = state => state.modals.changePassword
