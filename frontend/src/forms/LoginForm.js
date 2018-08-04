@@ -111,7 +111,7 @@ class LoginForm extends Component {
 
 function mapStateToProps(state) {
     return {
-        errors: errorsSelector.getErrors(state),
+        errors: errorsSelector.getLoginErrors(state),
         // user: usersSelector.getUser(state),
 
         found: usersSelector.getUserFound(state),

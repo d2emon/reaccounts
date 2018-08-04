@@ -1,8 +1,12 @@
-import * as types from './actionTypes';
-import React from "react";
+'use strict'
+import * as types from './actionTypes'
 
 const initialState = {
     errors: [],
+
+    loginUsernameError: null,
+    loginPasswordError: null,
+
     passwordError: null
 };
 
@@ -14,6 +18,12 @@ export default function reduce(state = initialState, action = {}) {
                 errors: action.errors
             };
 
+        case types.SET_LOGIN_ERROR:
+            return {
+                ...state,
+                loginUsernameError: action.username,
+                loginPasswordError: action.password
+            }
         case types.SET_PASSWORD_ERROR:
             return {
                 ...state,
@@ -25,6 +35,11 @@ export default function reduce(state = initialState, action = {}) {
 };
 
 export const getErrors = (state) => state.errors.errors;
+
+export const getLoginErrors = state => ({
+    username: state.errors.loginUsernameError,
+    password: state.errors.loginPasswordError
+})
 
 export const getChangePasswordErrors = state => ({
     oldPassword: state.errors.passwordError,

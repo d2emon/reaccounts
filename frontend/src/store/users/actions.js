@@ -66,7 +66,10 @@ export const login = ({ username, password }) => dispatch => {
     console.log(username, password);
     reaccountsService.login({ username, password, save: true })
         .then(response => dispatch({
-            type: errorsTypes.SET_ERROR,
+            type: errorsTypes.SET_LOGIN_ERROR,
+            username: response.errors.username,
+            password: response.errors.password,
+
             errors: response.errors,
             response: response,
             user: response.user
@@ -85,7 +88,10 @@ export const login = ({ username, password }) => dispatch => {
 export const validateUser = ({ username, password }) => dispatch => {
     reaccountsService.login({ username, password, save: false })
         .then(response => dispatch({
-            type: errorsTypes.SET_ERROR,
+            type: errorsTypes.SET_LOGIN_ERROR,
+            username: response.errors.username,
+            password: response.errors.password,
+
             errors: response.errors,
             response: response,
             user: response.user
@@ -103,7 +109,10 @@ export const validateUser = ({ username, password }) => dispatch => {
 export const searchUser = (user) => dispatch => {
     reaccountsService.search(user)
         .then(response => dispatch({
-            type: errorsTypes.SET_ERROR,
+            type: errorsTypes.SET_LOGIN_ERROR,
+            username: response.errors.username,
+            password: response.errors.password,
+
             errors: response.errors,
             response: response,
             user: response.user
