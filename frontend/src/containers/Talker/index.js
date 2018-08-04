@@ -14,6 +14,7 @@ import Execl from './Execl'
 import EnterGame from './EnterGame'
 import ChangePasswordModal from "../../modals/ChangePasswordModal";
 import ShowUserModal from "../../modals/ShowUserModal";
+import EditUserModal from "../../modals/EditUserModal";
 import DeleteUserModal from "../../modals/DeleteUserModal";
 
 import * as modalsActions from '../../store/modals/actions'
@@ -65,6 +66,7 @@ class Talker extends Component {
     editPerson (e) {
         e.preventDefault()
         if (!this.state.wizard) return
+        this.props.dispatch(modalsActions.showEditUserModal(true))
         // edituser();
     }
 
@@ -97,6 +99,7 @@ class Talker extends Component {
                 { this.state.enter && <EnterGame username={this.props.username} /> }
                 <ChangePasswordModal user={{ username: this.props.username, password: this.props.password }} />
                 <ShowUserModal />
+                <EditUserModal />
                 <DeleteUserModal />
             </CardBody>
         </Card>

@@ -29,6 +29,11 @@ export const showShowUserModal = show => dispatch => dispatch({
     show
 })
 
+export const showEditUserModal = show => dispatch => dispatch({
+    type: types.EDIT_ACCOUNT,
+    show
+})
+
 export const showDeleteUserModal = show => dispatch => dispatch({
     type: types.DELETE_ACCOUNT,
     show

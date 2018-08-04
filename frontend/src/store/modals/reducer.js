@@ -10,6 +10,7 @@ const initialState = {
     motd: false,
     changePassword: false,
     showAccount: false,
+    editAccount: false,
     deleteAccount: false
 }
 
@@ -40,6 +41,12 @@ export default function reduce(state = initialState, action = {}) {
                 ...state,
                 showAccount: action.show
             }
+        case types.EDIT_ACCOUNT:
+            console.log(action)
+            return {
+                ...state,
+                editAccount: action.show
+            }
         case types.DELETE_ACCOUNT:
             return {
                 ...state,
@@ -56,4 +63,5 @@ export const isLoginModalOpen = state => state.modals.login
 export const isMotdModalOpen = state => state.modals.motd
 export const isChangePasswordModalOpen = state => state.modals.changePassword
 export const isShowUserModalOpen = state => state.modals.showAccount
+export const isEditUserModalOpen = state => { console.log(state);return state.modals.editAccount }
 export const isDeleteUserModalOpen = state => state.modals.deleteAccount
