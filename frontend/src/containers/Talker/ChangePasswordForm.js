@@ -10,26 +10,14 @@ import {
     Input
 } from 'reactstrap'
 
-function FormField ({ name, field, type, label, onChange }) {
-    return <FormGroup>
-        <Label for={ name }>{ label }</Label>
-        <Input
-            invalid={ !field.valid }
-            type={ type }
-            id={ name }
-            name={ name }
-            defaultValue={ field.value }
-            onChange={ onChange }
-        />
-        <FormFeedback>{ field.error }</FormFeedback>
-    </FormGroup>
-}
+import FormField from '../../components/FormField'
 
 class ChangePasswordForm extends Component {
     constructor (props) {
         super(props)
         this.state = {
             fields: [
+
                 'oldPassword',
                 'newPassword',
                 'verifyPassword'
@@ -132,21 +120,21 @@ class ChangePasswordForm extends Component {
             <FormField
                 name="oldPassword"
                 label="Old Password"
-                field={this.state.oldPassword}
+                error={this.state.oldPassword.error}
                 type="password"
                 onChange={this.update.bind(this)}
             />
             <FormField
                 name="newPassword"
                 label="New Password"
-                field={this.state.newPassword}
+                error={this.state.newPassword.error}
                 type="password"
                 onChange={this.update.bind(this)}
             />
             <FormField
                 name="verifyPassword"
                 label="Verify Password"
-                field={this.state.verifyPassword}
+                error={this.state.verifyPassword.error}
                 type="password"
                 onChange={this.update.bind(this)}
             />
