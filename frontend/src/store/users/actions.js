@@ -100,6 +100,8 @@ export const searchUser = (user) => dispatch => {
         }));
 };
 
+export const showChangePasswordModal = show => dispatch => dispatch({ type: types.SHOW_CHANGE_PASSWORD, show })
+
 /**
  * Change user password
  * @param payload
@@ -107,21 +109,23 @@ export const searchUser = (user) => dispatch => {
  */
 export const changePassword = payload => dispatch => {
     console.log('Action::changePassword', payload)
-    // TODO: Move it to backend
-    /*
-    if (!this.props.user) throw Error('No user')
-    if (this.state.oldPassword.value !== this.props.user.password) throw Error('Incorrect Password')
-    if (!this.state.newPassword.value) throw Error('')
-    if (this.state.newPassword.value.indexOf(',')) throw Error('Illegal Character in password')
-    if (this.state.newPassword.value !== this.state.verifyPassword.value) throw Error('NO!')
-    */
-
-    /*
-    delu2(this.props.username)
-
-    // delete me and tack me on end!
-    let fl = openlock(PFL, "a")
-    fl.fprintf(fl.qcrypt(this.props.user))
-    fl.fclose(fl)
-    */
+    return reaccountsService.changePassword(
+        payload.user,
+        payload.oldPassword,
+        payload.newPassword,
+        payload.verifyPassword
+    )
+        .then(res => { console.log('Success', res); return res })
+        .then(res => dispatch({
+            ...res,
+            type: errorTypes.SET_PASSWORD_ERROR
+        }))
+        .then(res => dispatch({
+            ...res,
+            type: types.SHOW_CHANGE_PASSWORD,
+            show: !res.result
+        }))
+        .catch(err => {
+            console.error(err)
+        })
 }

@@ -13,6 +13,7 @@ import {
 import Execl from './Execl'
 import EnterGame from './EnterGame'
 import ChangePasswordModal from "../../modals/ChangePasswordModal";
+import * as usersActions from "../../store/users/actions";
 
 class Talker extends Component {
     constructor (props) {
@@ -21,16 +22,15 @@ class Talker extends Component {
         this.state = {
             qnmrq: true,
             wizard: true, // (props.user_id === "wisner"),
-            enter: false,
-            changePassword: false
-        };
+            enter: false
+        }
 
-        this.enterGame = this.enterGame.bind(this);
-        this.changePassword = this.changePassword.bind(this);
-        this.runTestGame = this.runTestGame.bind(this);
-        this.showPerson = this.showPerson.bind(this);
-        this.editPerson = this.editPerson.bind(this);
-        this.deletePerson = this.deletePerson.bind(this);
+        this.enterGame = this.enterGame.bind(this)
+        this.changePassword = this.changePassword.bind(this)
+        this.runTestGame = this.runTestGame.bind(this)
+        this.showPerson = this.showPerson.bind(this)
+        this.editPerson = this.editPerson.bind(this)
+        this.deletePerson = this.deletePerson.bind(this)
     }
 
     enterGame (e) {
@@ -45,8 +45,7 @@ class Talker extends Component {
      */
     changePassword (e) {
         e.preventDefault()
-        // TODO: Change it to action
-        this.setState({changePassword: true})
+        this.props.dispatch(usersActions.showChangePasswordModal(true))
     }
 
     runTestGame (e) {
@@ -95,7 +94,7 @@ class Talker extends Component {
                     <ListGroupItem tag="a" href="#" onClick={this.deletePerson}>C] Delete persona</ListGroupItem>
                 </ListGroup> }
                 { this.state.enter && <EnterGame username={this.props.username} /> }
-                <ChangePasswordModal user={{ username: this.props.username, password: this.props.password }} isOpen={this.state.changePassword} />
+                <ChangePasswordModal user={{ username: this.props.username, password: this.props.password }} />
             </CardBody>
         </Card>
     }

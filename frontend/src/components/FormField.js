@@ -20,7 +20,7 @@ class FormField extends Component {
         return <FormGroup>
             <Label for={ this.props.name }>{ this.props.label }</Label>
             <Input
-                invalid={ !this.props.error }
+                invalid={ !!this.props.error }
                 type={ this.props.type }
                 id={ this.props.name }
                 name={ this.props.name }

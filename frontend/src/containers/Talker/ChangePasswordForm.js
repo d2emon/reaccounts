@@ -14,6 +14,9 @@ import FormField from '../../components/FormField'
 
 import * as usersActions from '../../store/users/actions'
 
+import * as errorsSelector from '../../store/errors/reducer'
+import * as usersSelector from '../../store/users/reducer'
+
 class ChangePasswordForm extends Component {
     constructor (props) {
         super(props)
@@ -72,11 +75,7 @@ function mapStateToProps(state) {
         // found: usersSelector.getUserFound(state),
         // user_exists: !!usersSelector.getUserFound(state)
         user: 'logscan(${nextProps.username})',
-        errors: {
-            oldPassword: null,
-            newPassword: null,
-            verifyPassword: null
-        }
+        errors: errorsSelector.getChangePasswordErrors(state)
     }
 }
 

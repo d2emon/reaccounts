@@ -9,27 +9,18 @@ import {
 
 import ChangePasswordForm from "../containers/Talker/ChangePasswordForm"
 
+import * as usersSelector from "../store/users/reducer";
+import * as usersActions from "../store/users/actions";
+
 class ChangePasswordModal extends Component {
-    constructor (props) {
-        super(props)
-
-        this.state = { isOpen: props.isOpen }
-
-        this.close = this.close.bind(this)
-    }
-
-    componentWillReceiveProps (nextProps, nextContext) {
-        this.setState({ isOpen: nextProps.isOpen })
-    }
-
     close (e) {
         e.preventDefault()
-        this.setState({ isOpen: false })
+        this.props.dispatch(usersActions.showChangePasswordModal(false))
     }
 
     render () {
-        return <Modal toggle={this.close} isOpen={ this.state.isOpen }>
-            <ModalHeader toggle={this.close}>Change password for { this.props.user.username }</ModalHeader>
+        return <Modal toggle={this.close.bind(this)} isOpen={ this.props.isOpen }>
+            <ModalHeader toggle={this.close.bind(this)}>Change password for { this.props.user.username }</ModalHeader>
             <ModalBody>
                 <ChangePasswordForm user={this.props.user} />
             </ModalBody>
@@ -39,8 +30,7 @@ class ChangePasswordModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        // user_id: usersSelector.getUid(state)
-        // step: usersSelector.getStep(state)
+        isOpen: usersSelector.showChangePassword(state)
     }
 }
 
