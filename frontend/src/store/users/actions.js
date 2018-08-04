@@ -1,9 +1,14 @@
-import React from "react";
+import React from 'react'
 
-import * as types from './actionTypes';
-import * as errorTypes from '../errors/actionTypes';
+import * as types from './actionTypes'
+import * as errorTypes from '../errors/actionTypes'
+import * as modalTypes from '../modals/actionTypes'
 
-import reaccountsService from '../../services/reaccounts';
+import reaccountsService from '../../services/reaccounts'
+
+import {
+    STEP_LOGIN
+} from './steps'
 
 // Actions
 export const setStep = payload => dispatch => {
@@ -11,7 +16,11 @@ export const setStep = payload => dispatch => {
         type: types.SET_STEP,
         step: payload.step
     })
-};
+    dispatch({
+        type: modalTypes.MOTD,
+        show: payload.step > STEP_LOGIN
+    })
+}
 
 export const fetchStats = payload => dispatch => {
     // console.log(payload);

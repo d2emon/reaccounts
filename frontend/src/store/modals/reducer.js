@@ -4,7 +4,9 @@ import React from "react"
 import * as types from './actionTypes'
 
 const initialState = {
-    modal: null
+    modal: null,
+
+    motd: false
 }
 
 export default function reduce(state = initialState, action = {}) {
@@ -14,9 +16,16 @@ export default function reduce(state = initialState, action = {}) {
                 ...state,
                 modal: action.show
             }
+        case types.MOTD:
+            return {
+                ...state,
+                motd: action.show
+            }
         default:
             return state
     }
 }
 
 export const isModalOpen = state => state.modals.modal
+
+export const isMotdOpen = state => state.modals.motd

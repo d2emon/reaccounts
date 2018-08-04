@@ -7,3 +7,8 @@ export const showModal = show => dispatch => dispatch({
     type: types.MODAL,
     show: show
 })
+
+export const showMotdModal = show => dispatch => dispatch({
+    type: types.MOTD,
+    show: show
+})
