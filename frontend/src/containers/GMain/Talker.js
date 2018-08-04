@@ -11,11 +11,20 @@ import {
     ListGroupItem
 } from  'reactstrap';
 
+function Execl (props) {
+    return <h3>
+        <span style={{ color: 'red' }}>{ props.file }</span>
+        <span style={{ color: 'green' }}>{ props.text }</span>
+        <span style={{ color: 'blue' }}>{ props.user }</span>
+    </h3>
+
+}
+
 function EnterGame (props) {
     /*
     execl(
         EXE,
-        '   --{----- ABERMUD -----}--      Playing as ',
+        '',
         props.username,
         0
     )
@@ -25,6 +34,7 @@ function EnterGame (props) {
             <CardTitle>The Hallway</CardTitle>
         </CardHeader>
         <CardBody>
+            <Execl file="EXE" text="   --{----- ABERMUD -----}--      Playing as " user={ props.username } />
             <CardText>
                 You stand in a long dark hallway, which echoes to the tread of your
                 booted feet. You stride on down the hall, choose your masque and enter the
@@ -39,20 +49,10 @@ class Talker extends Component {
         super(props);
 
         this.state = {
-            wizard: (props.user_id !== "wisner"),
+            qnmrq: true,
+            wizard: true, // (props.user_id === "wisner"),
             enter: false
         };
-
-        /*
-        if (props.qnmrq) {
-            if (!execl([
-                EXE,
-                '   --}----- ABERMUD -----{--    Playing as ',
-                props.username,
-                0
-            ])) throw Error('mud.exe : Not found')
-        }
-        */
 
         this.enterGame = this.enterGame.bind(this);
         this.changePassword = this.changePassword.bind(this);
@@ -103,6 +103,9 @@ class Talker extends Component {
                 <CardTitle>Welcome To AberMUD II [Unix]</CardTitle>
             </CardHeader>
             <CardBody>
+                { this.state.qnmrq &&
+                    <Execl file="EXE" text="   --}----- ABERMUD -----{--    Playing as " user={this.props.username} />
+                }
                 <ListGroup>
                     <ListGroupItem tag="a" href="#" onClick={this.enterGame}>1]  Enter The Game</ListGroupItem>
                     <ListGroupItem tag="a" href="#" onClick={this.changePassword}>2]  Change Password</ListGroupItem>
