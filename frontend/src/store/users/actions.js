@@ -99,3 +99,33 @@ export const searchUser = (user) => dispatch => {
             type: types.FOUND_USER
         }));
 };
+
+export const showChangePasswordModal = show => dispatch => dispatch({ type: types.SHOW_CHANGE_PASSWORD, show })
+
+/**
+ * Change user password
+ * @param payload
+ * @returns {Function}
+ */
+export const changePassword = payload => dispatch => {
+    console.log('Action::changePassword', payload)
+    return reaccountsService.changePassword(
+        payload.user,
+        payload.oldPassword,
+        payload.newPassword,
+        payload.verifyPassword
+    )
+        .then(res => { console.log('Success', res); return res })
+        .then(res => dispatch({
+            ...res,
+            type: errorTypes.SET_PASSWORD_ERROR
+        }))
+        .then(res => dispatch({
+            ...res,
+            type: types.SHOW_CHANGE_PASSWORD,
+            show: !res.result
+        }))
+        .catch(err => {
+            console.error(err)
+        })
+}

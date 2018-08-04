@@ -23,6 +23,8 @@ const initialState = {
     valid: false,
     tries: 0,
 
+    showChangePassword: false,
+
     step: null
 };
 
@@ -73,6 +75,11 @@ export default function reduce(state = initialState, action = {}) {
                 valid: action.valid
                 // tries: tries
             };
+        case types.SHOW_CHANGE_PASSWORD:
+            return {
+                ...state,
+                showChangePassword: action.show
+            }
         default:
             return state;
     }
@@ -92,3 +99,5 @@ export function getUserFound (state) { return state.users.tempUser; }
 export function getUser (state) { return state.users.user; }
 
 export function getCurrentUser (state) { return state.users.step > STEP_LOGIN }
+
+export function showChangePassword (state) { return !!state.users.showChangePassword }
