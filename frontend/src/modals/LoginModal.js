@@ -12,6 +12,7 @@ import * as usersSelector from '../store/users/reducer'
 
 import PromptUserCreation from "../containers/GMain/PromptUserCreation"
 import LoginForm from '../containers/GMain/LoginForm'
+import * as modalsSelector from "../store/modals/reducer"
 
 class LoginModal extends Component {
     constructor (props) {
@@ -46,7 +47,8 @@ class LoginModal extends Component {
 function mapStateToProps(state) {
     return {
         // user_id: usersSelector.getUid(state)
-        step: usersSelector.getStep(state)
+        step: usersSelector.getStep(state),
+        isOpen: modalsSelector.isLoginOpen(state)
     }
 }
 
