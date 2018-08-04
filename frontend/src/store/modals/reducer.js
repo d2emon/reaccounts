@@ -16,7 +16,7 @@ export default function reduce(state = initialState, action = {}) {
         case types.MODAL:
             return {
                 ...state,
-                modal: action.show
+                [action.modal]: action.show
             }
         case types.LOGIN:
             return {
@@ -39,7 +39,7 @@ export default function reduce(state = initialState, action = {}) {
 }
 
 export const isModalOpen = state => state.modals.modal
-export const isChangePasswordModalOpen = state => state.modals.changePassword
 
-export const isLoginOpen = state => state.modals.login
-export const isMotdOpen = state => state.modals.motd
+export const isLoginModalOpen = state => state.modals.login
+export const isMotdModalOpen = state => state.modals.motd
+export const isChangePasswordModalOpen = state => state.modals.changePassword

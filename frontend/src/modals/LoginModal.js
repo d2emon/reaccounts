@@ -48,7 +48,7 @@ function mapStateToProps(state) {
     return {
         // user_id: usersSelector.getUid(state)
         step: usersSelector.getStep(state),
-        isOpen: modalsSelector.isLoginOpen(state)
+        isOpen: modalsSelector.isLoginModalOpen(state)
     }
 }
 

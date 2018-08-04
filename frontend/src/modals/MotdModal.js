@@ -36,7 +36,7 @@ class MotdModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        isOpen: modalsSelector.isMotdOpen(state)
+        isOpen: modalsSelector.isMotdModalOpen(state)
     }
 }
 
