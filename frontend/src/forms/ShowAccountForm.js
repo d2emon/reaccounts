@@ -2,7 +2,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {
-    Button,
     Form
 } from 'reactstrap'
 
@@ -10,34 +9,26 @@ import FormField from '../components/FormField'
 
 import * as usersActions from '../store/users/actions'
 
-import * as errorsSelector from '../store/errors/reducer'
+import * as usersSelector from "../store/users/reducer";
 
 /**
  * For show user and edit user
  */
 class ShowAccountForm extends Component {
-    constructor (props) {
-        super(props)
-
-        this.state = {
-            block: { username: 'unm', password: 'pwd' } // logscan(props.name)
-        }
-    }
-
     render () {
-        if (!this.state.block) return <h4>No user registered in that name</h4>
+        if (!this.props.user) return <h4>No user registered in that name</h4>
         return <Form className="loginForm">
-            <h4>User Data For {this.props.name}</h4>
+            <h4>User Data For {this.props.user.username}</h4>
             <FormField
                 name="username"
                 label="Name:"
-                value={this.state.block.username}
+                value={this.props.user.username}
                 readOnly={true}
             />
             <FormField
                 name="password"
                 label="Password:"
-                value={this.state.block.password}
+                value={this.props.user.password}
                 readOnly={true}
             />
         </Form>
@@ -46,7 +37,7 @@ class ShowAccountForm extends Component {
 
 function mapStateToProps(state) {
     return {
-        errors: errorsSelector.getChangePasswordErrors(state)
+        user: usersSelector.getSelectedUser(state)
     }
 }
 

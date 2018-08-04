@@ -13,22 +13,11 @@ import SearchAccountForm from "../forms/SearchAccountForm";
 import ShowAccountForm from "../forms/ShowAccountForm";
 
 import * as modalsSelector from '../store/modals/reducer'
+import * as usersSelector from '../store/users/reducer'
 
 import * as modalsActions from '../store/modals/actions'
 
 class ShowUserModal extends Component {
-    constructor (props) {
-        super(props)
-
-        this.state = {
-            name: 'getunm()'
-        }
-    }
-
-    componentWillReceiveProps (nextProps, nextContext) {
-        console.log(nextProps, nextContext)
-    }
-
     close (e) {
         e.preventDefault()
         this.props.dispatch(modalsActions.showShowUserModal(false))
@@ -36,10 +25,10 @@ class ShowUserModal extends Component {
 
     render () {
         return <Modal toggle={this.close.bind(this)} isOpen={ this.props.isOpen }>
-            <ModalHeader toggle={this.close.bind(this)}>Show { this.state.name }</ModalHeader>
+            <ModalHeader toggle={this.close.bind(this)}>Show { this.props.user.username }</ModalHeader>
             <ModalBody>
-                <SearchAccountForm value={this.state.name} />
-                <ShowAccountForm name={this.state.name} />
+                <SearchAccountForm />
+                <ShowAccountForm name={this.props.user.username} />
             </ModalBody>
             <ModalFooter>
                 <Button color="primary" onClick={this.close.bind(this)}>Hit Return...</Button>
@@ -50,7 +39,8 @@ class ShowUserModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        isOpen: modalsSelector.isShowUserModalOpen(state)
+        isOpen: modalsSelector.isShowUserModalOpen(state),
+        user: usersSelector.getSelectedUser(state)
     }
 }
 
