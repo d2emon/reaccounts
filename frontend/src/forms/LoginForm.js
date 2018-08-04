@@ -1,33 +1,21 @@
-import React, {Component, Fragment} from 'react';
-import { connect } from 'react-redux';
+'use strict'
+import React, {Component, Fragment} from 'react'
+import { connect } from 'react-redux'
 import {
     Button,
-    Form,
-    FormGroup,
-    FormFeedback,
-    Label,
-    Input
-} from 'reactstrap';
+    Form
+} from 'reactstrap'
 
-import * as usersActions from '../store/users/actions';
-import * as usersSelector from '../store/users/reducer';
-import * as errorsSelector from '../store/errors/reducer';
-import {STEP_PLAY} from "../store/users/steps";
+import FormField from '../components/FormField'
 
-function FormField ({ name, field, type, label, onChange }) {
-    return <FormGroup>
-        <Label for={ name }>{ label }</Label>
-        <Input
-            invalid={ !field.valid }
-            type={ type }
-            id={ name }
-            name={ name }
-            value={ field.value }
-            onChange={ onChange }
-        />
-        <FormFeedback>{ field.error }</FormFeedback>
-    </FormGroup>;
-}
+import * as usersActions from '../store/users/actions'
+
+import * as errorsSelector from '../store/errors/reducer'
+import * as usersSelector from '../store/users/reducer'
+
+import {
+    STEP_PLAY
+} from '../store/users/steps'
 
 class LoginForm extends Component {
     constructor (props) {
@@ -49,9 +37,6 @@ class LoginForm extends Component {
             },
             exists: false
         };
-
-        this.handleUserInput = this.handleUserInput.bind(this);
-        this.login = this.login.bind(this);
     }
 
     componentWillReceiveProps (nextProps) {
@@ -103,10 +88,9 @@ class LoginForm extends Component {
         return this.state.username.valid && this.state.password.valid;
     }
 
-    handleUserInput (e) {
-        const name = e.target.name;
-        const value = e.target.value;
-        this.validate(name, value);
+    update (e) {
+        this.setState({ [e.target.name]: e.target.value })
+        this.validate(e.target.name, e.target.value)
     }
 
     login (e) {
@@ -138,18 +122,22 @@ class LoginForm extends Component {
             <FormField
                 name="username"
                 label="By what name shall I call you?"
-                field={this.state.username}
                 type="text"
-                onChange={this.handleUserInput}
+                value={this.state.username.value}
+                error={this.state.username.error}
+                onChange={this.update.bind(this)}
             />
+            { /*old-error={this.props.errors.username}*/ }
             <FormField
                 name="password"
                 label={passwordLabel}
-                field={this.state.password}
                 type="password"
-                onChange={this.handleUserInput}
+                value={this.state.password.value}
+                error={this.state.password.error}
+                onChange={this.update.bind(this)}
             />
-            <Button type="submit" color="primary" disabled={!this.valid()} onClick={this.login}>Sign up</Button>
+            { /*old-error={this.props.errors.password}*/ }
+            <Button type="submit" color="primary" disabled={!this.valid()} onClick={this.login.bind(this)}>Sign up</Button>
         </Form>;
     }
 }

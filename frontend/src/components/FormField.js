@@ -16,6 +16,10 @@ class FormField extends Component {
         }
     }
 
+    componentWillReceiveProps (nextProps, nextContext) {
+        this.setState({ value: nextProps.value })
+    }
+
     render () {
         return <FormGroup>
             <Label for={ this.props.name }>{ this.props.label }</Label>
@@ -24,7 +28,7 @@ class FormField extends Component {
                 type={ this.props.type }
                 id={ this.props.name }
                 name={ this.props.name }
-                defaultValue={ this.state.value }
+                value={ this.state.value }
                 onChange={ this.props.onChange }
             />
             <FormFeedback>{ this.props.error }</FormFeedback>
