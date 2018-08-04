@@ -9,9 +9,8 @@ import {
     Button
 } from 'reactstrap'
 
-import ChangePasswordForm from '../containers/Talker/ChangePasswordForm'
-import Getunm from "../containers/GMain/Getunm"
-import Shu from "../components/GMain/Shu";
+import SearchAccountForm from "../forms/SearchAccountForm";
+import ShowAccountForm from "../forms/ShowAccountForm";
 
 import * as modalsSelector from '../store/modals/reducer'
 
@@ -26,6 +25,10 @@ class ShowUserModal extends Component {
         }
     }
 
+    componentWillReceiveProps (nextProps, nextContext) {
+        console.log(nextProps, nextContext)
+    }
+
     close (e) {
         e.preventDefault()
         this.props.dispatch(modalsActions.showShowUserModal(false))
@@ -33,15 +36,10 @@ class ShowUserModal extends Component {
 
     render () {
         return <Modal toggle={this.close.bind(this)} isOpen={ this.props.isOpen }>
-            <ModalHeader toggle={this.close.bind(this)}>Change password for { this.props.user.username }</ModalHeader>
+            <ModalHeader toggle={this.close.bind(this)}>Show { this.state.name }</ModalHeader>
             <ModalBody>
-                <ChangePasswordForm user={this.props.user} />
-            </ModalBody>
-
-            <ModalHeader toggle={this.close}>Message of the day</ModalHeader>
-            <ModalBody>
-                <Getunm value={this.state.name} />
-                <Shu name={this.state.name} />
+                <SearchAccountForm value={this.state.name} />
+                <ShowAccountForm name={this.state.name} />
             </ModalBody>
             <ModalFooter>
                 <Button color="primary" onClick={this.close.bind(this)}>Hit Return...</Button>

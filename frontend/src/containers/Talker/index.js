@@ -15,6 +15,7 @@ import EnterGame from './EnterGame'
 import ChangePasswordModal from "../../modals/ChangePasswordModal";
 
 import * as modalsActions from '../../store/modals/actions'
+import ShowUserModal from "../../modals/ShowUserModal";
 
 class Talker extends Component {
     constructor (props) {
@@ -55,6 +56,7 @@ class Talker extends Component {
      */
     showPerson (e) {
         e.preventDefault()
+        console.log('Show Account')
         if (!this.state.wizard) return
         this.props.dispatch(modalsActions.showShowUserModal(true))
     }
@@ -93,6 +95,7 @@ class Talker extends Component {
                 </ListGroup> }
                 { this.state.enter && <EnterGame username={this.props.username} /> }
                 <ChangePasswordModal user={{ username: this.props.username, password: this.props.password }} />
+                <ShowUserModal />
             </CardBody>
         </Card>
     }

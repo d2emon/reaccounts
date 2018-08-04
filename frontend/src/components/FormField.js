@@ -24,12 +24,11 @@ class FormField extends Component {
         return <FormGroup>
             <Label for={ this.props.name }>{ this.props.label }</Label>
             <Input
+                {...this.props}
                 invalid={ !!this.props.error }
-                type={ this.props.type }
                 id={ this.props.name }
                 name={ this.props.name }
                 value={ this.state.value }
-                onChange={ this.props.onChange }
             />
             <FormFeedback>{ this.props.error }</FormFeedback>
         </FormGroup>

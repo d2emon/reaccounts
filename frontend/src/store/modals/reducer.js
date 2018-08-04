@@ -35,6 +35,7 @@ export default function reduce(state = initialState, action = {}) {
                 changePassword: action.show
             }
         case types.SHOW_ACCOUNT:
+            console.log(action)
             return {
                 ...state,
                 showAccount: action.show
