@@ -65,6 +65,7 @@ class Talker extends Component {
     editPerson (e) {
         e.preventDefault()
         if (!this.state.wizard) return
+        this.props.dispatch(modalsActions.showEditUserModal(true))
         // edituser();
     }
 

@@ -23,3 +23,8 @@ export const showChangePasswordModal = show => dispatch => dispatch({
     type: types.CHANGE_PASSWORD,
     show
 })
+
+export const showEditUserModal = show => dispatch => dispatch({
+    type: types.EDIT_ACCOUNT,
+    show
+})
