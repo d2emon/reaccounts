@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
 
-function Execl (props) {
+export default function Execl (props) {
     return <h3>
         <span style={{ color: 'red' }}>{ props.file }</span>
         <span style={{ color: 'green' }}>{ props.text }</span>

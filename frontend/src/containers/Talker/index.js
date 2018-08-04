@@ -1,12 +1,11 @@
 'use strict'
-import React, {Component, Fragment} from 'react'
+import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {
     Card,
     CardHeader,
     CardTitle,
     CardBody,
-    CardText,
     ListGroup,
     ListGroupItem
 } from  'reactstrap'
@@ -23,7 +22,7 @@ class Talker extends Component {
             qnmrq: true,
             wizard: true, // (props.user_id === "wisner"),
             enter: false,
-            changePassword: true
+            changePassword: false
         };
 
         this.enterGame = this.enterGame.bind(this);
@@ -96,7 +95,7 @@ class Talker extends Component {
                     <ListGroupItem tag="a" href="#" onClick={this.deletePerson}>C] Delete persona</ListGroupItem>
                 </ListGroup> }
                 { this.state.enter && <EnterGame username={this.props.username} /> }
-                <ChangePasswordModal username={this.props.username} isOpen={this.state.changePassword} />
+                <ChangePasswordModal user={{ username: this.props.username, password: this.props.password }} isOpen={this.state.changePassword} />
             </CardBody>
         </Card>
     }

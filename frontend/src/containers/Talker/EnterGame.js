@@ -10,7 +10,7 @@ import {
 
 import Execl from './Execl'
 
-function EnterGame (props) {
+export default function EnterGame (props) {
     return <Card>
         <CardHeader>
             <CardTitle>The Hallway</CardTitle>

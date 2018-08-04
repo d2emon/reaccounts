@@ -18,7 +18,7 @@ function FormField ({ name, field, type, label, onChange }) {
             type={ type }
             id={ name }
             name={ name }
-            value={ field.value }
+            defaultValue={ field.value }
             onChange={ onChange }
         />
         <FormFeedback>{ field.error }</FormFeedback>
@@ -32,7 +32,7 @@ class ChangePasswordForm extends Component {
             fields: [
                 'oldPassword',
                 'newPassword',
-                'validatePassword'
+                'verifyPassword'
             ],
             oldPassword: {
                 value: '',
@@ -42,13 +42,13 @@ class ChangePasswordForm extends Component {
                 value: '',
                 error: false
             },
-            validatePassword: {
+            verifyPassword: {
                 value: '',
                 error: false
             }
         }
 
-        this.handleInput = this.handleInput.bind(this)
+        // this.handleInput = this.handleInput.bind(this)
         this.changePassword = this.changePassword.bind(this)
     }
 
@@ -83,26 +83,39 @@ class ChangePasswordForm extends Component {
                 error: false
             }}, () => {
                 // TODO: Move it to backend
-                if (this.state.oldPassword.value !== this.state.user.password) throw Error('Incorrect Password')
+                /*
+                if (!this.props.user) throw Error('No user')
+                if (this.state.oldPassword.value !== this.props.user.password) throw Error('Incorrect Password')
                 if (!this.state.newPassword.value) throw Error('')
                 if (this.state.newPassword.value.indexOf(',')) throw Error('Illegal Character in password')
-                if (this.state.newPassword.value !== this.state.validatePassword.value) throw Error('NO!')
+                if (this.state.newPassword.value !== this.state.verifyPassword.value) throw Error('NO!')
+                */
             })
     }
 
     valid () {
         return !this.state.oldPassword.error
             && !this.state.newPassword.error
-            && !this.state.validatePassword.error
+            && !this.state.verifyPassword.error
     }
 
-    handleInput (e) {
-        this.validate(e.target.name, e.target.value)
+    update (e) {
+        let field = this.state[e.target.name]
+        field.value = e.target.value
+        this.setState({ [e.target.name]: field })
     }
 
     changePassword (e) {
         e.preventDefault()
         // TODO: Move it to backend
+        this.validate('oldPassword', this.state.oldPassword.value)
+        this.validate('newPassword', this.state.newPassword.value)
+        this.validate('verifyPassword', this.state.verifyPassword.value)
+        console.log(
+            this.state.oldPassword.value,
+            this.state.newPassword.value,
+            this.state.verifyPassword.value
+        )
         /*
         delu2(this.props.username)
 
@@ -115,28 +128,29 @@ class ChangePasswordForm extends Component {
 
     render () {
         return <Form className="loginForm">
+            { /* onChange={this.handleInput} */ }
             <FormField
                 name="oldPassword"
                 label="Old Password"
                 field={this.state.oldPassword}
                 type="password"
-                onChange={this.handleUserInput}
+                onChange={this.update.bind(this)}
             />
             <FormField
                 name="newPassword"
                 label="New Password"
                 field={this.state.newPassword}
                 type="password"
-                onChange={this.handleUserInput}
+                onChange={this.update.bind(this)}
             />
             <FormField
                 name="verifyPassword"
                 label="Verify Password"
                 field={this.state.verifyPassword}
                 type="password"
-                onChange={this.handleUserInput}
+                onChange={this.update.bind(this)}
             />
-            <Button type="submit" color="primary" disabled={!this.valid()} onClick={this.changePassword}>Sign up</Button>
+            <Button type="submit" color="primary" disabled={!this.valid()} onClick={this.changePassword}>Change</Button>
         </Form>
     }
 }

@@ -28,10 +28,10 @@ class ChangePasswordModal extends Component {
     }
 
     render () {
-        return <Modal toggle={this.close} isOpen={ this.props.isOpen }>
-            <ModalHeader toggle={this.close}>Change password for { this.props.username }</ModalHeader>
+        return <Modal toggle={this.close} isOpen={ this.state.isOpen }>
+            <ModalHeader toggle={this.close}>Change password for { this.props.user.username }</ModalHeader>
             <ModalBody>
-                <ChangePasswordForm username={this.props.username} />
+                <ChangePasswordForm user={this.props.user} />
             </ModalBody>
         </Modal>
     }
