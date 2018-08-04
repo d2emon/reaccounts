@@ -14,39 +14,6 @@ var qnmrq = 0;
 // char usrnam[44];
 
 
-function getunm () {
-    console.log("User Name:");
-    return fgets(79);
-}
-
-
-function showuser() {
-    cls();
-    let name = getunm();
-    let block = shu(name);
-    console.log("Hit Return...");
-    while (getchar() !== '\n') {}
-}
-
-
-/* for show user and edit user */
-function shu (name, block) {
-    let nm = "";
-    let pw = "";
-    // char pr[128],pv[128];
-    let a = logscan(name, block);
-    if (!a) {
-        console.log("No user registered in that name\n\n\n");
-    } else {
-        console.log("\n\nUser Data For ", name, "\n\n");
-        nm = scan(block, 0, "", ".");
-        pw = scan(block, 1, "", ".");
-        console.log("Name:", nm, "\nPassword:", pw, "\n");
-    }
-    return a;
-}
-
-
 function deluser () {
     let block = ""
     let name = getunm();
