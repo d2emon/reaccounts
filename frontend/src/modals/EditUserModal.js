@@ -4,12 +4,17 @@ import { connect } from 'react-redux'
 import {
     Modal,
     ModalHeader,
-    ModalBody
+    ModalBody,
+    ModalFooter,
+    Button,
+    Form
 } from 'reactstrap'
 
-import ChangePasswordForm from '../forms/ChangePasswordForm'
+import SearchAccountForm from '../forms/SearchAccountForm'
+import EditField from '../components/EditField'
 
 import * as modalsSelector from '../store/modals/reducer'
+import * as usersSelector from '../store/users/reducer'
 
 import * as modalsActions from '../store/modals/actions'
 
@@ -20,18 +25,39 @@ class EditUserModal extends Component {
     }
 
     render () {
+        let user = this.props.user || {
+            username: name,
+            password: 'default',
+            data3: 'E'
+        }
+        /*
+        delu2(name)
+        let fl = openlock(PFL, "a")
+        if (!fl) return
+        fl.fprintf(qcrypt(bk2))
+        fl.fclose()
+        */
+
         return <Modal toggle={this.close.bind(this)} isOpen={ this.props.isOpen }>
-            <ModalHeader toggle={this.close.bind(this)}>Change password for { this.props.user.username }</ModalHeader>
+            <ModalHeader toggle={this.close.bind(this)}>Editing : {this.props.user.username}</ModalHeader>
             <ModalBody>
-                <ChangePasswordForm user={this.props.user} />
+                <SearchAccountForm />
+                <Form>
+                    <EditField label="Name:" value={this.props.user.username} />
+                    <EditField label="Password:" value={this.props.user.password} />
+                </Form>
             </ModalBody>
+            <ModalFooter>
+                <Button color="primary" onClick={this.close.bind(this)}>Hit Return...</Button>
+            </ModalFooter>
         </Modal>
     }
 }
 
 function mapStateToProps(state) {
     return {
-        isOpen: modalsSelector.isChangePasswordModalOpen(state)
+        isOpen: modalsSelector.isEditUserModalOpen(state),
+        user: usersSelector.getSelectedUser(state)
     }
 }
 

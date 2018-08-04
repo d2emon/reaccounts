@@ -25,42 +25,6 @@ function deluser () {
     }
 }
 
-
-function edituser () {
-    let block = "";
-    // char per2[128],pr2[128];
-    cls();
-    let name = getunm();
-    let a = shu(name, block);
-    if (!a) block = name + ".default.E..";
-    let nam2 = scan(block, 0, "", ".");
-    let pas2 = scan(block, 1, "", ".");
-    console.log("\nEditing : ", name, "\n\n");
-    ed_fld("Name:", nam2);
-    ed_fld("Password:", pas2);
-    let bk2 = nam2 + "." + pas2 + ".....";
-    delu2(name);
-    let fl = openlock(PFL, "a");
-    if (!fl) return;
-    lump = qcrypt(bk2, bk.length);
-    bk2 = lump;
-    fl.fprintf("%s\n", bk2);
-    fl.fclose();
-}
-
-
-function ed_fld(name, string) {
-    console.log(name, "(Currently ", string, " ):");
-    let bk = fgets(128);
-    if (bk[0] === '.') bk = "";
-    if (bk.indexOf('.') === undefined){
-        console.log("\nInvalid Data Field\n");
-        ed_fld(name, string);
-    }
-    if (bk) string = bk;
-}
-
-
 /* For delete and edit */
 function delu2(name) {
     let buff = "";
