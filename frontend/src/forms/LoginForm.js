@@ -25,106 +25,73 @@ class LoginForm extends Component {
                 'username',
                 'password'
             ],
-            username: {
-                value: props.username,
-                valid: false,
-                error: false
-            },
-            password: {
-                value: '',
-                valid: false,
-                error: false
-            },
+            username: props.username,
+            password: '',
             exists: false
-        };
+        }
     }
 
-    componentWillReceiveProps (nextProps) {
-        console.log(nextProps);
+    componentWillReceiveProps (nextProps, nextContext) {
+        console.log(nextProps)
+        console.log(nextProps.errors)
         // this.setState({ exists: !!nextProps.user.data });
-
-        this.state.fields.forEach(fieldName => {
-            let field = this.state[fieldName];
-            if (!field) return;
-
-            field.valid = true;
-            field.error = false;
-            if (!nextProps.errors) return this.setState({ [fieldName]: field });
-            // this.setField(field, nextProps.errors[field])
-
-            let error = nextProps.errors[fieldName];
-            if (!error) return this.setState({ [fieldName]: field });
-
-            console.error(fieldName, error);
-
-            if (error && field.error) return;
-            field.valid = !error;
-            field.error = error;
-            this.setState({ [fieldName]: field });
-        });
     }
 
     componentDidMount () {
-        this.validate('username', this.props.username);
+        this.validate()
     }
 
-    validate (fieldName, value) {
-        this.setState({[fieldName]: {
-            value,
-            valid: false,
-            error: false
-        }}, () => {
-            this.props.dispatch(usersActions.validateUser({
-                username: this.state.username.value,
-                password: this.state.password.value
-            }));
-            this.props.dispatch(usersActions.searchUser({
-                username: this.state.username.value,
-            }))
-        });
+    validate () {
+        this.props.dispatch(usersActions.validateUser({
+            username: this.state.username,
+            password: this.state.password
+        }));
+        this.props.dispatch(usersActions.searchUser({
+            username: this.state.username,
+        }))
     }
 
     valid () {
-        return this.state.username.valid && this.state.password.valid;
+        return !this.props.errors.username
+            && !this.props.errors.password
     }
 
     update (e) {
         this.setState({ [e.target.name]: e.target.value })
-        this.validate(e.target.name, e.target.value)
+        this.validate()
     }
 
     login (e) {
-        e.preventDefault();
+        e.preventDefault()
 
         /* this bit registers the new user */
         this.props.dispatch(usersActions.login({
-            username: this.state.username.value,
-            password: this.state.password.value
-        }));
-
+            username: this.state.username,
+            password: this.state.password
+        }))
 
         if (this.props.user_exists) {
-            console.log('exists');
+            console.log('exists')
         } else {
-            console.log('not exists', this.state);
+            console.log('not exists', this.state)
         }
 
-        this.props.dispatch(usersActions.setUser({username: this.state.username}));
-        this.props.dispatch(usersActions.setStep({ step: STEP_PLAY }));
+        this.props.dispatch(usersActions.setUser({username: this.state.username}))
+        this.props.dispatch(usersActions.setStep({step: STEP_PLAY}))
     }
 
     render () {
         let passwordLabel = (this.props.user_exists)
             ? <Fragment>This persona already exists, what is the password?</Fragment>
-            : <Fragment>Creating new persona...<br />Give me a password for this persona</Fragment>;
+            : <Fragment>Creating new persona...<br />Give me a password for this persona</Fragment>
 
         return <Form className="loginForm">
             <FormField
                 name="username"
                 label="By what name shall I call you?"
                 type="text"
-                value={this.state.username.value}
-                error={this.state.username.error}
+                value={this.state.username}
+                error={this.props.errors.username}
                 onChange={this.update.bind(this)}
             />
             { /*old-error={this.props.errors.username}*/ }
@@ -132,13 +99,13 @@ class LoginForm extends Component {
                 name="password"
                 label={passwordLabel}
                 type="password"
-                value={this.state.password.value}
-                error={this.state.password.error}
+                value={this.state.password}
+                error={this.props.errors.password}
                 onChange={this.update.bind(this)}
             />
             { /*old-error={this.props.errors.password}*/ }
             <Button type="submit" color="primary" disabled={!this.valid()} onClick={this.login.bind(this)}>Sign up</Button>
-        </Form>;
+        </Form>
     }
 }
 
