@@ -1,7 +1,5 @@
 import axios from 'axios';
 import {
-    PFL,
-
     REACCOUNTS_ENDPOINT,
     REACCOUNTS_TIMEOUT
 } from '../config';
@@ -91,8 +89,48 @@ class ReaccountsService {
             // validatePassword (value) {
             // logpass(this.state.username);
             .catch(error => {
-                return (!error.response) ? error.message : error.response.data;
+                return (!error.response) ? error.message : error.response.data
             });
+    }
+
+    changePassword (user, oldPassword, newPassword, verifyPassword) {
+        console.log(`${user} change password from "${oldPassword}" to "${newPassword}"="${verifyPassword}"`)
+        return new Promise(resolve => {
+            resolve({
+                user,
+                oldPassword,
+                newPassword,
+                verifyPassword
+            })
+        })
+                .then(res => {
+                    // TODO: Move verifiers to backend
+                    if (!res.user) throw Error('No user')
+                    // if (res.oldPassword !== user.password) throw Error('Incorrect Password')
+                    if (res.oldPassword !== '1') throw Error('Incorrect Password')
+                    if (!res.newPassword) throw Error('Password required')
+                    if (res.newPassword.indexOf(',') !== -1) throw Error('Illegal Character in password')
+                    if (res.newPassword !== res.verifyPassword) throw Error('NO!')
+                    return res
+                })
+                .then(res => {
+                    // TODO: Move save password to backend
+                    /*
+                    delu2(this.props.username)
+
+                    // delete me and tack me on end!
+                    let fl = openlock(PFL, "a")
+                    fl.fprintf(fl.qcrypt(this.props.user))
+                    fl.fclose(fl)
+                    */
+                    console.log('saved', res)
+                    return { result: true }
+
+                })
+                .catch(err => {
+                    console.error(err)
+                    return { error: err.message }
+                })
     }
 }
 

@@ -18,13 +18,12 @@ import LogoScreen from '../../components/GMain/LogoScreen';
 
 import LoginModal from '../../modals/LoginModal';
 import MotdModal from '../../modals/MotdModal';
+import Talker from "../Talker/index";
 
 import {
     STEP_START,
-    STEP_LOGIN,
-    STEP_PLAY
+    STEP_LOGIN
 } from "../../store/users/steps";
-import Talker from "./Talker";
 
 /* Log entry */
 function logEntry (user) {console.log(`Game entry by ${user.username} : UID ${user.id}`);}
@@ -38,8 +37,7 @@ class Index extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            username: props.username,
-            is_playing: false
+            username: props.username
         };
 
         this.props.dispatch(usersActions.setStep({ step: STEP_START }));
@@ -58,10 +56,7 @@ class Index extends Component {
 
     componentWillReceiveProps (nextProps) {
         // console.log(nextProps, this.state);
-        if (!!nextProps.current_user && !this.state.is_playing) this.play();
-        this.setState({
-            is_playing: this.state.is_playing  || !!nextProps.current_user
-        })
+        if (!!nextProps.current_user) this.play();
     }
 
     login () {
@@ -74,10 +69,7 @@ class Index extends Component {
     };
 
     reset () {
-        this.setState({ is_playing: false }, () => {
-            this.props.dispatch(usersActions.setStep({ step: STEP_START }));
-        });
-
+        this.props.dispatch(usersActions.setStep({ step: STEP_START }));
     };
 
     /**
@@ -92,10 +84,10 @@ class Index extends Component {
 
         return <Container>
             <Row>
-                <LoginModal isOpen={!this.state.is_playing} username={this.state.username} />
-                <MotdModal {...this.props} isOpen={this.state.is_playing} motd={this.props.motd} />
+                <LoginModal username={this.state.username} />
+                <MotdModal motd={this.props.motd} />
                 <Col xs={12}>
-                    <LogoScreen>
+                    <LogoScreen {...this.props}>
                         <h3><CreatedTime time={this.props.created_time} /></h3>
                         <h3><ElapsedTime time={this.props.reset_time} /></h3>
                         { (!this.state.is_playing)

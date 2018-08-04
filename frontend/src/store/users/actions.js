@@ -1,9 +1,14 @@
-import React from "react";
+import React from 'react'
 
-import * as types from './actionTypes';
-import * as errorTypes from '../errors/actionTypes';
+import * as types from './actionTypes'
+import * as errorTypes from '../errors/actionTypes'
+import * as modalTypes from '../modals/actionTypes'
 
-import reaccountsService from '../../services/reaccounts';
+import reaccountsService from '../../services/reaccounts'
+
+import {
+    STEP_LOGIN
+} from './steps'
 
 // Actions
 export const setStep = payload => dispatch => {
@@ -11,7 +16,15 @@ export const setStep = payload => dispatch => {
         type: types.SET_STEP,
         step: payload.step
     })
-};
+    dispatch({
+        type: modalTypes.LOGIN,
+        show: payload.step <= STEP_LOGIN
+    })
+    dispatch({
+        type: modalTypes.MOTD,
+        show: payload.step > STEP_LOGIN
+    })
+}
 
 export const fetchStats = payload => dispatch => {
     // console.log(payload);
@@ -28,7 +41,7 @@ export const fetchStats = payload => dispatch => {
         .catch(error => {
             console.error('ERROR', error);
             dispatch({
-                type: errorTypes.SET_ERROR,
+                type: errorsTypes.SET_ERROR,
                 param: 'global',
                 error: error.message
             });
@@ -52,7 +65,7 @@ export const login = ({ username, password }) => dispatch => {
     console.log(username, password);
     reaccountsService.login({ username, password, save: true })
         .then(response => dispatch({
-            type: errorTypes.SET_ERROR,
+            type: errorsTypes.SET_ERROR,
             errors: response.errors,
             response: response,
             user: response.user
@@ -71,7 +84,7 @@ export const login = ({ username, password }) => dispatch => {
 export const validateUser = ({ username, password }) => dispatch => {
     reaccountsService.login({ username, password, save: false })
         .then(response => dispatch({
-            type: errorTypes.SET_ERROR,
+            type: errorsTypes.SET_ERROR,
             errors: response.errors,
             response: response,
             user: response.user
@@ -89,7 +102,7 @@ export const validateUser = ({ username, password }) => dispatch => {
 export const searchUser = (user) => dispatch => {
     reaccountsService.search(user)
         .then(response => dispatch({
-            type: errorTypes.SET_ERROR,
+            type: errorsTypes.SET_ERROR,
             errors: response.errors,
             response: response,
             user: response.user
@@ -99,3 +112,31 @@ export const searchUser = (user) => dispatch => {
             type: types.FOUND_USER
         }));
 };
+
+/**
+ * Change user password
+ * @param payload
+ * @returns {Function}
+ */
+export const changePassword = payload => dispatch => {
+    console.log('Action::changePassword', payload)
+    return reaccountsService.changePassword(
+        payload.user,
+        payload.oldPassword,
+        payload.newPassword,
+        payload.verifyPassword
+    )
+        .then(res => { console.log('Success', res); return res })
+        .then(res => dispatch({
+            ...res,
+            type: errorsTypes.SET_PASSWORD_ERROR
+        }))
+        .then(res => dispatch({
+            ...res,
+            type: modalsTypes.CHANGE_PASSWORD,
+            show: !res.result
+        }))
+        .catch(err => {
+            console.error(err)
+        })
+}

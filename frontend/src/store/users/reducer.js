@@ -23,6 +23,8 @@ const initialState = {
     valid: false,
     tries: 0,
 
+    showChangePassword: false,
+
     step: null
 };
 
@@ -73,6 +75,11 @@ export default function reduce(state = initialState, action = {}) {
                 valid: action.valid
                 // tries: tries
             };
+        case types.SHOW_CHANGE_PASSWORD:
+            return {
+                ...state,
+                showChangePassword: action.show
+            }
         default:
             return state;
     }

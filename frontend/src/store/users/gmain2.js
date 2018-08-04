@@ -89,53 +89,6 @@ function delu2(name) {
 }
 
 
-/* Change your password */
-function chpwd(user) {
-    let block = "";
-    let pwd = "";
-    let data = user;
-    logscan(user, block);
-    user = data;
-    data = scan(block, 0, "", ".");
-    pwd = scan(block, 1, "", ".");
-    console.log("\nOld Password\n*");
-    fflush();
-    data = gepass();
-    if (data == pwd){
-        console.log("\nIncorrect Password\n");
-    } else {
-        console.log("\nNew Password\n");
-        // chptagn:
-        console.log("*");
-        fflush();
-        pwd = gepass();
-        console.log("\n");
-        if (!pwd) console.log("goto chptagn;");
-        if (pwd.indexOf(',')) {
-		    console.log("Illegal Character in password\n");
-		    // goto chptagn;
-	    }
-        console.log("\nVerify Password\n*");
-        let pv = gepass();
-        console.log("\n");
-        if (pv !== pwd) {
-		    console.log("\nNO!\n");
-		    // goto chptagn;
-	    }
-        block = user + "." + pwd + ".....";
-        delu2(user);
-        /* delete me and tack me on end! */
-        let fl = openlock(PFL,"a");
-        if(!fl) return;
-        lump = qcrypt(block, block.length);
-        block = lump;
-        fl.fprintf("%s\n",block);
-        fl.fclose(fl);
-        console.log("Changed\n");
-    }
-}
-
-
 /* Getstr() with length limit and filter ctrl */
 function getkbd(s,l) {
     let f = 0;
