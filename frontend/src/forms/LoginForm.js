@@ -9,10 +9,10 @@ import {
     Input
 } from 'reactstrap';
 
-import * as usersActions from '../../store/users/actions';
-import * as usersSelector from '../../store/users/reducer';
-import * as errorsSelector from '../../store/errors/reducer';
-import {STEP_PLAY} from "../../store/users/steps";
+import * as usersActions from '../store/users/actions';
+import * as usersSelector from '../store/users/reducer';
+import * as errorsSelector from '../store/errors/reducer';
+import {STEP_PLAY} from "../store/users/steps";
 
 function FormField ({ name, field, type, label, onChange }) {
     return <FormGroup>

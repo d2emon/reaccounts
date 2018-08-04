@@ -10,7 +10,7 @@ import * as usersActions from '../store/users/actions';
 import * as usersSelector from '../store/users/reducer';
 
 import PromptUserCreation from "../containers/GMain/PromptUserCreation";
-import LoginForm from '../containers/GMain/LoginForm';
+import LoginForm from '../forms/LoginForm';
 
 class LoginModal extends Component {
     constructor (props) {
