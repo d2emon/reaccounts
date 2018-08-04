@@ -14,18 +14,6 @@ var qnmrq = 0;
 // char usrnam[44];
 
 
-function deluser () {
-    let block = ""
-    let name = getunm();
-    let a = logscan(name, block);
-    if (!a) {
-        console.log("\nCannot delete non-existant user\n");
-    } else {
-	    delu2(name);
-    }
-}
-
-
 function edituser () {
     let block = "";
     // char per2[128],pr2[128];

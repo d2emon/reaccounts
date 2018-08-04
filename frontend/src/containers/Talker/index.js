@@ -13,9 +13,10 @@ import {
 import Execl from './Execl'
 import EnterGame from './EnterGame'
 import ChangePasswordModal from "../../modals/ChangePasswordModal";
+import ShowUserModal from "../../modals/ShowUserModal";
+import DeleteUserModal from "../../modals/DeleteUserModal";
 
 import * as modalsActions from '../../store/modals/actions'
-import ShowUserModal from "../../modals/ShowUserModal";
 
 class Talker extends Component {
     constructor (props) {
@@ -70,7 +71,7 @@ class Talker extends Component {
     deletePerson (e) {
         e.preventDefault()
         if (!this.state.wizard) return
-        // deluser();
+        this.props.dispatch(modalsActions.showDeleteUserModal(true))
     }
 
     render () {
@@ -96,6 +97,7 @@ class Talker extends Component {
                 { this.state.enter && <EnterGame username={this.props.username} /> }
                 <ChangePasswordModal user={{ username: this.props.username, password: this.props.password }} />
                 <ShowUserModal />
+                <DeleteUserModal />
             </CardBody>
         </Card>
     }
